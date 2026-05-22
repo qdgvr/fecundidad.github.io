@@ -37,8 +37,10 @@
   function makeSvg(container, wide = false) {
     if (!container) return null;
     container.innerHTML = '';
-    const width = Math.max(320, Math.round(container.clientWidth || (wide ? 860 : 520)));
-    const height = wide ? 380 : 320;
+    const cardWidth = container.closest('.extra-graph-card')?.clientWidth;
+    const fallbackWidth = Math.min(wide ? 960 : 760, Math.max(360, Math.round(cardWidth || window.innerWidth - 44 || (wide ? 860 : 520))));
+    const width = Math.max(320, Math.round(container.clientWidth || fallbackWidth));
+    const height = wide ? 380 : Math.round(Math.min(320, Math.max(230, width * 0.44)));
     const svg = el('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img' });
     container.appendChild(svg);
     return { svg, width, height };
@@ -61,7 +63,7 @@
     return points.map((d, i) => `${i ? 'L' : 'M'}${x(d[xKey])},${y(d[yKey])}`).join(' ');
   }
 
-  function renderLine(containerId, rows, valueKey, yLabel, unit, color = cyan) {
+  function renderLine(containerId, rows, valueKey, yLabel, unit, color = cyan, labelPosition = 'top-right') {
     const box = makeSvg($(containerId));
     if (!box) return;
     const { svg, width, height } = box;
@@ -77,13 +79,15 @@
     sorted.forEach(d => svg.appendChild(el('circle', { cx: x(d.year), cy: y(d.value), r: 3.3, fill: color, stroke: '#000', 'stroke-width': 1 })));
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
-    const labelY = Math.max(plot.top + 18, Math.min(plot.bottom - 12, y(last.value) - 12));
-    svg.appendChild(el('text', { x: plot.right - 10, y: labelY, 'text-anchor': 'end', class: 'extra-value-label' }, `${fmt(first.value, 1)}${unit} → ${fmt(last.value, 1)}${unit}`));
+    const labelAttrs = labelPosition === 'top-left'
+      ? { x: plot.left + 10, y: plot.top + 18, 'text-anchor': 'start' }
+      : { x: plot.right - 10, y: plot.top + 18, 'text-anchor': 'end' };
+    svg.appendChild(el('text', { ...labelAttrs, class: 'extra-value-label' }, `${fmt(first.value, 1)}${unit} → ${fmt(last.value, 1)}${unit}`));
   }
 
   function init(data) {
-    renderLine('extra-mma-line', data.mean_maternal_age || data.annual || [], 'MeanMaternalAge', 'Edad media', ' años', '#d3d98e');
-    renderLine('extra-firstbirth-line', data.first_birth_rate || data.annual || [], 'FirstBirthRate', 'Primeros nacimientos', '‰', blueC);
+    renderLine('extra-mma-line', data.mean_maternal_age || data.annual || [], 'MeanMaternalAge', 'Edad media', ' años', '#d3d98e', 'top-left');
+    renderLine('extra-firstbirth-line', data.first_birth_rate || data.annual || [], 'FirstBirthRate', 'Primeros nacimientos', '‰', blueC, 'top-right');
   }
 
   fetch(DATA_URL)
