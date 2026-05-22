@@ -3504,3 +3504,41 @@ main,
     padding-bottom: 34px !important;
   }
 }
+
+/* Requested report refinements: tighter visual rhythm and copyable tail actions. */
+.article-reportage .model-note-graph {
+  margin: 12px 0 0 !important;
+}
+
+.article-reportage .extra-graph-card {
+  justify-content: flex-start !important;
+}
+
+.article-reportage .extra-graph-card h3,
+.article-reportage .extra-graph-card p {
+  min-height: 0 !important;
+}
+
+.article-reportage .extra-chart {
+  margin-top: 12px !important;
+  min-height: 270px;
+}
+
+.article-tail-card a {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-tail-actions button.copied,
+.article-tail-actions button:active {
+  border-color: rgba(53,201,206,.75);
+  color: #fff;
+}
+
+@media (max-width: 760px) {
+  .article-reportage .extra-chart {
+    min-height: 250px;
+  }
+}

@@ -77,7 +77,8 @@
     sorted.forEach(d => svg.appendChild(el('circle', { cx: x(d.year), cy: y(d.value), r: 3.3, fill: color, stroke: '#000', 'stroke-width': 1 })));
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
-    svg.appendChild(el('text', { x: plot.right, y: plot.top + 16, 'text-anchor': 'end', class: 'extra-value-label' }, `${fmt(first.value, 1)}${unit} → ${fmt(last.value, 1)}${unit}`));
+    const labelY = Math.max(plot.top + 18, Math.min(plot.bottom - 12, y(last.value) - 12));
+    svg.appendChild(el('text', { x: plot.right - 10, y: labelY, 'text-anchor': 'end', class: 'extra-value-label' }, `${fmt(first.value, 1)}${unit} → ${fmt(last.value, 1)}${unit}`));
   }
 
   function init(data) {

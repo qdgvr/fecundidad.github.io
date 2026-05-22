@@ -1,6 +1,6 @@
 {
   "source_workbook": "/Users/macbookpro/Desktop/database/r_results/results.xlsx",
-  "created_for": "subidas.github.io relationship graphs",
+  "created_for": "fecundidad.github.io relationship graphs",
   "specification": "C",
   "specification_note": "State fixed effects, year fixed effects, macro controls, and state-specific linear trends from the R results workbook.",
   "graphA": [
