@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
   <link rel="icon" href="data:,">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <link rel="stylesheet" href="admin.css?v=4">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="stylesheet" href="admin.css?v=5">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Saltar al editor</a>
@@ -110,19 +110,21 @@
                     </select>
                   </label>
                   <label class="toolbar-label">Fuente
-                    <select data-editor-select="fontName" aria-label="Familia tipográfica">
+                    <select data-editor-inline-style="fontFamily" aria-label="Familia tipográfica">
                       <option value="Arial">Sans</option><option value="Georgia">Serif</option><option value="Courier New">Monoespaciada</option>
                     </select>
                   </label>
-                  <label class="toolbar-label">Tamaño
-                    <select data-editor-select="fontSize" aria-label="Tamaño del texto">
-                      <option value="2">Pequeño</option><option value="3" selected>Normal</option><option value="4">Grande</option><option value="5">Muy grande</option>
-                    </select>
+                  <label class="toolbar-label">Tamaño (pt)
+                    <input type="number" value="12" min="8" max="96" step="1" inputmode="decimal" data-editor-inline-number="fontSize" aria-label="Tamaño del texto en puntos">
                   </label>
                   <label class="toolbar-label">Interlineado
-                    <select data-editor-style="lineHeight" aria-label="Interlineado">
-                      <option value="1.35">Compacto</option><option value="1.6" selected>Normal</option><option value="1.9">Amplio</option>
-                    </select>
+                    <input type="number" value="1.15" min="0.8" max="4" step="0.05" inputmode="decimal" data-editor-block-number="lineHeight" aria-label="Interlineado numérico">
+                  </label>
+                  <label class="toolbar-label">Antes (pt)
+                    <input type="number" value="0" min="0" max="144" step="1" inputmode="decimal" data-editor-block-number="marginTop" aria-label="Espacio antes del párrafo en puntos">
+                  </label>
+                  <label class="toolbar-label">Después (pt)
+                    <input type="number" value="8" min="0" max="144" step="1" inputmode="decimal" data-editor-block-number="marginBottom" aria-label="Espacio después del párrafo en puntos">
                   </label>
                 </div>
 
@@ -141,10 +143,16 @@
                   <label title="Color de resaltado"><span class="marker-icon">A</span><input type="color" value="#315f61" data-editor-color="hiliteColor" aria-label="Color de resaltado"></label>
                 </div>
                 <div class="toolbar-group" aria-label="Alineación">
-                  <button type="button" data-editor-command="justifyLeft" title="Alinear a la izquierda" aria-label="Alinear a la izquierda">≡</button>
-                  <button type="button" data-editor-command="justifyCenter" title="Centrar" aria-label="Centrar">≣</button>
-                  <button type="button" data-editor-command="justifyRight" title="Alinear a la derecha" aria-label="Alinear a la derecha">≡</button>
-                  <button type="button" data-editor-command="justifyFull" title="Justificar" aria-label="Justificar">☰</button>
+                  <button type="button" data-editor-align="left" title="Alinear a la izquierda" aria-label="Alinear a la izquierda"><span class="align-icon align-left" aria-hidden="true"></span></button>
+                  <button type="button" data-editor-align="center" title="Centrar" aria-label="Centrar"><span class="align-icon align-center" aria-hidden="true"></span></button>
+                  <button type="button" data-editor-align="right" title="Alinear a la derecha" aria-label="Alinear a la derecha"><span class="align-icon align-right" aria-hidden="true"></span></button>
+                  <button type="button" data-editor-align="justify" title="Justificar" aria-label="Justificar"><span class="align-icon align-justify" aria-hidden="true"></span></button>
+                </div>
+                <div class="toolbar-group paragraph-spacing-tools" aria-label="Espaciado de párrafo">
+                  <button type="button" data-paragraph-spacing="add-before" title="Añadir espacio antes" aria-label="Añadir espacio antes del párrafo">↑+</button>
+                  <button type="button" data-paragraph-spacing="remove-before" title="Quitar espacio antes" aria-label="Quitar espacio antes del párrafo">↑−</button>
+                  <button type="button" data-paragraph-spacing="add-after" title="Añadir espacio después" aria-label="Añadir espacio después del párrafo">↓+</button>
+                  <button type="button" data-paragraph-spacing="remove-after" title="Quitar espacio después" aria-label="Quitar espacio después del párrafo">↓−</button>
                 </div>
                 <div class="toolbar-group" aria-label="Listas y posición">
                   <button type="button" data-editor-command="insertUnorderedList" title="Lista con viñetas" aria-label="Lista con viñetas">•≡</button>
@@ -251,6 +259,6 @@
 
   <script src="config.js"></script>
   <script src="article-config.js"></script>
-  <script src="admin.js?v=4"></script>
+  <script src="admin.js?v=5"></script>
 </body>
 </html>

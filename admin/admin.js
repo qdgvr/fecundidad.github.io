@@ -71,7 +71,7 @@
     if (separator < 1) return '';
     const property = item.slice(0, separator).trim().toLowerCase();
     const styleValue = item.slice(separator + 1).trim();
-    const allowed = ['text-align','font-family','font-size','font-weight','font-style','text-decoration','line-height','color','background-color'];
+    const allowed = ['text-align','font-family','font-size','font-weight','font-style','text-decoration','line-height','margin-top','margin-bottom','color','background-color'];
     if (!allowed.includes(property) || /url\s*\(|expression\s*\(|@import|javascript:/i.test(styleValue)) return '';
     return `${property}: ${styleValue}`;
   }).filter(Boolean).join('; ');
@@ -267,7 +267,55 @@
   };
 
   const rangeInsideEditor = range => Boolean(range && editor.contains(range.commonAncestorContainer));
+  const blockSelector = 'p,h2,h3,h4,blockquote,pre,li,figcaption,td,th';
+  let selectionLocked = false;
+  let historyApplying = false;
+  let editorHistory = [];
+  let editorHistoryIndex = -1;
+  const updateHistoryButtons = () => {
+    const undo = $('[data-editor-command="undo"]');
+    const redo = $('[data-editor-command="redo"]');
+    if (undo) undo.disabled = editorHistoryIndex <= 0;
+    if (redo) redo.disabled = editorHistoryIndex < 0 || editorHistoryIndex >= editorHistory.length - 1;
+  };
+  const recordEditorHistory = () => {
+    if (historyApplying) return;
+    const html = editor.innerHTML;
+    if (editorHistory[editorHistoryIndex] === html) return;
+    editorHistory.splice(editorHistoryIndex + 1);
+    editorHistory.push(html);
+    if (editorHistory.length > 100) editorHistory.shift();
+    editorHistoryIndex = editorHistory.length - 1;
+    updateHistoryButtons();
+  };
+  const resetEditorHistory = () => {
+    editorHistory = [editor.innerHTML];
+    editorHistoryIndex = 0;
+    updateHistoryButtons();
+  };
+  const moveEditorHistory = direction => {
+    const next = editorHistoryIndex + direction;
+    if (next < 0 || next >= editorHistory.length) { selectionLocked = false; return false; }
+    historyApplying = true;
+    editorHistoryIndex = next;
+    editor.innerHTML = editorHistory[editorHistoryIndex];
+    syncEditor();
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+    historyApplying = false;
+    selectionLocked = false;
+    updateHistoryButtons();
+    updateToolbarState();
+    return true;
+  };
   const rememberSelection = () => {
+    if (selectionLocked) return;
     const selection = window.getSelection();
     if (selection.rangeCount && editor.contains(selection.anchorNode)) savedRange = selection.getRangeAt(0).cloneRange();
   };
@@ -286,13 +334,146 @@
     selection.removeAllRanges();
     selection.addRange(savedRange);
   };
-  const announceInput = () => {
+  const beginToolbarAction = event => {
+    selectionLocked = false;
     rememberSelection();
+    selectionLocked = true;
+    if (event) event.preventDefault();
+  };
+  const finishToolbarAction = () => {
+    selectionLocked = false;
+    rememberSelection();
+  };
+  const announceInput = () => {
+    finishToolbarAction();
     syncEditor();
     editor.dispatchEvent(new Event('input', { bubbles: true }));
   };
+  const currentRange = () => {
+    restoreSelection();
+    const selection = window.getSelection();
+    return selection.rangeCount ? selection.getRangeAt(0) : null;
+  };
+  const selectedBlocks = (providedRange = null) => {
+    const selection = window.getSelection();
+    const liveRange = selection.rangeCount && editor.contains(selection.anchorNode) ? selection.getRangeAt(0) : null;
+    const range = providedRange || liveRange || (rangeInsideEditor(savedRange) ? savedRange : null);
+    if (!range) return [];
+    const candidates = [...editor.querySelectorAll(blockSelector)].filter(block => {
+      try { return range.intersectsNode(block); } catch (_) { return false; }
+    });
+    const leaves = candidates.filter(block => !candidates.some(other => other !== block && block.contains(other)));
+    if (leaves.length) return leaves;
+    const node = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+    const block = node?.closest?.(blockSelector);
+    return block && editor.contains(block) ? [block] : [];
+  };
+  const applyBlockStyle = (property, value) => {
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
+    restoreSelection();
+    const blocks = selectedBlocks();
+    blocks.forEach(block => { block.style[property] = value; });
+    announceInput();
+    updateToolbarState();
+    return blocks.length > 0;
+  };
+  const applyInlineStyle = (property, value) => {
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!selection.rangeCount) { selectionLocked = false; return false; }
+    const range = selection.getRangeAt(0);
+
+    if (range.collapsed) {
+      const span = document.createElement('span');
+      span.style[property] = value;
+      span.appendChild(document.createTextNode('\u200b'));
+      range.insertNode(span);
+      range.setStart(span.firstChild, 1);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      savedRange = range.cloneRange();
+    } else {
+      const wrapper = document.createElement('span');
+      wrapper.style[property] = value;
+      wrapper.appendChild(range.extractContents());
+      range.insertNode(wrapper);
+      range.selectNodeContents(wrapper);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      savedRange = range.cloneRange();
+    }
+    announceInput();
+    updateToolbarState();
+    return true;
+  };
+  const applyInlineToggle = (property, activeValue, inactiveValue) => {
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!selection.rangeCount) { selectionLocked = false; return false; }
+    const range = selection.getRangeAt(0);
+    if (range.collapsed) {
+      const commandName = property === 'fontWeight' ? 'bold' : 'italic';
+      const result = document.execCommand(commandName, false, null);
+      announceInput();
+      updateToolbarState();
+      return result;
+    }
+
+    const startNode = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+    const startStyle = startNode && editor.contains(startNode) ? getComputedStyle(startNode) : null;
+    const active = property === 'fontWeight'
+      ? Boolean(startStyle && (startStyle.fontWeight === 'bold' || Number.parseInt(startStyle.fontWeight, 10) >= 600))
+      : Boolean(startStyle && startStyle.fontStyle === 'italic');
+    const wrapper = document.createElement('span');
+    wrapper.style[property] = active ? inactiveValue : activeValue;
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    range.selectNodeContents(wrapper);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    announceInput();
+    updateToolbarState();
+    return true;
+  };
+  const applyDecorationToggle = decoration => {
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!selection.rangeCount) { selectionLocked = false; return false; }
+    const range = selection.getRangeAt(0);
+    if (range.collapsed) {
+      const result = document.execCommand(decoration === 'underline' ? 'underline' : 'strikeThrough', false, null);
+      announceInput();
+      updateToolbarState();
+      return result;
+    }
+    const startNode = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+    const current = startNode && editor.contains(startNode) ? getComputedStyle(startNode).textDecorationLine.split(/\s+/) : [];
+    const active = current.includes(decoration);
+    const next = active ? current.filter(value => value !== decoration) : [...current.filter(value => value !== 'none'), decoration];
+    const wrapper = document.createElement('span');
+    wrapper.style.textDecoration = next.length ? next.join(' ') : 'none';
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    range.selectNodeContents(wrapper);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    announceInput();
+    updateToolbarState();
+    return true;
+  };
   const command = (name, value = null) => {
-    editor.focus();
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
     restoreSelection();
     let result = document.execCommand(name, false, value);
     if (!result && name === 'formatBlock' && value) result = document.execCommand(name, false, `<${value}>`);
@@ -324,43 +505,103 @@
     updateToolbarState();
     return true;
   };
-  const selectedBlock = () => {
-    const selection = window.getSelection();
-    const node = selection.anchorNode?.nodeType === Node.TEXT_NODE ? selection.anchorNode.parentElement : selection.anchorNode;
-    return node?.closest?.('p,h2,h3,h4,blockquote,pre,li,figcaption,td,th') || null;
+  const selectedBlock = () => selectedBlocks(rangeInsideEditor(savedRange) ? savedRange : null)[0] || null;
+  const inlineState = property => {
+    const range = rangeInsideEditor(savedRange) ? savedRange : currentRange();
+    if (!range) return false;
+    const node = range.startContainer.nodeType === Node.TEXT_NODE ? range.startContainer.parentElement : range.startContainer;
+    if (!node || !editor.contains(node)) return false;
+    const styles = getComputedStyle(node);
+    if (property === 'fontWeight') return styles.fontWeight === 'bold' || Number.parseInt(styles.fontWeight, 10) >= 600;
+    if (property === 'fontStyle') return styles.fontStyle === 'italic';
+    return false;
   };
   const updateToolbarState = () => {
     $$('[data-editor-command]').forEach(button => {
       const stateful = !['undo','redo','indent','outdent','removeFormat'].includes(button.dataset.editorCommand);
       if (!stateful) return;
       let active = false;
-      try { active = document.queryCommandState(button.dataset.editorCommand); } catch (_) {}
+      try {
+        if (button.dataset.editorCommand === 'bold') active = inlineState('fontWeight');
+        else if (button.dataset.editorCommand === 'italic') active = inlineState('fontStyle');
+        else active = document.queryCommandState(button.dataset.editorCommand);
+      } catch (_) {}
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+    const block = selectedBlock();
+    if (block) {
+      const alignment = getComputedStyle(block).textAlign || 'left';
+      $$('[data-editor-align]').forEach(button => {
+        const active = button.dataset.editorAlign === alignment || (button.dataset.editorAlign === 'left' && alignment === 'start');
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
   };
 
   document.execCommand('styleWithCSS', false, true);
-  document.addEventListener('selectionchange', () => { rememberSelection(); updateToolbarState(); });
+  document.addEventListener('selectionchange', () => { if (!selectionLocked) { rememberSelection(); updateToolbarState(); } });
   $$('[data-editor-command]').forEach(button => {
-    button.addEventListener('pointerdown', event => { rememberSelection(); event.preventDefault(); });
-    button.addEventListener('click', () => command(button.dataset.editorCommand, button.dataset.editorValue || null));
+    button.addEventListener('pointerdown', beginToolbarAction);
+    button.addEventListener('click', () => {
+      const name = button.dataset.editorCommand;
+      if (name === 'undo') moveEditorHistory(-1);
+      else if (name === 'redo') moveEditorHistory(1);
+      else if (name === 'bold') applyInlineToggle('fontWeight', '700', '400');
+      else if (name === 'italic') applyInlineToggle('fontStyle', 'italic', 'normal');
+      else if (name === 'underline') applyDecorationToggle('underline');
+      else if (name === 'strikeThrough') applyDecorationToggle('line-through');
+      else command(name, button.dataset.editorValue || null);
+    });
   });
   $$('[data-editor-select]').forEach(select => {
-    select.addEventListener('pointerdown', rememberSelection);
+    select.addEventListener('pointerdown', () => { selectionLocked = false; rememberSelection(); });
     select.addEventListener('change', () => command(select.dataset.editorSelect, select.value));
   });
-  $$('[data-editor-style]').forEach(select => {
-    select.addEventListener('pointerdown', rememberSelection);
-    select.addEventListener('change', () => {
-      editor.focus(); restoreSelection();
+  $$('[data-editor-inline-style]').forEach(select => {
+    select.addEventListener('pointerdown', () => { selectionLocked = false; rememberSelection(); });
+    select.addEventListener('change', () => applyInlineStyle(select.dataset.editorInlineStyle, select.value));
+  });
+  $$('[data-editor-inline-number]').forEach(input => {
+    input.addEventListener('pointerdown', () => { selectionLocked = false; rememberSelection(); });
+    const apply = () => {
+      const value = Math.min(Number(input.max), Math.max(Number(input.min), Number(input.value) || 12));
+      input.value = String(value);
+      applyInlineStyle(input.dataset.editorInlineNumber, `${value}pt`);
+    };
+    input.addEventListener('change', apply);
+    input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } });
+  });
+  $$('[data-editor-block-number]').forEach(input => {
+    input.addEventListener('pointerdown', () => { selectionLocked = false; rememberSelection(); });
+    const apply = () => {
+      const fallback = input.dataset.editorBlockNumber === 'lineHeight' ? 1.15 : 0;
+      const value = Math.min(Number(input.max), Math.max(Number(input.min), Number(input.value) || fallback));
+      input.value = String(value);
+      const cssValue = input.dataset.editorBlockNumber === 'lineHeight' ? String(value) : `${value}pt`;
+      applyBlockStyle(input.dataset.editorBlockNumber, cssValue);
+    };
+    input.addEventListener('change', apply);
+    input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } });
+  });
+  $$('[data-editor-align]').forEach(button => {
+    button.addEventListener('pointerdown', beginToolbarAction);
+    button.addEventListener('click', () => applyBlockStyle('textAlign', button.dataset.editorAlign));
+  });
+  $$('[data-paragraph-spacing]').forEach(button => {
+    button.addEventListener('pointerdown', beginToolbarAction);
+    button.addEventListener('click', () => {
+      const [action, position] = button.dataset.paragraphSpacing.split('-');
+      const property = position === 'before' ? 'marginTop' : 'marginBottom';
+      const amount = position === 'before' ? 6 : 8;
       const block = selectedBlock();
-      if (block) block.style[select.dataset.editorStyle] = select.value;
-      announceInput();
+      const current = block ? Number.parseFloat(getComputedStyle(block)[property]) * .75 : 0;
+      applyBlockStyle(property, action === 'remove' ? '0pt' : `${Math.round(current + amount)}pt`);
     });
   });
   $$('[data-editor-color]').forEach(input => {
-    input.addEventListener('pointerdown', rememberSelection);
+    input.addEventListener('pointerdown', () => { selectionLocked = false; rememberSelection(); });
     input.addEventListener('input', () => command(input.dataset.editorColor, input.value));
   });
 
@@ -368,9 +609,10 @@
     const dialog = $(`#${id}`);
     rememberSelection();
     dialog.showModal();
+    selectionLocked = false;
     setTimeout(() => dialog.querySelector('input,button:not(.dialog-close)')?.focus(), 0);
   };
-  const closeDialog = dialog => { if (dialog?.open) dialog.close(); };
+  const closeDialog = dialog => { selectionLocked = false; if (dialog?.open) dialog.close(); };
   $$('dialog .dialog-close').forEach(button => button.addEventListener('click', () => closeDialog(button.closest('dialog'))));
   $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => closeDialog($(`#${button.dataset.closeDialog}`))));
 
@@ -444,7 +686,7 @@
   });
 
   const linkUrl = $('#link-url');
-  $('#link-button').addEventListener('pointerdown', event => { rememberSelection(); event.preventDefault(); });
+  $('#link-button').addEventListener('pointerdown', beginToolbarAction);
   $('#link-button').addEventListener('click', () => openDialog('link-dialog'));
   $('#link-form').addEventListener('submit', event => {
     event.preventDefault();
@@ -452,17 +694,27 @@
     if (!url) { linkUrl.setCustomValidity('Use https://, http://, mailto: o un enlace interno #.'); linkUrl.reportValidity(); return; }
     linkUrl.setCustomValidity('');
     closeDialog($('#link-dialog'));
-    editor.focus(); restoreSelection();
+    selectionLocked = true;
+    editor.focus({ preventScroll: true });
+    restoreSelection();
     const selection = window.getSelection();
     if (!selection.rangeCount || selection.getRangeAt(0).collapsed) {
       const target = $('#link-new-window').checked ? ' target="_blank" rel="noopener noreferrer"' : '';
       insertHtml(`<a href="${escapeHtml(url)}"${target}>${escapeHtml(url)}</a>`);
     } else {
-      document.execCommand('createLink', false, url);
-      const anchor = selection.anchorNode?.parentElement?.closest('a');
-      if (anchor && $('#link-new-window').checked) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
+      const range = selection.getRangeAt(0);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      if ($('#link-new-window').checked) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
+      anchor.appendChild(range.extractContents());
+      range.insertNode(anchor);
+      range.selectNodeContents(anchor);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      savedRange = range.cloneRange();
       announceInput();
     }
+    event.target.reset();
   });
   $('#link-cancel').addEventListener('click', () => closeDialog($('#link-dialog')));
 
@@ -533,7 +785,7 @@
     heroData = await fileToData(file);
   });
 
-  editor.addEventListener('input', () => { syncEditor(); scheduleDraftState(); });
+  editor.addEventListener('input', () => { syncEditor(); recordEditorHistory(); scheduleDraftState(); });
   form.addEventListener('input', scheduleDraftState);
   function scheduleDraftState() {
     draftState.textContent = 'Cambios sin guardar';
@@ -589,6 +841,7 @@
   const init = async () => {
     await restoreDraft();
     syncEditor();
+    resetEditorHistory();
     if (localMode) {
       setEditor(true);
       publishButton.disabled = true;

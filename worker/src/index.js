@@ -242,7 +242,7 @@ async function validatePayload(input) {
 }
 
 function sanitizeStyle(value) {
-  const allowed = new Set(['text-align', 'font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration', 'line-height', 'color', 'background-color']);
+  const allowed = new Set(['text-align', 'font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration', 'line-height', 'margin-top', 'margin-bottom', 'color', 'background-color']);
   return String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
     const separator = item.indexOf(':');
     if (separator < 1) return '';
