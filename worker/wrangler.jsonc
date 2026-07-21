@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "comunicacion-publisher",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-20",
+  "workers_dev": true,
+  "vars": {
+    "SITE_ORIGIN": "https://qdgvr.github.io",
+    "SITE_URL": "https://qdgvr.github.io/fecundidad.github.io",
+    "GITHUB_OWNER": "qdgvr",
+    "GITHUB_REPO": "fecundidad.github.io",
+    "GITHUB_BRANCH": "main",
+    "ALLOWED_GITHUB_LOGINS": "qdgvr"
+  }
+}

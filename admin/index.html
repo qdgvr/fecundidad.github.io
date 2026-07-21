@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redacción | Comunicación</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="stylesheet" href="admin.css?v=1">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Saltar al editor</a>
+
+  <header class="admin-header">
+    <a class="admin-brand" href="../main.html"><span>Comunicación</span><em>Veritas lux mea</em></a>
+    <div class="admin-account">
+      <span id="connection-state">Redacción</span>
+      <button id="logout-button" type="button" hidden>Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main id="workspace">
+    <section class="login-panel" id="login-panel" aria-labelledby="login-title">
+      <p class="eyebrow">Acceso editorial</p>
+      <h1 id="login-title">Publicar con la plantilla de Comunicación</h1>
+      <p>La identidad se verifica con GitHub. Solo las cuentas incluidas en la lista de autores pueden crear archivos y publicar en el repositorio.</p>
+      <a class="primary-button" id="login-button" href="#">Continuar con GitHub</a>
+      <p class="setup-message" id="setup-message" hidden></p>
+    </section>
+
+    <section class="editor-shell" id="editor-shell" hidden>
+      <aside class="editor-sidebar">
+        <p class="eyebrow">Nueva publicación</p>
+        <h1>Editor de reportajes</h1>
+        <p>Complete el texto, revise la vista previa y publique. El diseño, los mapas y las animaciones se heredan de la plantilla maestra.</p>
+        <nav aria-label="Secciones del formulario">
+          <a href="#datos-basicos">Datos básicos</a>
+          <a href="#prologo">Prólogo</a>
+          <a href="#capitulos">Capítulos</a>
+          <a href="#texto">Texto</a>
+          <a href="#cierre">Cierre</a>
+        </nav>
+        <div class="draft-state" id="draft-state">Sin cambios pendientes</div>
+      </aside>
+
+      <form class="editor-form" id="article-form">
+        <section class="form-section" id="datos-basicos">
+          <div class="section-title"><span>01</span><div><p>Identidad</p><h2>Datos básicos</h2></div></div>
+          <div class="field-grid two-columns">
+            <label class="field field-wide">Título
+              <input name="title" type="text" minlength="10" maxlength="180" required placeholder="Título del reportaje">
+            </label>
+            <label class="field">Slug
+              <input name="slug" type="text" pattern="[a-z0-9][a-z0-9-]*" required placeholder="titulo-del-reportaje">
+              <small>Será parte de la URL y no podrá modificarse después.</small>
+            </label>
+            <label class="field">Sección
+              <select name="section">
+                <option>Reportaje de datos</option><option>Sociedad</option><option>Mundo</option><option>Economía</option><option>Tecnología</option><option>Opinión</option><option>Cultura</option>
+              </select>
+            </label>
+            <label class="field field-wide">Descripción
+              <textarea name="description" rows="3" maxlength="320" required placeholder="Entradilla breve para buscadores y para la portada"></textarea>
+            </label>
+            <label class="field">Autor
+              <input name="author" type="text" maxlength="100" required value="Kitak Kang">
+            </label>
+            <label class="field">Fecha
+              <input name="date" type="date" required>
+            </label>
+            <label class="field field-wide">Imagen de portada
+              <input name="heroImage" type="file" accept="image/png,image/jpeg,image/webp">
+              <small>PNG, JPEG o WebP. Máximo 5 MB. También se usará como miniatura en la portada.</small>
+            </label>
+            <label class="field field-wide">Texto alternativo de la imagen
+              <input name="imageAlt" type="text" maxlength="180" placeholder="Descripción accesible de la imagen">
+            </label>
+          </div>
+        </section>
+
+        <section class="form-section" id="prologo">
+          <div class="section-title"><span>02</span><div><p>Entrada visual</p><h2>Prólogo del globo</h2></div></div>
+          <p class="section-help">El globo conserva su funcionamiento. Estos dos pasos controlan el enfoque y el relato previo al título.</p>
+          <div class="step-editor">
+            <label class="field">Región del primer paso
+              <select name="globeRegion1"><option value="europe">Europa</option><option value="east-asia">Asia Oriental</option><option value="usa">Estados Unidos</option><option value="world">Mundo</option></select>
+            </label>
+            <label class="field">Título del primer paso<input name="globeTitle1" type="text" maxlength="100" value="El mapa del cambio"></label>
+            <label class="field field-wide">Texto del primer paso<textarea name="globeText1" rows="4" maxlength="700" placeholder="Texto que aparece durante el primer movimiento del globo"></textarea></label>
+          </div>
+          <div class="step-editor">
+            <label class="field">Región del segundo paso
+              <select name="globeRegion2"><option value="usa">Estados Unidos</option><option value="europe">Europa</option><option value="east-asia">Asia Oriental</option><option value="world">Mundo</option></select>
+            </label>
+            <label class="field">Título del segundo paso<input name="globeTitle2" type="text" maxlength="100" value="La escala del reportaje"></label>
+            <label class="field field-wide">Texto del segundo paso<textarea name="globeText2" rows="4" maxlength="700" placeholder="Segundo momento narrativo antes del título"></textarea></label>
+          </div>
+        </section>
+
+        <section class="form-section" id="capitulos">
+          <div class="section-title"><span>03</span><div><p>Estructura</p><h2>Tres capítulos</h2></div></div>
+          <div class="chapter-editor-grid">
+            <fieldset><legend>Capítulo 1</legend><label class="field">Índice<input name="nav1" type="text" value="Ocio digital"></label><label class="field">Título<input name="heading1" type="text" value="Ocio digital diario"></label></fieldset>
+            <fieldset><legend>Capítulo 2</legend><label class="field">Índice<input name="nav2" type="text" value="Tiempo exterior"></label><label class="field">Título<input name="heading2" type="text" value="Horas exteriores diarias"></label></fieldset>
+            <fieldset><legend>Capítulo 3</legend><label class="field">Índice<input name="nav3" type="text" value="Fecundidad"></label><label class="field">Título<input name="heading3" type="text" value="Datos de fecundidad"></label></fieldset>
+          </div>
+        </section>
+
+        <section class="form-section" id="texto">
+          <div class="section-title"><span>04</span><div><p>Narración</p><h2>Cuerpo del reportaje</h2></div></div>
+          <p class="section-help">Separe párrafos con una línea en blanco. Cada bloque ocupa una posición fija entre los interactivos y gráficos.</p>
+          <label class="field narrative-field">Apertura<textarea name="intro" rows="10" required placeholder="Párrafos situados después del prólogo y antes del primer interactivo"></textarea></label>
+          <label class="field narrative-field">Después del ocio digital<textarea name="afterDigital" rows="8" placeholder="Interpretación posterior al primer mapa"></textarea></label>
+          <label class="field narrative-field">Antes del tiempo exterior<textarea name="beforeExterior" rows="6" placeholder="Transición hacia el segundo mapa"></textarea></label>
+          <label class="field narrative-field">Después del tiempo exterior<textarea name="afterExterior" rows="8"></textarea></label>
+          <label class="field narrative-field">Después del primer gráfico de relación<textarea name="afterGraph1" rows="8"></textarea></label>
+          <label class="field narrative-field">Después de fecundidad<textarea name="afterFertility" rows="8"></textarea></label>
+          <label class="field narrative-field">Después del segundo gráfico de relación<textarea name="afterGraph2" rows="8"></textarea></label>
+        </section>
+
+        <section class="form-section" id="cierre">
+          <div class="section-title"><span>05</span><div><p>Salida</p><h2>Cierre y edición</h2></div></div>
+          <label class="field narrative-field">Cierre del reportaje<textarea name="closing" rows="12" required></textarea></label>
+          <div class="field-grid two-columns">
+            <label class="field">Título de la edición<input name="editionTitle" type="text" value="De la edición digital de Comunicación"></label>
+            <label class="field">Texto de la edición<input name="editionText" type="text" value="Descubra más historias en nuestra portada."></label>
+          </div>
+        </section>
+
+        <div class="publish-bar">
+          <div><strong id="publish-state">Borrador local</strong><span id="publish-detail">Revise la vista previa antes de publicar.</span></div>
+          <button class="secondary-button" id="save-button" type="button">Guardar borrador</button>
+          <button class="secondary-button" id="preview-button" type="button">Vista previa</button>
+          <button class="primary-button" id="publish-button" type="submit">Publicar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <dialog id="result-dialog">
+    <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+    <p class="eyebrow">Publicación completada</p>
+    <h2>El reportaje está en camino</h2>
+    <p id="result-message"></p>
+    <div class="dialog-actions"><a class="primary-button" id="result-link" href="#">Abrir artículo</a><a class="secondary-button" href="../main.html">Ir a la portada</a></div>
+  </dialog>
+
+  <script src="config.js"></script>
+  <script src="article-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

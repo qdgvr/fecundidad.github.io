@@ -112,7 +112,7 @@
           <a href="#fecundidad"><span>3.</span><strong>La maternidad cambia de edad</strong></a>
         </nav>
 
-        <div class="chapter-copy">
+        <div class="chapter-copy" data-template-slot="intro-body">
           <p>Estados Unidos pareció durante mucho tiempo una excepción. Era más joven que Europa, más dinámico que Japón, y esa imagen descansaba en la combinación de un mercado gigantesco, innovación tecnológica, poder militar, finanzas, universidades, inmigración y una estructura demográfica relativamente joven.</p>
 
           <p>Pero las excepciones no duran para siempre. Estados Unidos también se enfrenta cada vez más a nacimientos más tardíos, a una reducción de los primeros nacimientos y a una formación familiar más inestable. Sus causas no pueden reducirse a un único cambio moral ni a una simple dificultad económica. Lo que aquí merece atención es el desplazamiento del tiempo.</p>
@@ -192,7 +192,7 @@
 
 
 
-            <div class="chapter-copy-block chapter-after-widget">
+            <div class="chapter-copy-block chapter-after-widget" data-template-slot="after-ocio-digital">
               <p>El tiempo frente a las pantallas ocupa una parte cada vez más visible del día. No se trata de un simple cambio de aficiones. Es una transformación en la distribución del tiempo. Estudiar, trabajar, comer fuera, hacer ejercicio, quedar con amigos o pasar tiempo en calles, parques y restaurantes compite poco a poco con las horas frente a la pantalla.</p>
 
               <p>El ocio digital es cómodo. No requiere desplazamientos, cuesta poco y puede repetirse sin dificultad. Pero precisamente por esas ventajas, la vida diaria se vuelve cada vez más doméstica. Las personas se mueven menos, se encuentran menos y viven con menos encuentros fortuitos.</p>
@@ -202,7 +202,7 @@
           </section>
 
           <section class="chapter" id="tiempo-exterior">
-            <div class="chapter-copy-block chapter-before-widget">
+            <div class="chapter-copy-block chapter-before-widget" data-template-slot="before-tiempo-exterior">
               <p>Al otro lado de este cambio está el tiempo fuera de casa. No es una simple salida al exterior, sino el tiempo de los espacios compartidos donde se cruzan el trabajo, la educación, la comida, el ejercicio y el contacto social. La cantidad de ese tiempo que aún queda muestra la capacidad de una sociedad para crear vínculos.</p>
             </div>
           <section class="metric-block" id="m-block">
@@ -273,7 +273,7 @@
 
 
 
-            <div class="chapter-copy-block chapter-after-widget">
+            <div class="chapter-copy-block chapter-after-widget" data-template-slot="after-tiempo-exterior">
               <p>El tiempo fuera del hogar deja huella en la vida adulta. Allí las personas repiten horarios, mantienen relaciones, conocen a otros y hacen que su vida se superponga con la de los demás. Todos son canales por los que la vida diaria de un individuo se conecta con la sociedad.</p>
 
               <p>Cuando ese tiempo se debilita, el cambio puede aparecer primero en el calendario de la maternidad. Quién tiene hijos a edades más tempranas. Quién los tiene más tarde. Con qué fuerza se mantiene la entrada al primer hijo. La tasa de fecundidad se lee como un calendario ordenado por edades.</p>
@@ -298,7 +298,7 @@
             </div>
           </section>
 
-          <div class="chapter-copy-block graph-body-copy">
+          <div class="chapter-copy-block graph-body-copy" data-template-slot="after-graph-1">
             <p>La primera conexión muestra cómo, cuando aumenta el ocio basado en pantallas, disminuye el tiempo dedicado a actividades presenciales fuera del hogar.</p>
 
             <p>Esta relación debe entenderse como una reorganización del día. La pantalla no aísla de inmediato a las personas. Sin embargo, cuanto más se alarga un ocio que no exige desplazarse, menos se sale, menos se coincide con otros y menos se entrelazan las vidas.</p>
@@ -376,7 +376,7 @@
 
 
 
-            <div class="chapter-copy-block chapter-after-widget">
+            <div class="chapter-copy-block chapter-after-widget" data-template-slot="after-fecundidad">
               <p>La fecundidad cambia de manera distinta según la edad. Los nacimientos en edades jóvenes se debilitan y la maternidad se desplaza hacia etapas más tardías de la vida. Una misma caída puede tener significados muy distintos según sea una reducción de la maternidad temprana, un aumento de la maternidad tardía o una mezcla de ambas.</p>
 
               <p>En este punto, las pantallas, el tiempo fuera del hogar y la edad de la maternidad se conectan en un mismo proceso. La pantalla concentra el tiempo diario en el interior. La actividad fuera de casa pierde peso. Baja la densidad cotidiana de los encuentros en espacios compartidos. Y la fecundidad cambia en calendario.</p>
@@ -401,7 +401,7 @@
         </div>
       </section>
 
-      <div class="chapter-copy-block graph-body-copy">
+      <div class="chapter-copy-block graph-body-copy" data-template-slot="after-graph-2">
         <p>El ocio digital reduce una parte del tiempo presencial fuera del hogar. Esa reducción se conecta con la distribución de la maternidad por edades. En las edades jóvenes y centrales, la fecundidad se debilita, mientras se observa una redistribución hacia edades más tardías.</p>
       </div>
 
@@ -422,7 +422,7 @@
           </article>
         </div>
 
-        <div class="chapter-copy-block extra-copy-block">
+        <div class="chapter-copy-block extra-copy-block" data-template-slot="closing-body">
           <p>Si las personas se conocen más tarde, se estabilizan más tarde e imaginan una familia más tarde, los nacimientos también se retrasan. Por eso, la fecundidad total no depende solo del segundo o tercer hijo, sino ante todo de si el primero puede incorporarse a una trayectoria vital posible.</p>
 
           <p>Esto también es una advertencia importante para Estados Unidos. Estados Unidos recibió la presión de la baja natalidad más tarde que Europa o Asia Oriental, pero precisamente por eso sigue siendo una sociedad con margen de decisión. Los niños que crecen felices y pueden desplegar sus sueños son la promesa de futuro más segura de un Estado, porque son quienes perciben y encabezan con mayor sensibilidad los cambios de época.</p>
@@ -562,9 +562,10 @@
     <div class="footer-meta">© Comunicación 2026 · Términos · Privacidad · Cookies</div>
   </footer>
 
+  <!-- REPORTAGE_TEMPLATE_RUNTIME -->
   <script>
     (() => {
-      const canonicalUrl = 'https://qdgvr.github.io/fecundidad.github.io/';
+      const canonicalUrl = window.REPORTAGE_CANONICAL_URL || 'https://qdgvr.github.io/fecundidad.github.io/';
       function fallbackCopy(text) {
         const area = document.createElement('textarea');
         area.value = text;
