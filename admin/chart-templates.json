@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "bar",
+      "name": "Barras verticales",
+      "type": "bar",
+      "description": "Compara categorías o periodos mediante columnas.",
+      "defaults": { "legend": true, "grid": true, "stacked": false }
+    },
+    {
+      "id": "horizontal-bar",
+      "name": "Barras horizontales",
+      "type": "horizontalBar",
+      "description": "Ordena y compara categorías con etiquetas largas.",
+      "defaults": { "legend": true, "grid": true, "stacked": false }
+    },
+    {
+      "id": "line",
+      "name": "Líneas",
+      "type": "line",
+      "description": "Muestra la evolución de una o varias series.",
+      "defaults": { "legend": true, "grid": true, "stacked": false }
+    },
+    {
+      "id": "area",
+      "name": "Área",
+      "type": "area",
+      "description": "Destaca magnitudes y evolución acumulada.",
+      "defaults": { "legend": true, "grid": true, "stacked": false }
+    },
+    {
+      "id": "scatter",
+      "name": "Dispersión",
+      "type": "scatter",
+      "description": "Relaciona dos variables numéricas.",
+      "defaults": { "legend": false, "grid": true, "stacked": false }
+    },
+    {
+      "id": "donut",
+      "name": "Anillo",
+      "type": "donut",
+      "description": "Representa la composición de un total.",
+      "defaults": { "legend": true, "grid": false, "stacked": false }
+    }
+  ]
+}

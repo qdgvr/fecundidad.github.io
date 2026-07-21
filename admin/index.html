@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
   <link rel="icon" href="data:,">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <link rel="stylesheet" href="admin.css?v=5">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev https://raw.githubusercontent.com https://gist.githubusercontent.com; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="stylesheet" href="admin.css?v=7">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Saltar al editor</a>
@@ -92,6 +92,7 @@
             <div class="rich-toolbar" role="toolbar" aria-label="Herramientas del artículo">
               <div class="rich-toolbar-row rich-toolbar-insert" aria-label="Insertar contenido">
                 <button type="button" data-insert-action="image" title="Insertar imagen"><span class="tool-icon tool-icon-image" aria-hidden="true"></span><span>Imagen</span></button>
+                <button type="button" data-insert-action="chart" title="Crear gráfico"><span class="tool-icon tool-icon-chart" aria-hidden="true"></span><span>Gráfico</span></button>
                 <button type="button" data-insert-action="video" title="Insertar vídeo"><span class="tool-icon tool-icon-video" aria-hidden="true"></span><span>Vídeo</span></button>
                 <button type="button" data-insert-action="quote" title="Insertar cita"><span class="tool-icon tool-icon-quote" aria-hidden="true"></span><span>Cita</span></button>
                 <button type="button" data-insert-action="divider" title="Insertar separador"><span class="tool-icon tool-icon-divider" aria-hidden="true"></span><span>Separador</span></button>
@@ -175,6 +176,7 @@
               <button class="block-add-button" id="block-add-button" type="button" aria-label="Añadir bloque" aria-expanded="false" aria-controls="block-add-menu"><span></span><span></span></button>
               <div class="block-add-menu" id="block-add-menu" hidden>
                 <button type="button" data-insert-action="image">Imagen</button>
+                <button type="button" data-insert-action="chart">Gráfico</button>
                 <button type="button" data-insert-action="quote">Cita</button>
                 <button type="button" data-insert-action="divider">Separador</button>
                 <button type="button" data-insert-action="code">Código</button>
@@ -257,8 +259,69 @@
     </div>
   </dialog>
 
+  <dialog id="chart-dialog" class="insert-dialog chart-dialog">
+    <form method="dialog" id="chart-form">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <p class="eyebrow">Visualización</p><h2>Crear un gráfico</h2>
+      <div class="chart-dialog-layout">
+        <div class="chart-controls">
+          <div class="field-grid two-columns chart-template-row">
+            <label class="field">Plantilla
+              <select id="chart-template" required aria-describedby="chart-template-description"></select>
+            </label>
+            <label class="field">Tema
+              <select id="chart-theme"><option value="dark">Oscuro</option><option value="light">Claro</option></select>
+            </label>
+          </div>
+          <p class="chart-help" id="chart-template-description"></p>
+
+          <details class="chart-import-panel">
+            <summary>Importar plantilla JSON</summary>
+            <p>Se admiten archivos locales y JSON alojado en GitHub. Solo se leen datos y opciones visuales; nunca se ejecuta código externo. <a href="chart-template.example.json" download>Descargar formato de ejemplo</a>.</p>
+            <div class="chart-import-actions">
+              <label class="secondary-button chart-file-button">Abrir JSON<input id="chart-template-file" type="file" accept="application/json,.json" hidden></label>
+              <input id="chart-template-url" type="url" inputmode="url" placeholder="https://github.com/usuario/repositorio/blob/main/grafico.json" aria-label="URL de una plantilla JSON en GitHub">
+              <button class="secondary-button" id="chart-template-url-button" type="button">Cargar URL</button>
+            </div>
+          </details>
+
+          <label class="field">Título<input id="chart-title" type="text" maxlength="180" value="Título del gráfico" required></label>
+          <label class="field">Subtítulo<input id="chart-subtitle" type="text" maxlength="260" placeholder="Qué muestra y por qué importa"></label>
+          <label class="field">Datos CSV o JSON
+            <textarea id="chart-data" rows="9" spellcheck="false" required>Año,Valor
+2020,42
+2021,55
+2022,49
+2023,63
+2024,71</textarea>
+            <small>La primera columna contiene las etiquetas. Las siguientes deben ser numéricas. Máximo 250 filas y 8 series.</small>
+          </label>
+          <div class="field-grid two-columns">
+            <label class="field">Eje horizontal<input id="chart-x-label" type="text" maxlength="100" placeholder="Año"></label>
+            <label class="field">Eje vertical<input id="chart-y-label" type="text" maxlength="100" placeholder="Valor"></label>
+            <label class="field">Color principal<input id="chart-primary-color" type="color" value="#36babc"></label>
+            <label class="field">Fuente<input id="chart-source" type="text" maxlength="220" placeholder="Fuente: organismo, año"></label>
+          </div>
+          <div class="chart-checks">
+            <label class="check-field"><input id="chart-legend" type="checkbox" checked> Mostrar leyenda</label>
+            <label class="check-field"><input id="chart-grid" type="checkbox" checked> Mostrar cuadrícula</label>
+            <label class="check-field"><input id="chart-stacked" type="checkbox"> Apilar series</label>
+          </div>
+          <label class="field">Texto alternativo<input id="chart-alt" type="text" maxlength="240" placeholder="Descripción accesible del gráfico" required></label>
+        </div>
+        <div class="chart-preview-panel">
+          <div class="chart-preview-heading"><strong>Vista previa</strong><button class="secondary-button" id="chart-preview-button" type="button">Actualizar</button></div>
+          <div class="chart-preview-frame"><canvas id="chart-preview-canvas" width="1600" height="900" aria-label="Vista previa del gráfico"></canvas></div>
+          <p class="chart-status" id="chart-status" role="status" aria-live="polite">Elija una plantilla y actualice la vista previa.</p>
+        </div>
+      </div>
+      <div class="dialog-actions"><button class="secondary-button" data-close-dialog="chart-dialog" type="button">Cancelar</button><button class="primary-button" id="chart-insert-button" value="default" type="submit">Insertar gráfico</button></div>
+    </form>
+  </dialog>
+
   <script src="config.js"></script>
   <script src="article-config.js"></script>
-  <script src="admin.js?v=5"></script>
+  <script src="chart-renderer.js?v=1"></script>
+  <script src="admin.js?v=7"></script>
 </body>
 </html>

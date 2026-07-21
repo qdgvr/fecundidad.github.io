@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": "evolucion-ejemplo",
+      "name": "Evolución de ejemplo",
+      "type": "line",
+      "description": "Plantilla importable con contenido y estilo predeterminados.",
+      "palette": ["#36babc", "#75a8e8"],
+      "defaults": {
+        "legend": true,
+        "grid": true,
+        "stacked": false
+      },
+      "content": {
+        "theme": "dark",
+        "title": "Evolución anual",
+        "subtitle": "Dos series comparadas a lo largo del tiempo",
+        "source": "Fuente de ejemplo",
+        "xLabel": "Año",
+        "yLabel": "Valor",
+        "data": [
+          { "Año": "2020", "Serie A": 42, "Serie B": 38 },
+          { "Año": "2021", "Serie A": 55, "Serie B": 44 },
+          { "Año": "2022", "Serie A": 49, "Serie B": 52 },
+          { "Año": "2023", "Serie A": 63, "Serie B": 58 },
+          { "Año": "2024", "Serie A": 71, "Serie B": 64 }
+        ]
+      }
+    }
+  ]
+}

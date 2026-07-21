@@ -46,6 +46,14 @@
   const bodyImageInput = $('#body-image-input');
   const blockAddButton = $('#block-add-button');
   const blockAddMenu = $('#block-add-menu');
+  const chartDialog = $('#chart-dialog');
+  const chartCanvas = $('#chart-preview-canvas');
+  const chartTemplateSelect = $('#chart-template');
+  const chartStatus = $('#chart-status');
+  let chartTemplates = [];
+  let chartCatalogPromise = null;
+  let chartPreviewReady = false;
+  let chartRenderTimer = null;
 
   const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
   if (hashParams.get('session')) {
@@ -616,8 +624,139 @@
   $$('dialog .dialog-close').forEach(button => button.addEventListener('click', () => closeDialog(button.closest('dialog'))));
   $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => closeDialog($(`#${button.dataset.closeDialog}`))));
 
+  const chartApi = () => {
+    if (!window.ComunicacionCharts) throw new Error('No se pudo iniciar el creador de gráficos.');
+    return window.ComunicacionCharts;
+  };
+  const setChartStatus = (message, error = false) => {
+    chartStatus.textContent = message;
+    chartStatus.classList.toggle('is-error', error);
+  };
+  const selectedChartTemplate = () => chartTemplates.find(template => template.id === chartTemplateSelect.value) || null;
+  const chartDataText = data => typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+  const uniqueChartId = requested => {
+    const base = String(requested || 'imported').replace(/[^a-z0-9-]/gi, '-').toLowerCase() || 'imported';
+    let id = base;
+    let suffix = 2;
+    while (chartTemplates.some(template => template.id === id)) id = `${base}-${suffix++}`;
+    return id;
+  };
+  const populateChartTemplates = selectedId => {
+    chartTemplateSelect.replaceChildren(...chartTemplates.map(template => {
+      const option = document.createElement('option');
+      option.value = template.id;
+      option.textContent = template.name;
+      return option;
+    }));
+    if (selectedId && chartTemplates.some(template => template.id === selectedId)) chartTemplateSelect.value = selectedId;
+  };
+  const applyChartTemplate = (template, includeContent = true) => {
+    if (!template) return;
+    $('#chart-template-description').textContent = template.description || 'Plantilla de visualización importada.';
+    $('#chart-primary-color').value = template.palette[0] || '#36babc';
+    $('#chart-legend').checked = template.defaults.legend;
+    $('#chart-grid').checked = template.defaults.grid;
+    $('#chart-stacked').checked = template.defaults.stacked;
+    $('#chart-stacked').disabled = !['bar', 'horizontalBar'].includes(template.type);
+    if (includeContent && template.content) {
+      if (template.content.title) $('#chart-title').value = template.content.title;
+      if (template.content.subtitle) $('#chart-subtitle').value = template.content.subtitle;
+      if (template.content.source) $('#chart-source').value = template.content.source;
+      if (template.content.xLabel) $('#chart-x-label').value = template.content.xLabel;
+      if (template.content.yLabel) $('#chart-y-label').value = template.content.yLabel;
+      $('#chart-theme').value = template.content.theme || 'dark';
+      if (template.content.data) $('#chart-data').value = chartDataText(template.content.data);
+    }
+    if (!$('#chart-alt').value.trim()) $('#chart-alt').value = `Gráfico: ${$('#chart-title').value.trim() || template.name}`;
+    chartPreviewReady = false;
+  };
+  const ensureChartCatalog = async () => {
+    if (!chartCatalogPromise) {
+      chartCatalogPromise = chartApi().loadCatalog('chart-templates.json').then(templates => {
+        chartTemplates = templates;
+        populateChartTemplates(templates[0]?.id);
+        applyChartTemplate(templates[0]);
+        return templates;
+      }).catch(error => {
+        chartCatalogPromise = null;
+        setChartStatus(error.message, true);
+        throw error;
+      });
+    }
+    return chartCatalogPromise;
+  };
+  const chartOptions = () => ({
+    title: $('#chart-title').value.trim(),
+    subtitle: $('#chart-subtitle').value.trim(),
+    source: $('#chart-source').value.trim(),
+    xLabel: $('#chart-x-label').value.trim(),
+    yLabel: $('#chart-y-label').value.trim(),
+    theme: $('#chart-theme').value,
+    primaryColor: $('#chart-primary-color').value,
+    legend: $('#chart-legend').checked,
+    grid: $('#chart-grid').checked,
+    stacked: $('#chart-stacked').checked
+  });
+  const renderChartPreview = () => {
+    const template = selectedChartTemplate();
+    if (!template) { setChartStatus('Seleccione una plantilla.', true); return false; }
+    try {
+      const result = chartApi().renderChart(chartCanvas, template, $('#chart-data').value, chartOptions());
+      chartPreviewReady = true;
+      setChartStatus(`${result.data.rows.length} filas · ${result.data.series.length} series · PNG de ${result.width} × ${result.height} px`);
+      return true;
+    } catch (error) {
+      chartPreviewReady = false;
+      setChartStatus(error.message, true);
+      return false;
+    }
+  };
+  const scheduleChartPreview = () => {
+    chartPreviewReady = false;
+    clearTimeout(chartRenderTimer);
+    chartRenderTimer = setTimeout(renderChartPreview, 260);
+  };
+  const openChartDialog = async () => {
+    openDialog('chart-dialog');
+    setChartStatus('Cargando plantillas…');
+    try {
+      await ensureChartCatalog();
+      renderChartPreview();
+    } catch (_) {}
+  };
+  const normalizeGithubJsonUrl = value => {
+    const raw = String(value || '').trim();
+    if (!raw || raw.length > 2048) throw new Error('Añada una URL válida de GitHub.');
+    let url;
+    try { url = new URL(raw); } catch (_) { throw new Error('La URL de la plantilla no es válida.'); }
+    if (url.protocol !== 'https:' || url.username || url.password) throw new Error('La plantilla debe usar una dirección HTTPS de GitHub.');
+    if (url.hostname === 'github.com') {
+      const parts = url.pathname.split('/').filter(Boolean);
+      if (parts.length < 5 || parts[2] !== 'blob') throw new Error('Use un enlace de archivo de GitHub con /blob/.');
+      url = new URL(`https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${parts[3]}/${parts.slice(4).join('/')}`);
+    }
+    if (!['raw.githubusercontent.com', 'gist.githubusercontent.com'].includes(url.hostname)) {
+      throw new Error('Solo se admiten archivos JSON de GitHub o GitHub Gist.');
+    }
+    return url.href;
+  };
+  const importChartCatalog = input => {
+    const imported = chartApi().validateCatalog(input).map(template => ({ ...template, id: uniqueChartId(template.id) }));
+    chartTemplates.push(...imported);
+    const selected = imported[imported.length - 1];
+    populateChartTemplates(selected.id);
+    applyChartTemplate(selected, true);
+    renderChartPreview();
+    setChartStatus(`${imported.length} plantilla${imported.length === 1 ? '' : 's'} importada${imported.length === 1 ? '' : 's'} de forma segura.`);
+  };
+  const readChartJson = text => {
+    if (text.length > chartApi().LIMITS.text) throw new Error('El archivo JSON supera el límite de 500 KB.');
+    try { return JSON.parse(text); } catch (_) { throw new Error('El archivo no contiene JSON válido.'); }
+  };
+
   const insertActions = {
     image: () => { rememberSelection(); bodyImageInput.click(); },
+    chart: () => openChartDialog(),
     video: () => openDialog('video-dialog'),
     quote: () => insertHtml('<blockquote>Escriba aquí la cita.</blockquote><p><br></p>'),
     divider: () => insertHtml('<hr><p><br></p>'),
@@ -761,6 +900,65 @@
     closeDialog($('#special-dialog'));
     insertHtml(escapeHtml(button.textContent));
   }));
+
+  chartTemplateSelect.addEventListener('change', () => {
+    applyChartTemplate(selectedChartTemplate(), false);
+    renderChartPreview();
+  });
+  $('#chart-preview-button').addEventListener('click', renderChartPreview);
+  $$('#chart-form input:not([type="file"]), #chart-form textarea, #chart-form select').forEach(control => {
+    if (control === chartTemplateSelect) return;
+    control.addEventListener(control.matches('select,input[type="checkbox"],input[type="color"]') ? 'change' : 'input', scheduleChartPreview);
+  });
+  $('#chart-title').addEventListener('input', () => {
+    const alt = $('#chart-alt');
+    if (!alt.dataset.edited) alt.value = `Gráfico: ${$('#chart-title').value.trim()}`;
+  });
+  $('#chart-alt').addEventListener('input', () => { $('#chart-alt').dataset.edited = 'true'; });
+  $('#chart-template-file').addEventListener('change', async event => {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      if (file.size > chartApi().LIMITS.text) throw new Error('El archivo JSON supera el límite de 500 KB.');
+      importChartCatalog(readChartJson(await file.text()));
+    } catch (error) { setChartStatus(error.message, true); }
+    event.target.value = '';
+  });
+  $('#chart-template-url-button').addEventListener('click', async () => {
+    const button = $('#chart-template-url-button');
+    let timeout;
+    button.disabled = true;
+    setChartStatus('Descargando y validando la plantilla…');
+    try {
+      const controller = new AbortController();
+      timeout = setTimeout(() => controller.abort(), 10000);
+      const response = await fetch(normalizeGithubJsonUrl($('#chart-template-url').value), { signal: controller.signal, cache: 'no-store' });
+      if (!response.ok) throw new Error(`GitHub respondió con el error ${response.status}.`);
+      const length = Number(response.headers.get('content-length'));
+      if (length && length > chartApi().LIMITS.text) throw new Error('El archivo JSON supera el límite de 500 KB.');
+      importChartCatalog(readChartJson(await response.text()));
+    } catch (error) {
+      setChartStatus(error.name === 'AbortError' ? 'GitHub tardó demasiado en responder.' : error.message, true);
+    } finally {
+      clearTimeout(timeout);
+      button.disabled = false;
+    }
+  });
+  $('#chart-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (!chartPreviewReady && !renderChartPreview()) return;
+    const dataUrl = chartCanvas.toDataURL('image/png');
+    if (dataUrl.length > 7 * 1024 * 1024) { setChartStatus('El PNG generado supera el límite de 5 MB. Reduzca los datos.', true); return; }
+    const id = `chart-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
+    const title = $('#chart-title').value.trim();
+    const source = $('#chart-source').value.trim();
+    const caption = source ? `${title}. Fuente: ${source}.` : title;
+    const alt = $('#chart-alt').value.trim();
+    if (!alt) { $('#chart-alt').reportValidity(); return; }
+    closeDialog(chartDialog);
+    insertHtml(`<figure class="article-media" data-image-id="${escapeHtml(id)}"><img src="${dataUrl}" data-image-id="${escapeHtml(id)}" alt="${escapeHtml(alt)}"><figcaption>${escapeHtml(caption)}</figcaption></figure><p><br></p>`);
+    setChartStatus('Gráfico insertado en el artículo.');
+  });
 
   $('#spellcheck-button').addEventListener('click', event => {
     const enabled = editor.spellcheck = !editor.spellcheck;
