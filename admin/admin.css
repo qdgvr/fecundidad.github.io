@@ -331,3 +331,5 @@ dialog h2 { margin: 0 0 24px; font: 700 35px/1.05 var(--serif); }
 }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+.rich-editor-canvas .interactive-chart-placeholder{display:grid;gap:5px;min-height:180px;place-content:center;margin:10px 0;padding:25px;border:1px solid #3b3b3b;background:#080808;color:#eee;text-align:center}
+.rich-editor-canvas .interactive-chart-placeholder strong{font-size:18px}.rich-editor-canvas .interactive-chart-placeholder span{color:#999;font-size:12px}

@@ -3,7 +3,7 @@
 
   const TYPES = new Set(['bar', 'horizontalBar', 'line', 'area', 'scatter', 'donut']);
   const DEFAULT_PALETTE = ['#36babc', '#75a8e8', '#e9b44c', '#ef8354', '#9b87d1', '#8fcf72'];
-  const LIMITS = { templates: 40, rows: 250, series: 8, text: 500000 };
+  const LIMITS = { templates: 40, rows: 250, series: 8, text: 500000, spec: 180000 };
 
   const cleanText = (value, length = 180) => String(value ?? '').trim().slice(0, length);
   const finite = value => {
@@ -82,7 +82,24 @@
     });
   }
 
+  function normalizeDataModel(input) {
+    if (!input || typeof input !== 'object' || Array.isArray(input)) return null;
+    if (!Array.isArray(input.series) || !Array.isArray(input.rows)) return null;
+    const series = input.series.slice(0, LIMITS.series).map(item => cleanText(item, 80)).filter(Boolean);
+    if (!series.length || !input.rows.length || input.rows.length > LIMITS.rows) throw new Error('El modelo de datos del gráfico no es válido.');
+    return {
+      labelKey: cleanText(input.labelKey || 'Etiqueta', 80),
+      series,
+      rows: input.rows.map((row, index) => ({
+        label: cleanText(row?.label ?? `Fila ${index + 1}`, 80),
+        values: Object.fromEntries(series.map(key => [key, finite(row?.values?.[key])]))
+      }))
+    };
+  }
+
   function parseData(input) {
+    const normalized = normalizeDataModel(input);
+    if (normalized) return normalized;
     let rows = input;
     if (typeof input === 'string') {
       const text = input.trim();
@@ -113,6 +130,78 @@
         values: Object.fromEntries(series.map(key => [key, finite(row[key])]))
       }))
     };
+  }
+
+  function sanitizeOptions(input = {}) {
+    return {
+      title: cleanText(input.title, 180),
+      subtitle: cleanText(input.subtitle, 260),
+      source: cleanText(input.source, 220),
+      xLabel: cleanText(input.xLabel, 100),
+      yLabel: cleanText(input.yLabel, 100),
+      theme: input.theme === 'light' ? 'light' : 'dark',
+      primaryColor: color(input.primaryColor, DEFAULT_PALETTE[0]),
+      legend: input.legend !== false,
+      grid: input.grid !== false,
+      stacked: Boolean(input.stacked)
+    };
+  }
+
+  function createSpec(templateInput, rawData, options = {}) {
+    const template = validateTemplate(templateInput);
+    const data = parseData(rawData);
+    const spec = {
+      version: 1,
+      template: {
+        id: template.id,
+        name: template.name,
+        type: template.type,
+        palette: template.palette,
+        defaults: template.defaults
+      },
+      data,
+      options: sanitizeOptions(options)
+    };
+    const encoded = encodeSpec(spec);
+    if (encoded.length > LIMITS.spec) throw new Error('El gráfico contiene demasiados datos para publicarse de forma interactiva.');
+    return spec;
+  }
+
+  function validateSpec(input) {
+    if (!input || typeof input !== 'object' || Array.isArray(input) || input.version !== 1) throw new Error('La especificación interactiva no es válida.');
+    const template = validateTemplate(input.template || {});
+    const data = parseData(input.data);
+    return {
+      version: 1,
+      template: {
+        id: template.id,
+        name: template.name,
+        type: template.type,
+        palette: template.palette,
+        defaults: template.defaults
+      },
+      data,
+      options: sanitizeOptions(input.options)
+    };
+  }
+
+  function encodeSpec(input) {
+    const bytes = new TextEncoder().encode(JSON.stringify(input));
+    let binary = '';
+    bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+  }
+
+  function decodeSpec(value) {
+    const encoded = String(value || '').trim();
+    if (!encoded || encoded.length > LIMITS.spec) throw new Error('La especificación interactiva no es válida.');
+    const padded = encoded.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - encoded.length % 4) % 4);
+    let binary;
+    try { binary = atob(padded); } catch (_) { throw new Error('La especificación interactiva no se puede leer.'); }
+    const bytes = Uint8Array.from(binary, character => character.charCodeAt(0));
+    let parsed;
+    try { parsed = JSON.parse(new TextDecoder().decode(bytes)); } catch (_) { throw new Error('La especificación interactiva no contiene JSON válido.'); }
+    return validateSpec(parsed);
   }
 
   const roundedRect = (ctx, x, y, width, height, radius) => {
@@ -157,6 +246,7 @@
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
+    const hitAreas = [];
     const theme = options.theme === 'light' ? 'light' : 'dark';
     const colors = theme === 'light'
       ? { bg: '#f7f4ed', ink: '#111111', muted: '#5f5c56', grid: '#d6d1c8' }
@@ -247,6 +337,7 @@
           ctx.fillStyle = palette[seriesIndex % palette.length];
           roundedRect(ctx, px, py, Math.max(2, barWidth - 5), Math.max(2, h), 7);
           ctx.fill();
+          hitAreas.push({ shape: 'rect', x: px, y: py, width: Math.max(2, barWidth - 5), height: Math.max(2, h), label: row.label, series, value, color: palette[seriesIndex % palette.length] });
         });
       });
     } else if (template.type === 'horizontalBar') {
@@ -270,6 +361,7 @@
           ctx.fillStyle = palette[seriesIndex % palette.length];
           roundedRect(ctx, px, py, Math.max(2, Math.abs(x(nextValue) - x(baseValue))), Math.max(2, barHeight - 4), 7);
           ctx.fill();
+          hitAreas.push({ shape: 'rect', x: px, y: py, width: Math.max(2, Math.abs(x(nextValue) - x(baseValue))), height: Math.max(2, barHeight - 4), label: row.label, series, value, color: palette[seriesIndex % palette.length] });
         });
       });
       ctx.textAlign = 'left';
@@ -277,7 +369,9 @@
       data.series.forEach((series, seriesIndex) => {
         const points = visibleRows.map((row, index) => ({
           x: chart.left + (visibleRows.length === 1 ? plotWidth / 2 : index * plotWidth / (visibleRows.length - 1)),
-          y: Number.isFinite(row.values[series]) ? y(row.values[series]) : null
+          y: Number.isFinite(row.values[series]) ? y(row.values[series]) : null,
+          label: row.label,
+          value: row.values[series]
         })).filter(point => point.y !== null);
         if (!points.length) return;
         if (template.type === 'area') {
@@ -303,6 +397,7 @@
           ctx.beginPath(); ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
           ctx.fillStyle = palette[seriesIndex % palette.length]; ctx.fill();
           ctx.strokeStyle = colors.bg; ctx.lineWidth = 3; ctx.stroke();
+          hitAreas.push({ shape: 'circle', x: point.x, y: point.y, radius: 18, label: point.label, series, value: point.value, color: palette[seriesIndex % palette.length] });
         });
       });
     } else if (template.type === 'scatter') {
@@ -313,12 +408,15 @@
         const xv = row.values[xSeries];
         const yv = row.values[ySeries];
         if (!Number.isFinite(xv) || !Number.isFinite(yv)) return;
+        const px = scale(xv, xMin, xMax, chart.left, chart.right);
+        const py = scale(yv, yMin, yMax, chart.bottom, chart.top);
         ctx.beginPath();
-        ctx.arc(scale(xv, xMin, xMax, chart.left, chart.right), scale(yv, yMin, yMax, chart.bottom, chart.top), 12, 0, Math.PI * 2);
+        ctx.arc(px, py, 12, 0, Math.PI * 2);
         ctx.fillStyle = palette[0];
         ctx.globalAlpha = .78;
         ctx.fill();
         ctx.globalAlpha = 1;
+        hitAreas.push({ shape: 'circle', x: px, y: py, radius: 22, label: row.label, series: `${xSeries} / ${ySeries}`, value: yv, xSeries, xValue: xv, color: palette[0] });
       });
     } else if (template.type === 'donut') {
       const series = data.series[0];
@@ -336,6 +434,7 @@
         ctx.strokeStyle = palette[index % palette.length];
         ctx.lineWidth = 120;
         ctx.stroke();
+        hitAreas.push({ shape: 'arc', x: cx, y: cy, innerRadius: radius - 60, outerRadius: radius + 60, startAngle: angle, endAngle: next, label: visibleRows[index].label, series, value, color: palette[index % palette.length] });
         angle = next;
       });
       ctx.fillStyle = colors.ink;
@@ -387,7 +486,7 @@
     if (options.yLabel && template.type !== 'donut') {
       ctx.save(); ctx.translate(45, (chart.top + chart.bottom) / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.fillText(cleanText(options.yLabel, 100), 0, 0); ctx.restore();
     }
-    return { data, width, height };
+    return { data, width, height, hitAreas, chart, templateType: template.type };
   }
 
   async function loadCatalog(url = 'chart-templates.json') {
@@ -396,5 +495,5 @@
     return validateCatalog(await response.json());
   }
 
-  window.ComunicacionCharts = { LIMITS, loadCatalog, parseData, renderChart, validateCatalog, validateTemplate };
+  window.ComunicacionCharts = { LIMITS, createSpec, decodeSpec, encodeSpec, loadCatalog, parseData, renderChart, sanitizeOptions, validateCatalog, validateSpec, validateTemplate };
 })();

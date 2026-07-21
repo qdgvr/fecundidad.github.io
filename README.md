@@ -23,11 +23,11 @@ El editor incluye un creador de gráficos en `admin/`. El botón **Gráfico** pe
 - importar un catálogo JSON desde un archivo público de GitHub o GitHub Gist;
 - previsualizar el resultado antes de insertarlo en el artículo.
 
-El gráfico se renderiza en el navegador y se inserta como PNG de 1600 × 900 px. El artículo publicado no ejecuta código procedente de la plantilla ni depende de un servicio gráfico externo.
+El gráfico se renderiza en el navegador y se inserta como un componente interactivo, no como PNG. El artículo guarda únicamente una especificación JSON validada: el lector puede explorar valores con ratón o tacto, abrir la tabla de datos y usar el gráfico en pantallas móviles. El artículo publicado no ejecuta código procedente de la plantilla ni depende de un servicio gráfico externo.
 
 ### Plantillas JSON
 
-Las plantillas integradas están en `admin/chart-templates.json`. `admin/chart-template.example.json` contiene un ejemplo descargable e importable. Una plantilla admite esta estructura básica:
+Las plantillas integradas están en `admin/chart-templates.json`. `admin/chart-template.example.json` contiene un ejemplo descargable e importable. El renderizador compartido vive en `chart-renderer.js` y `interactive-chart.js` monta los componentes publicados. Una plantilla admite esta estructura básica:
 
 ```json
 {

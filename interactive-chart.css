@@ -1,0 +1,18 @@
+.post-body .interactive-chart{width:min(1120px,calc(100vw - 40px));margin:2.4em 0 2.8em 50%;transform:translateX(-50%)}
+.interactive-chart-shell{position:relative;color:#f7f4ed;font-family:Arial,sans-serif}
+.interactive-chart-stage{position:relative;width:100%;overflow:hidden;background:#000;touch-action:pan-y}
+.interactive-chart-canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000;outline:none}
+.interactive-chart-canvas:focus-visible{box-shadow:inset 0 0 0 3px #36babc}
+.interactive-chart-tooltip{position:absolute;z-index:4;min-width:150px;max-width:min(280px,75vw);padding:10px 12px;border:1px solid #454545;border-radius:5px;background:rgba(12,12,12,.96);box-shadow:0 8px 32px rgba(0,0,0,.42);font:13px/1.35 Arial,sans-serif;pointer-events:none;transform:translate(12px,calc(-100% - 12px))}
+.interactive-chart-tooltip strong,.interactive-chart-tooltip span{display:block}.interactive-chart-tooltip span{margin-top:3px;color:#cac6bf}
+.interactive-chart-controls{display:flex;justify-content:flex-end;margin-top:10px}
+.interactive-chart-data-button{appearance:none;padding:8px 13px;border:1px solid #3a3a3a;border-radius:999px;background:#090909;color:#dedad3;font:700 12px/1 Arial,sans-serif;cursor:pointer}
+.interactive-chart-data-button:hover,.interactive-chart-data-button:focus-visible{border-color:#36babc;color:#fff;outline:none}
+.interactive-chart-data{margin-top:14px;border:1px solid #303030;background:#080808}
+.interactive-chart-data-scroll{max-height:420px;overflow:auto}
+.interactive-chart-data table{width:100%;margin:0;border-collapse:collapse;color:#ddd9d2;font:13px/1.4 Arial,sans-serif}
+.interactive-chart-data th,.interactive-chart-data td{padding:9px 11px;border:0;border-bottom:1px solid #242424;text-align:right;white-space:nowrap}
+.interactive-chart-data th:first-child{text-align:left}.interactive-chart-data thead th{position:sticky;top:0;background:#111;color:#fff}
+.interactive-chart-error{padding:20px;border-left:3px solid #c45a54;background:#120b0b;color:#e6d8d5;font:14px/1.5 Arial,sans-serif}
+@media(max-width:640px){.post-body .interactive-chart{width:100%;margin:2em 0;transform:none}.interactive-chart-tooltip{font-size:12px}.interactive-chart-controls{justify-content:flex-start}.interactive-chart-data-scroll{max-height:330px}}
+@media(prefers-reduced-motion:reduce){.interactive-chart-tooltip{transition:none}}

@@ -12,7 +12,7 @@
   const previewKey = 'article-preview-v3';
   const allowedTags = new Set(['P','BR','H2','H3','H4','STRONG','B','EM','I','U','S','STRIKE','BLOCKQUOTE','UL','OL','LI','A','HR','PRE','CODE','SPAN','FONT','DIV','FIGURE','IMG','FIGCAPTION','TABLE','THEAD','TBODY','TR','TH','TD','SUP','SUB']);
   const blockedTags = new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','TEXTAREA','SELECT','SVG','MATH','META','LINK','BASE','TEMPLATE']);
-  const allowedClasses = new Set(['article-media','article-video','article-file','article-table']);
+  const allowedClasses = new Set(['article-media','article-video','article-file','article-table','interactive-chart','interactive-chart-placeholder']);
   const imageTypes = new Set(['image/png','image/jpeg','image/webp','image/gif']);
   let session = sessionStorage.getItem(sessionKey) || '';
   let heroData = null;
@@ -73,6 +73,15 @@
   const safeImageSrc = value => {
     const src = String(value || '').trim();
     return /^(data:image\/(?:png|jpeg|webp|gif);base64,|https?:\/\/|article-image:\/\/|assets\/articles\/|\.\.\/assets\/articles\/)/i.test(src) ? src : '';
+  };
+  const safeChartSpec = value => {
+    const encoded = String(value || '').trim();
+    if (!/^[A-Za-z0-9_-]+$/.test(encoded) || encoded.length > 180000) return '';
+    try {
+      const charts = window.ComunicacionCharts;
+      if (!charts) return '';
+      return charts.encodeSpec(charts.decodeSpec(encoded));
+    } catch (_) { return ''; }
   };
   const safeStyle = value => String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
     const separator = item.indexOf(':');
@@ -167,6 +176,13 @@
         if (values['data-image-id']) node.setAttribute('data-image-id', values['data-image-id'].replace(/[^a-z0-9-]/gi, '').slice(0, 80));
         const videoUrl = safeHref(values['data-video-url']);
         if (videoUrl) node.setAttribute('data-video-url', videoUrl);
+        const chartSpec = safeChartSpec(values['data-chart-spec']);
+        if (classNames.includes('interactive-chart') && chartSpec) {
+          node.setAttribute('data-chart-spec', chartSpec);
+          const chartId = String(values['data-chart-id'] || '').replace(/[^a-z0-9-]/gi, '').slice(0, 80);
+          if (chartId) node.setAttribute('data-chart-id', chartId);
+          node.setAttribute('aria-label', String(values['aria-label'] || 'Gráfico interactivo').slice(0, 240));
+        }
       }
       if (node.tagName === 'FONT') {
         const face = String(values.face || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80);
@@ -207,7 +223,7 @@
     const media = editor.querySelectorAll('figure, table, pre').length;
     editorCount.textContent = `${words.toLocaleString('es-ES')} palabras · ${plain.length.toLocaleString('es-ES')} caracteres`;
     mediaCount.textContent = `${media.toLocaleString('es-ES')} elementos multimedia`;
-    editor.dataset.empty = plain || editor.querySelector('img,table') ? 'false' : 'true';
+    editor.dataset.empty = plain || editor.querySelector('img,table,.interactive-chart') ? 'false' : 'true';
     bodyHtml.setCustomValidity(plain ? '' : 'Escriba el cuerpo del artículo.');
     return html;
   };
@@ -703,7 +719,7 @@
     try {
       const result = chartApi().renderChart(chartCanvas, template, $('#chart-data').value, chartOptions());
       chartPreviewReady = true;
-      setChartStatus(`${result.data.rows.length} filas · ${result.data.series.length} series · PNG de ${result.width} × ${result.height} px`);
+      setChartStatus(`${result.data.rows.length} filas · ${result.data.series.length} series · vista previa interactiva`);
       return true;
     } catch (error) {
       chartPreviewReady = false;
@@ -947,17 +963,19 @@
   $('#chart-form').addEventListener('submit', event => {
     event.preventDefault();
     if (!chartPreviewReady && !renderChartPreview()) return;
-    const dataUrl = chartCanvas.toDataURL('image/png');
-    if (dataUrl.length > 7 * 1024 * 1024) { setChartStatus('El PNG generado supera el límite de 5 MB. Reduzca los datos.', true); return; }
-    const id = `chart-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
-    const title = $('#chart-title').value.trim();
-    const source = $('#chart-source').value.trim();
-    const caption = source ? `${title}. Fuente: ${source}.` : title;
-    const alt = $('#chart-alt').value.trim();
-    if (!alt) { $('#chart-alt').reportValidity(); return; }
-    closeDialog(chartDialog);
-    insertHtml(`<figure class="article-media" data-image-id="${escapeHtml(id)}"><img src="${dataUrl}" data-image-id="${escapeHtml(id)}" alt="${escapeHtml(alt)}"><figcaption>${escapeHtml(caption)}</figcaption></figure><p><br></p>`);
-    setChartStatus('Gráfico insertado en el artículo.');
+    try {
+      const id = `chart-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
+      const title = $('#chart-title').value.trim();
+      const source = $('#chart-source').value.trim();
+      const caption = source ? `${title}. Fuente: ${source}.` : title;
+      const alt = $('#chart-alt').value.trim();
+      if (!alt) { $('#chart-alt').reportValidity(); return; }
+      const spec = chartApi().createSpec(selectedChartTemplate(), $('#chart-data').value, chartOptions());
+      const encoded = chartApi().encodeSpec(spec);
+      closeDialog(chartDialog);
+      insertHtml(`<figure class="interactive-chart" data-chart-id="${escapeHtml(id)}" data-chart-spec="${encoded}" aria-label="${escapeHtml(alt)}"><div class="interactive-chart-placeholder"><strong>${escapeHtml(title)}</strong><span>Gráfico interactivo · disponible en la vista previa y en el artículo publicado</span></div><figcaption>${escapeHtml(caption)}</figcaption></figure><p><br></p>`);
+      setChartStatus('Gráfico interactivo insertado en el artículo.');
+    } catch (error) { setChartStatus(error.message, true); }
   });
 
   $('#spellcheck-button').addEventListener('click', event => {

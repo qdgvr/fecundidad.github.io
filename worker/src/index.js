@@ -258,11 +258,70 @@ function sanitizeHref(value) {
   return /^(https?:\/\/|mailto:|#)/i.test(href) ? href : '';
 }
 
+function sanitizeChartSpec(value) {
+  const encoded = String(value || '').trim();
+  if (!/^[A-Za-z0-9_-]+$/.test(encoded) || encoded.length > 180000) fail(400, 'El gráfico interactivo no contiene una especificación válida.');
+  let input;
+  try { input = JSON.parse(decoder.decode(base64UrlToBytes(encoded))); }
+  catch (_) { fail(400, 'El gráfico interactivo no contiene JSON válido.'); }
+  const types = new Set(['bar', 'horizontalBar', 'line', 'area', 'scatter', 'donut']);
+  if (!input || input.version !== 1 || !input.template || !input.data || !types.has(input.template.type)) fail(400, 'El gráfico interactivo no tiene una estructura válida.');
+  const cleanChartText = (item, max) => String(item ?? '').trim().slice(0, max);
+  const defaultPalette = ['#36babc', '#75a8e8', '#e9b44c', '#ef8354', '#9b87d1', '#8fcf72'];
+  const palette = Array.isArray(input.template.palette)
+    ? input.template.palette.slice(0, 8).map((item, index) => /^#[0-9a-f]{6}$/i.test(String(item || '')) ? String(item) : defaultPalette[index % defaultPalette.length])
+    : defaultPalette;
+  const series = Array.isArray(input.data.series) ? input.data.series.slice(0, 8).map(item => cleanChartText(item, 80)).filter(Boolean) : [];
+  if (!series.length || new Set(series).size !== series.length) fail(400, 'Las series del gráfico interactivo no son válidas.');
+  if (!Array.isArray(input.data.rows) || !input.data.rows.length || input.data.rows.length > 250) fail(400, 'Las filas del gráfico interactivo no son válidas.');
+  let numericValues = 0;
+  const rows = input.data.rows.map((row, index) => ({
+    label: cleanChartText(row?.label ?? `Fila ${index + 1}`, 80),
+    values: Object.fromEntries(series.map(key => {
+      const value = row?.values?.[key];
+      if (typeof value === 'number' && Number.isFinite(value)) { numericValues += 1; return [key, value]; }
+      return [key, null];
+    }))
+  }));
+  if (!numericValues) fail(400, 'El gráfico interactivo no contiene valores numéricos.');
+  const options = input.options && typeof input.options === 'object' ? input.options : {};
+  const canonical = {
+    version: 1,
+    template: {
+      id: cleanChartText(input.template.id || 'interactive-chart', 60).replace(/[^a-z0-9-]/gi, '-').toLowerCase(),
+      name: cleanChartText(input.template.name || 'Gráfico interactivo', 80),
+      type: input.template.type,
+      palette,
+      defaults: {
+        legend: input.template.defaults?.legend !== false,
+        grid: input.template.defaults?.grid !== false,
+        stacked: Boolean(input.template.defaults?.stacked)
+      }
+    },
+    data: { labelKey: cleanChartText(input.data.labelKey || 'Etiqueta', 80), series, rows },
+    options: {
+      title: cleanChartText(options.title, 180),
+      subtitle: cleanChartText(options.subtitle, 260),
+      source: cleanChartText(options.source, 220),
+      xLabel: cleanChartText(options.xLabel, 100),
+      yLabel: cleanChartText(options.yLabel, 100),
+      theme: options.theme === 'light' ? 'light' : 'dark',
+      primaryColor: /^#[0-9a-f]{6}$/i.test(String(options.primaryColor || '')) ? options.primaryColor : defaultPalette[0],
+      legend: options.legend !== false,
+      grid: options.grid !== false,
+      stacked: Boolean(options.stacked)
+    }
+  };
+  const result = bytesToBase64Url(encoder.encode(JSON.stringify(canonical)));
+  if (result.length > 180000) fail(400, 'El gráfico interactivo contiene demasiados datos.');
+  return result;
+}
+
 async function sanitizeBodyHtml(value) {
-  const html = cleanText(value, 120000, true);
+  const html = cleanText(value, 2000000, true);
   const allowed = new Set(['p', 'br', 'h2', 'h3', 'h4', 'strong', 'b', 'em', 'i', 'u', 's', 'strike', 'blockquote', 'ul', 'ol', 'li', 'a', 'hr', 'pre', 'code', 'span', 'font', 'div', 'figure', 'img', 'figcaption', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'sup', 'sub']);
   const blocked = new Set(['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'svg', 'math', 'meta', 'link', 'base', 'template']);
-  const allowedClasses = new Set(['article-media', 'article-video', 'article-file', 'article-table']);
+  const allowedClasses = new Set(['article-media', 'article-video', 'article-file', 'article-table', 'interactive-chart', 'interactive-chart-placeholder']);
   const handler = {
     element(element) {
       const tag = element.tagName.toLowerCase();
@@ -308,6 +367,11 @@ async function sanitizeBodyHtml(value) {
         if (/^[a-z0-9-]{1,80}$/i.test(values['data-image-id'] || '')) element.setAttribute('data-image-id', values['data-image-id']);
         const videoUrl = sanitizeHref(values['data-video-url']);
         if (videoUrl && /(youtube\.com|youtu\.be|vimeo\.com)/i.test(videoUrl)) element.setAttribute('data-video-url', videoUrl);
+        if (classes.includes('interactive-chart')) {
+          element.setAttribute('data-chart-spec', sanitizeChartSpec(values['data-chart-spec']));
+          if (/^[a-z0-9-]{1,80}$/i.test(values['data-chart-id'] || '')) element.setAttribute('data-chart-id', values['data-chart-id']);
+          element.setAttribute('aria-label', cleanChartTextAttribute(values['aria-label'], 240) || 'Gráfico interactivo');
+        }
       }
       if (tag === 'th' || tag === 'td') {
         if (/^[1-9][0-9]?$/.test(values.colspan || '')) element.setAttribute('colspan', values.colspan);
@@ -326,6 +390,10 @@ async function sanitizeBodyHtml(value) {
   const plainText = sanitized.replace(/<[^>]*>/g, '').replace(/&nbsp;|&#160;/gi, ' ').trim();
   if (!plainText) fail(400, 'El cuerpo del artículo está vacío.');
   return sanitized;
+}
+
+function cleanChartTextAttribute(value, max) {
+  return String(value || '').replace(/[<>]/g, '').trim().slice(0, max);
 }
 
 function validateImage(image) {
