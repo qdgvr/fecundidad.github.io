@@ -6,17 +6,23 @@
   <title>Redacción | Comunicación</title>
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="data:,">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Saltar al editor</a>
 
   <header class="admin-header">
     <a class="admin-brand" href="../main.html"><span>Comunicación</span><em>Veritas lux mea</em></a>
-    <div class="admin-account">
-      <span id="connection-state">Redacción</span>
-      <button id="logout-button" type="button" hidden>Cerrar sesión</button>
+    <div class="admin-header-actions" aria-label="Acciones del editor">
+      <button class="header-action" id="header-save-button" type="button" hidden>Guardar</button>
+      <button class="header-action" id="header-preview-button" type="button" hidden>Vista previa</button>
+      <button class="header-action header-action-primary" id="header-publish-button" type="button" hidden>Publicar</button>
+      <div class="admin-account">
+        <span id="connection-state">Redacción</span>
+        <button id="logout-button" type="button" hidden>Cerrar sesión</button>
+      </div>
     </div>
   </header>
 
@@ -31,9 +37,11 @@
 
     <section class="editor-shell" id="editor-shell" hidden>
       <aside class="editor-sidebar">
-        <p class="eyebrow">Nueva publicación</p>
-        <h1>Editor de reportajes</h1>
-        <p>Complete los datos básicos y escriba el artículo en un único lienzo. La publicación aplica automáticamente el diseño editorial de Comunicación.</p>
+        <div>
+          <p class="eyebrow">Nueva publicación</p>
+          <h1>Editor de reportajes</h1>
+          <p>Redacte, inserte contenido multimedia y publique con la plantilla de Comunicación.</p>
+        </div>
         <nav aria-label="Secciones del formulario">
           <a href="#datos-basicos">Datos básicos</a>
           <a href="#contenido">Cuerpo del artículo</a>
@@ -49,7 +57,7 @@
               <input name="title" type="text" minlength="10" maxlength="180" required placeholder="Título del reportaje">
             </label>
             <label class="field">Slug
-              <input name="slug" type="text" pattern="[a-z0-9][a-z0-9-]*" required placeholder="titulo-del-reportaje">
+              <input name="slug" type="text" required placeholder="titulo-del-reportaje">
               <small>Será parte de la URL y no podrá modificarse después.</small>
             </label>
             <label class="field">Sección
@@ -78,74 +86,97 @@
 
         <section class="form-section rich-section" id="contenido">
           <div class="section-title"><span>02</span><div><p>Redacción</p><h2>Cuerpo del artículo</h2></div></div>
-          <p class="section-help">Escriba con libertad. Puede combinar encabezados, párrafos, listas, citas, enlaces y estilos sin depender de una estructura fija.</p>
+          <p class="section-help">Combine texto, imágenes, vídeos enlazados, tablas, citas, listas y código en un solo lienzo.</p>
 
           <div class="rich-editor" data-editor-root>
-            <div class="rich-toolbar" role="toolbar" aria-label="Herramientas de formato del artículo">
-              <div class="toolbar-group toolbar-selects">
-                <label class="toolbar-label">Bloque
-                  <select data-editor-select="formatBlock" aria-label="Tipo de bloque">
-                    <option value="p">Párrafo</option>
-                    <option value="h2">Título</option>
-                    <option value="h3">Subtítulo</option>
-                    <option value="h4">Encabezado menor</option>
-                    <option value="blockquote">Cita</option>
-                    <option value="pre">Código</option>
-                  </select>
-                </label>
-                <label class="toolbar-label">Fuente
-                  <select data-editor-select="fontName" aria-label="Familia tipográfica">
-                    <option value="Arial">Sans</option>
-                    <option value="Georgia">Serif</option>
-                    <option value="Courier New">Monoespaciada</option>
-                  </select>
-                </label>
-                <label class="toolbar-label">Tamaño
-                  <select data-editor-select="fontSize" aria-label="Tamaño del texto">
-                    <option value="2">Pequeño</option>
-                    <option value="3" selected>Normal</option>
-                    <option value="4">Grande</option>
-                    <option value="5">Muy grande</option>
-                  </select>
-                </label>
+            <div class="rich-toolbar" role="toolbar" aria-label="Herramientas del artículo">
+              <div class="rich-toolbar-row rich-toolbar-insert" aria-label="Insertar contenido">
+                <button type="button" data-insert-action="image" title="Insertar imagen"><span class="tool-icon tool-icon-image" aria-hidden="true"></span><span>Imagen</span></button>
+                <button type="button" data-insert-action="video" title="Insertar vídeo"><span class="tool-icon tool-icon-video" aria-hidden="true"></span><span>Vídeo</span></button>
+                <button type="button" data-insert-action="quote" title="Insertar cita"><span class="tool-icon tool-icon-quote" aria-hidden="true"></span><span>Cita</span></button>
+                <button type="button" data-insert-action="divider" title="Insertar separador"><span class="tool-icon tool-icon-divider" aria-hidden="true"></span><span>Separador</span></button>
+                <button type="button" data-insert-action="link" title="Insertar enlace"><span class="tool-icon tool-icon-link" aria-hidden="true"></span><span>Enlace</span></button>
+                <button type="button" data-insert-action="file" title="Insertar archivo enlazado"><span class="tool-icon tool-icon-file" aria-hidden="true"></span><span>Archivo</span></button>
+                <button type="button" data-insert-action="code" title="Insertar código"><span class="tool-icon tool-icon-code" aria-hidden="true"></span><span>Código</span></button>
+                <button type="button" data-insert-action="table" title="Insertar tabla"><span class="tool-icon tool-icon-table" aria-hidden="true"></span><span>Tabla</span></button>
+                <button type="button" data-insert-action="special" title="Insertar carácter especial"><span class="tool-icon tool-icon-special" aria-hidden="true">Ω</span><span>Símbolo</span></button>
               </div>
 
-              <div class="toolbar-group" aria-label="Historial">
-                <button type="button" data-editor-command="undo" title="Deshacer" aria-label="Deshacer">↶</button>
-                <button type="button" data-editor-command="redo" title="Rehacer" aria-label="Rehacer">↷</button>
-              </div>
-              <div class="toolbar-group" aria-label="Énfasis">
-                <button type="button" data-editor-command="bold" title="Negrita" aria-label="Negrita"><strong>B</strong></button>
-                <button type="button" data-editor-command="italic" title="Cursiva" aria-label="Cursiva"><em>I</em></button>
-                <button type="button" data-editor-command="underline" title="Subrayado" aria-label="Subrayado"><u>U</u></button>
-                <button type="button" data-editor-command="strikeThrough" title="Tachado" aria-label="Tachado"><s>S</s></button>
-              </div>
-              <div class="toolbar-group color-tools" aria-label="Color">
-                <label title="Color del texto" aria-label="Color del texto"><span>A</span><input type="color" value="#f5f2eb" data-editor-color="foreColor"></label>
-                <label title="Color de resaltado" aria-label="Color de resaltado"><span class="marker-icon">A</span><input type="color" value="#315f61" data-editor-color="hiliteColor"></label>
-              </div>
-              <div class="toolbar-group" aria-label="Alineación">
-                <button type="button" data-editor-command="justifyLeft" title="Alinear a la izquierda" aria-label="Alinear a la izquierda">≡</button>
-                <button type="button" data-editor-command="justifyCenter" title="Centrar" aria-label="Centrar">≣</button>
-                <button type="button" data-editor-command="justifyRight" title="Alinear a la derecha" aria-label="Alinear a la derecha">≡</button>
-                <button type="button" data-editor-command="justifyFull" title="Justificar" aria-label="Justificar">☰</button>
-              </div>
-              <div class="toolbar-group" aria-label="Listas y citas">
-                <button type="button" data-editor-command="insertUnorderedList" title="Lista con viñetas" aria-label="Lista con viñetas">•≡</button>
-                <button type="button" data-editor-command="insertOrderedList" title="Lista numerada" aria-label="Lista numerada">1≡</button>
-                <button type="button" data-editor-command="formatBlock" data-editor-value="blockquote" title="Cita" aria-label="Insertar cita">“”</button>
-                <button type="button" data-editor-command="insertHorizontalRule" title="Separador" aria-label="Insertar separador">―</button>
-              </div>
-              <div class="toolbar-group" aria-label="Enlaces y limpieza">
-                <button type="button" id="link-button" title="Insertar enlace" aria-label="Insertar enlace">↗</button>
-                <button type="button" data-editor-command="unlink" title="Quitar enlace" aria-label="Quitar enlace">⌁</button>
-                <button type="button" data-editor-command="removeFormat" title="Limpiar formato" aria-label="Limpiar formato">Tx</button>
+              <div class="rich-toolbar-row rich-toolbar-format" aria-label="Formato del texto">
+                <div class="toolbar-group toolbar-selects">
+                  <label class="toolbar-label">Bloque
+                    <select data-editor-select="formatBlock" aria-label="Tipo de bloque">
+                      <option value="p">Párrafo</option><option value="h2">Título</option><option value="h3">Subtítulo</option><option value="h4">Encabezado menor</option><option value="blockquote">Cita</option><option value="pre">Código</option>
+                    </select>
+                  </label>
+                  <label class="toolbar-label">Fuente
+                    <select data-editor-select="fontName" aria-label="Familia tipográfica">
+                      <option value="Arial">Sans</option><option value="Georgia">Serif</option><option value="Courier New">Monoespaciada</option>
+                    </select>
+                  </label>
+                  <label class="toolbar-label">Tamaño
+                    <select data-editor-select="fontSize" aria-label="Tamaño del texto">
+                      <option value="2">Pequeño</option><option value="3" selected>Normal</option><option value="4">Grande</option><option value="5">Muy grande</option>
+                    </select>
+                  </label>
+                  <label class="toolbar-label">Interlineado
+                    <select data-editor-style="lineHeight" aria-label="Interlineado">
+                      <option value="1.35">Compacto</option><option value="1.6" selected>Normal</option><option value="1.9">Amplio</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="toolbar-group" aria-label="Historial">
+                  <button type="button" data-editor-command="undo" title="Deshacer" aria-label="Deshacer">↶</button>
+                  <button type="button" data-editor-command="redo" title="Rehacer" aria-label="Rehacer">↷</button>
+                </div>
+                <div class="toolbar-group" aria-label="Énfasis">
+                  <button type="button" data-editor-command="bold" title="Negrita" aria-label="Negrita"><strong>B</strong></button>
+                  <button type="button" data-editor-command="italic" title="Cursiva" aria-label="Cursiva"><em>I</em></button>
+                  <button type="button" data-editor-command="underline" title="Subrayado" aria-label="Subrayado"><u>U</u></button>
+                  <button type="button" data-editor-command="strikeThrough" title="Tachado" aria-label="Tachado"><s>S</s></button>
+                </div>
+                <div class="toolbar-group color-tools" aria-label="Color">
+                  <label title="Color del texto"><span>A</span><input type="color" value="#f5f2eb" data-editor-color="foreColor" aria-label="Color del texto"></label>
+                  <label title="Color de resaltado"><span class="marker-icon">A</span><input type="color" value="#315f61" data-editor-color="hiliteColor" aria-label="Color de resaltado"></label>
+                </div>
+                <div class="toolbar-group" aria-label="Alineación">
+                  <button type="button" data-editor-command="justifyLeft" title="Alinear a la izquierda" aria-label="Alinear a la izquierda">≡</button>
+                  <button type="button" data-editor-command="justifyCenter" title="Centrar" aria-label="Centrar">≣</button>
+                  <button type="button" data-editor-command="justifyRight" title="Alinear a la derecha" aria-label="Alinear a la derecha">≡</button>
+                  <button type="button" data-editor-command="justifyFull" title="Justificar" aria-label="Justificar">☰</button>
+                </div>
+                <div class="toolbar-group" aria-label="Listas y posición">
+                  <button type="button" data-editor-command="insertUnorderedList" title="Lista con viñetas" aria-label="Lista con viñetas">•≡</button>
+                  <button type="button" data-editor-command="insertOrderedList" title="Lista numerada" aria-label="Lista numerada">1≡</button>
+                  <button type="button" data-editor-command="outdent" title="Reducir sangría" aria-label="Reducir sangría">←</button>
+                  <button type="button" data-editor-command="indent" title="Aumentar sangría" aria-label="Aumentar sangría">→</button>
+                  <button type="button" data-editor-command="superscript" title="Superíndice" aria-label="Superíndice">x<sup>2</sup></button>
+                  <button type="button" data-editor-command="subscript" title="Subíndice" aria-label="Subíndice">x<sub>2</sub></button>
+                </div>
+                <div class="toolbar-group" aria-label="Enlaces y limpieza">
+                  <button type="button" id="link-button" title="Insertar enlace" aria-label="Insertar enlace">↗</button>
+                  <button type="button" data-editor-command="unlink" title="Quitar enlace" aria-label="Quitar enlace">⌁</button>
+                  <button type="button" data-editor-command="removeFormat" title="Limpiar formato" aria-label="Limpiar formato">Tx</button>
+                  <button type="button" id="spellcheck-button" class="is-active" title="Revisión ortográfica" aria-label="Activar o desactivar revisión ortográfica">ABC</button>
+                </div>
               </div>
             </div>
 
-            <div id="rich-editor-canvas" class="rich-editor-canvas" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Cuerpo del artículo" data-placeholder="Empiece a escribir el artículo…"><p><br></p></div>
+            <div class="editor-canvas-wrap">
+              <button class="block-add-button" id="block-add-button" type="button" aria-label="Añadir bloque" aria-expanded="false" aria-controls="block-add-menu"><span></span><span></span></button>
+              <div class="block-add-menu" id="block-add-menu" hidden>
+                <button type="button" data-insert-action="image">Imagen</button>
+                <button type="button" data-insert-action="quote">Cita</button>
+                <button type="button" data-insert-action="divider">Separador</button>
+                <button type="button" data-insert-action="code">Código</button>
+                <button type="button" data-insert-action="table">Tabla</button>
+              </div>
+              <div id="rich-editor-canvas" class="rich-editor-canvas" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Cuerpo del artículo" data-placeholder="Empiece a escribir el artículo…" spellcheck="true"><p><br></p></div>
+            </div>
             <textarea name="bodyHtml" id="body-html" hidden required></textarea>
-            <div class="editor-status"><span id="editor-count">0 palabras · 0 caracteres</span><span>HTML seguro al publicar</span></div>
+            <input id="body-image-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden>
+            <div class="editor-status"><span id="editor-count">0 palabras · 0 caracteres</span><span id="editor-media-count">0 elementos multimedia</span><span>HTML seguro al publicar</span></div>
           </div>
         </section>
 
@@ -167,21 +198,59 @@
     <div class="dialog-actions"><a class="primary-button" id="result-link" href="#">Abrir artículo</a><a class="secondary-button" href="../main.html">Ir a la portada</a></div>
   </dialog>
 
-  <dialog id="link-dialog" class="link-dialog">
+  <dialog id="link-dialog" class="insert-dialog">
     <form method="dialog" id="link-form">
       <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
-      <p class="eyebrow">Enlace</p>
-      <h2>Insertar vínculo</h2>
-      <label class="field">Dirección URL
-        <input id="link-url" type="url" inputmode="url" placeholder="https://ejemplo.com" required>
-      </label>
+      <p class="eyebrow">Enlace</p><h2>Insertar vínculo</h2>
+      <label class="field">Dirección URL<input id="link-url" type="url" inputmode="url" placeholder="https://ejemplo.com" required></label>
       <label class="check-field"><input id="link-new-window" type="checkbox" checked> Abrir en una pestaña nueva</label>
       <div class="dialog-actions"><button class="secondary-button" id="link-cancel" type="button">Cancelar</button><button class="primary-button" value="default" type="submit">Insertar</button></div>
     </form>
   </dialog>
 
+  <dialog id="video-dialog" class="insert-dialog">
+    <form method="dialog" id="video-form">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <p class="eyebrow">Vídeo</p><h2>Insertar vídeo</h2>
+      <label class="field">Dirección de YouTube o Vimeo<input id="video-url" type="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=…" required></label>
+      <label class="field">Pie opcional<input id="video-caption" type="text" maxlength="180" placeholder="Descripción o fuente del vídeo"></label>
+      <div class="dialog-actions"><button class="secondary-button" data-close-dialog="video-dialog" type="button">Cancelar</button><button class="primary-button" value="default" type="submit">Insertar</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="file-dialog" class="insert-dialog">
+    <form method="dialog" id="file-form">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <p class="eyebrow">Archivo</p><h2>Enlazar un archivo</h2>
+      <label class="field">Nombre visible<input id="file-label" type="text" maxlength="120" placeholder="Descargar informe" required></label>
+      <label class="field">Dirección URL<input id="file-url" type="url" inputmode="url" placeholder="https://…/informe.pdf" required></label>
+      <div class="dialog-actions"><button class="secondary-button" data-close-dialog="file-dialog" type="button">Cancelar</button><button class="primary-button" value="default" type="submit">Insertar</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="table-dialog" class="insert-dialog compact-dialog">
+    <form method="dialog" id="table-form">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <p class="eyebrow">Tabla</p><h2>Crear tabla</h2>
+      <div class="field-grid two-columns">
+        <label class="field">Filas<input id="table-rows" type="number" min="1" max="12" value="3" required></label>
+        <label class="field">Columnas<input id="table-columns" type="number" min="1" max="8" value="3" required></label>
+      </div>
+      <label class="check-field"><input id="table-header" type="checkbox" checked> Usar la primera fila como encabezado</label>
+      <div class="dialog-actions"><button class="secondary-button" data-close-dialog="table-dialog" type="button">Cancelar</button><button class="primary-button" value="default" type="submit">Insertar</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="special-dialog" class="insert-dialog compact-dialog">
+    <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+    <p class="eyebrow">Símbolos</p><h2>Carácter especial</h2>
+    <div class="special-grid" aria-label="Caracteres especiales">
+      <button type="button">©</button><button type="button">®</button><button type="button">™</button><button type="button">€</button><button type="button">£</button><button type="button">¥</button><button type="button">±</button><button type="button">×</button><button type="button">÷</button><button type="button">≤</button><button type="button">≥</button><button type="button">≈</button><button type="button">→</button><button type="button">←</button><button type="button">•</button><button type="button">…</button><button type="button">“</button><button type="button">”</button><button type="button">‘</button><button type="button">’</button><button type="button">α</button><button type="button">β</button><button type="button">Δ</button><button type="button">Ω</button>
+    </div>
+  </dialog>
+
   <script src="config.js"></script>
   <script src="article-config.js"></script>
-  <script src="admin.js"></script>
+  <script src="admin.js?v=4"></script>
 </body>
 </html>

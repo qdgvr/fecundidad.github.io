@@ -13,6 +13,11 @@
   const fromPayload = (payload, options = {}) => {
     const baseUrl = options.baseUrl || 'https://qdgvr.github.io/fecundidad.github.io';
     const heroSrc = payload.heroPath || payload.heroPreview || '';
+    let bodyHtml = payload.bodyHtml || '';
+    (payload.bodyImages || []).forEach(image => {
+      if (!image?.id || !image?.dataUrl) return;
+      bodyHtml = bodyHtml.split(`article-image://${image.id}`).join(image.dataUrl);
+    });
     return {
       slug: payload.slug,
       meta: {
@@ -30,7 +35,7 @@
         dateLabel: dateLabel(payload.date),
         heroSrc,
         heroAlt: payload.imageAlt || '',
-        bodyHtml: payload.bodyHtml || ''
+        bodyHtml
       }
     };
   };

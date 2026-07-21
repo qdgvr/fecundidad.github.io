@@ -3,36 +3,49 @@
 
   const config = window.COMUNICACION_ADMIN_CONFIG || {};
   const apiBase = String(config.apiBaseUrl || '').replace(/\/$/, '');
-  const configured = apiBase && !apiBase.includes('YOUR-WORKER');
-  const localMode = location.hostname === '127.0.0.1' || location.hostname === 'localhost' || location.protocol === 'file:';
+  const configured = Boolean(apiBase && !apiBase.includes('YOUR-WORKER'));
+  const localMode = ['127.0.0.1', 'localhost'].includes(location.hostname) || location.protocol === 'file:';
   const sessionKey = 'comunicacion-admin-session';
-  const draftKey = 'comunicacion-article-draft-v2';
-  const allowedTags = new Set(['P', 'BR', 'H2', 'H3', 'H4', 'STRONG', 'B', 'EM', 'I', 'U', 'S', 'STRIKE', 'BLOCKQUOTE', 'UL', 'OL', 'LI', 'A', 'HR', 'PRE', 'CODE', 'SPAN', 'FONT', 'DIV']);
-  const blockedTags = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'FORM', 'INPUT', 'BUTTON', 'TEXTAREA', 'SELECT', 'SVG', 'MATH', 'META', 'LINK', 'BASE', 'TEMPLATE']);
+  const DB_NAME = 'comunicacion-editor';
+  const DB_STORE = 'documents';
+  const draftKey = 'article-draft-v3';
+  const previewKey = 'article-preview-v3';
+  const allowedTags = new Set(['P','BR','H2','H3','H4','STRONG','B','EM','I','U','S','STRIKE','BLOCKQUOTE','UL','OL','LI','A','HR','PRE','CODE','SPAN','FONT','DIV','FIGURE','IMG','FIGCAPTION','TABLE','THEAD','TBODY','TR','TH','TD','SUP','SUB']);
+  const blockedTags = new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','FORM','INPUT','BUTTON','TEXTAREA','SELECT','SVG','MATH','META','LINK','BASE','TEMPLATE']);
+  const allowedClasses = new Set(['article-media','article-video','article-file','article-table']);
+  const imageTypes = new Set(['image/png','image/jpeg','image/webp','image/gif']);
   let session = sessionStorage.getItem(sessionKey) || '';
   let heroData = null;
   let slugWasEdited = false;
   let savedRange = null;
+  let draftTimer = null;
 
-  const loginPanel = document.querySelector('#login-panel');
-  const editorShell = document.querySelector('#editor-shell');
-  const loginButton = document.querySelector('#login-button');
-  const logoutButton = document.querySelector('#logout-button');
-  const setupMessage = document.querySelector('#setup-message');
-  const connectionState = document.querySelector('#connection-state');
-  const form = document.querySelector('#article-form');
-  const draftState = document.querySelector('#draft-state');
-  const saveButton = document.querySelector('#save-button');
-  const previewButton = document.querySelector('#preview-button');
-  const publishButton = document.querySelector('#publish-button');
-  const publishState = document.querySelector('#publish-state');
-  const publishDetail = document.querySelector('#publish-detail');
-  const resultDialog = document.querySelector('#result-dialog');
-  const linkDialog = document.querySelector('#link-dialog');
-  const linkForm = document.querySelector('#link-form');
-  const editor = document.querySelector('#rich-editor-canvas');
-  const bodyHtml = document.querySelector('#body-html');
-  const editorCount = document.querySelector('#editor-count');
+  const $ = selector => document.querySelector(selector);
+  const $$ = selector => [...document.querySelectorAll(selector)];
+  const loginPanel = $('#login-panel');
+  const editorShell = $('#editor-shell');
+  const loginButton = $('#login-button');
+  const logoutButton = $('#logout-button');
+  const setupMessage = $('#setup-message');
+  const connectionState = $('#connection-state');
+  const form = $('#article-form');
+  const draftState = $('#draft-state');
+  const saveButton = $('#save-button');
+  const previewButton = $('#preview-button');
+  const publishButton = $('#publish-button');
+  const headerSaveButton = $('#header-save-button');
+  const headerPreviewButton = $('#header-preview-button');
+  const headerPublishButton = $('#header-publish-button');
+  const publishState = $('#publish-state');
+  const publishDetail = $('#publish-detail');
+  const resultDialog = $('#result-dialog');
+  const editor = $('#rich-editor-canvas');
+  const bodyHtml = $('#body-html');
+  const editorCount = $('#editor-count');
+  const mediaCount = $('#editor-media-count');
+  const bodyImageInput = $('#body-image-input');
+  const blockAddButton = $('#block-add-button');
+  const blockAddMenu = $('#block-add-menu');
 
   const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
   if (hashParams.get('session')) {
@@ -44,13 +57,52 @@
   const slugify = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
   const today = new Date().toISOString().slice(0, 10);
   const field = name => form.elements.namedItem(name);
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+  const safeHref = value => {
+    const href = String(value || '').trim();
+    return /^(https?:\/\/|mailto:|#)/i.test(href) ? href : '';
+  };
+  const safeImageSrc = value => {
+    const src = String(value || '').trim();
+    return /^(data:image\/(?:png|jpeg|webp|gif);base64,|https?:\/\/|article-image:\/\/|assets\/articles\/|\.\.\/assets\/articles\/)/i.test(src) ? src : '';
+  };
+  const safeStyle = value => String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
+    const separator = item.indexOf(':');
+    if (separator < 1) return '';
+    const property = item.slice(0, separator).trim().toLowerCase();
+    const styleValue = item.slice(separator + 1).trim();
+    const allowed = ['text-align','font-family','font-size','font-weight','font-style','text-decoration','line-height','color','background-color'];
+    if (!allowed.includes(property) || /url\s*\(|expression\s*\(|@import|javascript:/i.test(styleValue)) return '';
+    return `${property}: ${styleValue}`;
+  }).filter(Boolean).join('; ');
 
-  const setEditor = (open, user = null) => {
-    loginPanel.hidden = open;
-    editorShell.hidden = !open;
-    logoutButton.hidden = !open || localMode;
-    if (user) connectionState.textContent = user.name || user.login;
-    if (localMode) connectionState.textContent = 'Vista previa local';
+  const openDb = () => new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      if (!request.result.objectStoreNames.contains(DB_STORE)) request.result.createObjectStore(DB_STORE);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  const dbWrite = async (key, value) => {
+    const db = await openDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(DB_STORE, 'readwrite');
+      tx.objectStore(DB_STORE).put(value, key);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  };
+  const dbRead = async key => {
+    const db = await openDb();
+    const value = await new Promise((resolve, reject) => {
+      const request = db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(key);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
+    db.close();
+    return value;
   };
 
   const api = async (path, options = {}) => {
@@ -58,63 +110,85 @@
       ...options,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session}`, ...(options.headers || {}) }
     });
-    const body = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(body.error || `Error ${response.status}`);
-    return body;
+    const responseBody = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(responseBody.error || `Error ${response.status}`);
+    return responseBody;
   };
 
-  const safeStyle = value => String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
-    const separator = item.indexOf(':');
-    if (separator < 1) return '';
-    const property = item.slice(0, separator).trim().toLowerCase();
-    const styleValue = item.slice(separator + 1).trim();
-    const allowed = ['text-align', 'font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration', 'line-height', 'color', 'background-color'];
-    if (!allowed.includes(property) || /url\s*\(|expression\s*\(|@import|javascript:/i.test(styleValue)) return '';
-    return `${property}: ${styleValue}`;
-  }).filter(Boolean).join('; ');
-
-  const safeHref = value => {
-    const href = String(value || '').trim();
-    if (/^(https?:\/\/|mailto:|#)/i.test(href)) return href;
-    return '';
+  const setEditor = (open, user = null) => {
+    loginPanel.hidden = open;
+    editorShell.hidden = !open;
+    logoutButton.hidden = !open || localMode;
+    [headerSaveButton, headerPreviewButton, headerPublishButton].forEach(button => { button.hidden = !open; });
+    if (user) connectionState.textContent = user.name || user.login;
+    if (localMode) connectionState.textContent = 'Vista previa local';
   };
 
   const sanitizeEditorHtml = html => {
     const template = document.createElement('template');
     template.innerHTML = String(html || '');
     [...template.content.querySelectorAll('*')].forEach(node => {
-      if (blockedTags.has(node.tagName)) {
-        node.remove();
-        return;
-      }
-      if (!allowedTags.has(node.tagName)) {
-        node.replaceWith(...node.childNodes);
-        return;
-      }
-      const href = node.tagName === 'A' ? safeHref(node.getAttribute('href')) : '';
-      const title = node.tagName === 'A' ? String(node.getAttribute('title') || '').slice(0, 180) : '';
-      const target = node.tagName === 'A' && node.getAttribute('target') === '_blank' ? '_blank' : '';
-      const style = safeStyle(node.getAttribute('style'));
-      const face = node.tagName === 'FONT' ? String(node.getAttribute('face') || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80) : '';
-      const color = node.tagName === 'FONT' && /^#[0-9a-f]{3,8}$/i.test(node.getAttribute('color') || '') ? node.getAttribute('color') : '';
-      const size = node.tagName === 'FONT' && /^[1-7]$/.test(node.getAttribute('size') || '') ? node.getAttribute('size') : '';
+      if (blockedTags.has(node.tagName)) { node.remove(); return; }
+      if (!allowedTags.has(node.tagName)) { node.replaceWith(...node.childNodes); return; }
+
+      const values = Object.fromEntries([...node.attributes].map(attribute => [attribute.name, attribute.value]));
       [...node.attributes].forEach(attribute => node.removeAttribute(attribute.name));
+      const style = safeStyle(values.style);
       if (style) node.setAttribute('style', style);
-      if (node.tagName === 'A' && href) {
+      const classNames = String(values.class || '').split(/\s+/).filter(name => allowedClasses.has(name));
+      if (classNames.length) node.className = classNames.join(' ');
+
+      if (node.tagName === 'A') {
+        const href = safeHref(values.href);
+        if (!href) { node.replaceWith(...node.childNodes); return; }
         node.setAttribute('href', href);
-        if (title) node.setAttribute('title', title);
-        if (target) {
+        if (values.title) node.setAttribute('title', values.title.slice(0, 180));
+        if (values.target === '_blank') {
           node.setAttribute('target', '_blank');
           node.setAttribute('rel', 'noopener noreferrer');
         }
-      } else if (node.tagName === 'A') {
-        node.replaceWith(...node.childNodes);
       }
-      if (face) node.setAttribute('face', face);
-      if (color) node.setAttribute('color', color);
-      if (size) node.setAttribute('size', size);
+      if (node.tagName === 'IMG') {
+        const src = safeImageSrc(values.src);
+        if (!src) { node.remove(); return; }
+        node.setAttribute('src', src);
+        node.setAttribute('alt', String(values.alt || '').slice(0, 240));
+        if (values['data-image-id']) node.setAttribute('data-image-id', values['data-image-id'].replace(/[^a-z0-9-]/gi, '').slice(0, 80));
+      }
+      if (node.tagName === 'FIGURE') {
+        if (values['data-image-id']) node.setAttribute('data-image-id', values['data-image-id'].replace(/[^a-z0-9-]/gi, '').slice(0, 80));
+        const videoUrl = safeHref(values['data-video-url']);
+        if (videoUrl) node.setAttribute('data-video-url', videoUrl);
+      }
+      if (node.tagName === 'FONT') {
+        const face = String(values.face || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80);
+        if (face) node.setAttribute('face', face);
+        if (/^#[0-9a-f]{3,8}$/i.test(values.color || '')) node.setAttribute('color', values.color);
+        if (/^[1-7]$/.test(values.size || '')) node.setAttribute('size', values.size);
+      }
+      if (['TH','TD'].includes(node.tagName)) {
+        if (/^[1-9][0-9]?$/.test(values.colspan || '')) node.setAttribute('colspan', values.colspan);
+        if (/^[1-9][0-9]?$/.test(values.rowspan || '')) node.setAttribute('rowspan', values.rowspan);
+      }
     });
     return template.innerHTML.trim();
+  };
+
+  const serializeArticle = () => {
+    const clean = sanitizeEditorHtml(editor.innerHTML);
+    const template = document.createElement('template');
+    template.innerHTML = clean;
+    const bodyImages = [];
+    template.content.querySelectorAll('img[data-image-id]').forEach((image, index) => {
+      const src = image.getAttribute('src') || '';
+      if (!src.startsWith('data:image/')) return;
+      const id = (image.dataset.imageId || `image-${index + 1}`).replace(/[^a-z0-9-]/gi, '').slice(0, 80);
+      const match = src.match(/^data:([^;]+);base64,/i);
+      if (!match || !imageTypes.has(match[1].toLowerCase())) return;
+      bodyImages.push({ id, type: match[1].toLowerCase(), dataUrl: src });
+      image.setAttribute('src', `article-image://${id}`);
+    });
+    return { bodyHtml: template.innerHTML.trim(), bodyImages };
   };
 
   const syncEditor = () => {
@@ -122,8 +196,10 @@
     bodyHtml.value = html;
     const plain = editor.textContent.replace(/\u00a0/g, ' ').trim();
     const words = plain ? plain.split(/\s+/).length : 0;
+    const media = editor.querySelectorAll('figure, table, pre').length;
     editorCount.textContent = `${words.toLocaleString('es-ES')} palabras · ${plain.length.toLocaleString('es-ES')} caracteres`;
-    editor.dataset.empty = plain ? 'false' : 'true';
+    mediaCount.textContent = `${media.toLocaleString('es-ES')} elementos multimedia`;
+    editor.dataset.empty = plain || editor.querySelector('img,table') ? 'false' : 'true';
     bodyHtml.setCustomValidity(plain ? '' : 'Escriba el cuerpo del artículo.');
     return html;
   };
@@ -143,164 +219,345 @@
     syncEditor();
     const data = Object.fromEntries(new FormData(form).entries());
     delete data.heroImage;
+    const article = serializeArticle();
+    data.bodyHtml = article.bodyHtml;
+    data.bodyImages = article.bodyImages;
     if (heroData) data.heroImage = heroData;
     return data;
   };
 
-  const saveDraft = (announce = true) => {
+  const setBusy = busy => {
+    [saveButton, previewButton, publishButton, headerSaveButton, headerPreviewButton, headerPublishButton].forEach(button => {
+      button.disabled = busy || ((button === publishButton || button === headerPublishButton) && localMode);
+    });
+  };
+
+  const saveDraft = async (announce = true) => {
     const payload = getPayload();
     delete payload.heroImage;
-    localStorage.setItem(draftKey, JSON.stringify(payload));
-    draftState.textContent = `Borrador guardado · ${new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`;
+    await dbWrite(draftKey, payload);
+    const time = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    draftState.textContent = `Borrador guardado · ${time}`;
     if (announce) {
       publishState.textContent = 'Borrador guardado';
-      publishDetail.textContent = 'La imagen debe seleccionarse de nuevo al volver a esta página.';
+      publishDetail.textContent = 'El texto y las imágenes del cuerpo quedan guardados en este navegador.';
     }
   };
 
-  const restoreDraft = () => {
-    const raw = localStorage.getItem(draftKey);
-    if (!raw) return;
+  const restoreDraft = async () => {
     try {
-      const draft = JSON.parse(raw);
+      const draft = await dbRead(draftKey);
+      if (!draft) return;
       Object.entries(draft).forEach(([name, value]) => {
         if (name === 'bodyHtml' && typeof value === 'string') {
-          editor.innerHTML = sanitizeEditorHtml(value) || '<p><br></p>';
+          let restored = value;
+          (draft.bodyImages || []).forEach(image => { restored = restored.split(`article-image://${image.id}`).join(image.dataUrl); });
+          editor.innerHTML = sanitizeEditorHtml(restored) || '<p><br></p>';
           return;
         }
+        if (name === 'bodyImages') return;
         const input = field(name);
         if (input && typeof value === 'string') input.value = value;
       });
       slugWasEdited = Boolean(draft.slug);
       draftState.textContent = 'Borrador local recuperado';
-    } catch (_) {}
+    } catch (error) {
+      console.warn('No se pudo recuperar el borrador', error);
+    }
   };
 
-  const setBusy = busy => {
-    publishButton.disabled = busy || localMode;
-    saveButton.disabled = busy;
-    previewButton.disabled = busy;
-  };
-
-  const rangeInsideEditor = range => range && editor.contains(range.commonAncestorContainer);
+  const rangeInsideEditor = range => Boolean(range && editor.contains(range.commonAncestorContainer));
   const rememberSelection = () => {
     const selection = window.getSelection();
     if (selection.rangeCount && editor.contains(selection.anchorNode)) savedRange = selection.getRangeAt(0).cloneRange();
   };
+  const placeCaretAtEnd = () => {
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+  };
   const restoreSelection = () => {
-    if (!rangeInsideEditor(savedRange)) return;
+    if (!rangeInsideEditor(savedRange)) { placeCaretAtEnd(); return; }
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(savedRange);
   };
-  const command = (name, value = null) => {
-    editor.focus();
-    restoreSelection();
-    document.execCommand(name, false, value);
+  const announceInput = () => {
     rememberSelection();
     syncEditor();
     editor.dispatchEvent(new Event('input', { bubbles: true }));
   };
-
-  document.execCommand('styleWithCSS', false, true);
-  document.addEventListener('selectionchange', rememberSelection);
-  document.querySelectorAll('[data-editor-command]').forEach(button => {
-    button.addEventListener('mousedown', event => event.preventDefault());
-    button.addEventListener('click', () => command(button.dataset.editorCommand, button.dataset.editorValue || null));
-  });
-  document.querySelectorAll('[data-editor-select]').forEach(select => {
-    select.addEventListener('change', () => {
-      const name = select.dataset.editorSelect;
-      const value = name === 'formatBlock' ? `<${select.value}>` : select.value;
-      command(name, value);
-    });
-  });
-  document.querySelectorAll('[data-editor-color]').forEach(input => input.addEventListener('input', () => command(input.dataset.editorColor, input.value)));
-
-  document.querySelector('#link-button').addEventListener('mousedown', event => event.preventDefault());
-  document.querySelector('#link-button').addEventListener('click', () => {
-    rememberSelection();
-    document.querySelector('#link-url').value = '';
-    linkDialog.showModal();
-    document.querySelector('#link-url').focus();
-  });
-  linkForm.addEventListener('submit', event => {
-    event.preventDefault();
-    const url = safeHref(document.querySelector('#link-url').value);
-    if (!url) {
-      document.querySelector('#link-url').setCustomValidity('Use una dirección https://, http://, mailto: o un enlace interno #.');
-      document.querySelector('#link-url').reportValidity();
-      return;
-    }
-    document.querySelector('#link-url').setCustomValidity('');
+  const command = (name, value = null) => {
+    editor.focus();
+    restoreSelection();
+    let result = document.execCommand(name, false, value);
+    if (!result && name === 'formatBlock' && value) result = document.execCommand(name, false, `<${value}>`);
+    announceInput();
+    updateToolbarState();
+    return result;
+  };
+  const insertHtml = html => {
     editor.focus();
     restoreSelection();
     const selection = window.getSelection();
+    if (!selection.rangeCount) return false;
+
+    const range = selection.getRangeAt(0);
+    const template = document.createElement('template');
+    template.innerHTML = sanitizeEditorHtml(html);
+    const fragment = template.content;
+    const lastNode = fragment.lastChild;
+    if (!lastNode) return false;
+
+    range.deleteContents();
+    range.insertNode(fragment);
+    range.setStartAfter(lastNode);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    announceInput();
+    updateToolbarState();
+    return true;
+  };
+  const selectedBlock = () => {
+    const selection = window.getSelection();
+    const node = selection.anchorNode?.nodeType === Node.TEXT_NODE ? selection.anchorNode.parentElement : selection.anchorNode;
+    return node?.closest?.('p,h2,h3,h4,blockquote,pre,li,figcaption,td,th') || null;
+  };
+  const updateToolbarState = () => {
+    $$('[data-editor-command]').forEach(button => {
+      const stateful = !['undo','redo','indent','outdent','removeFormat'].includes(button.dataset.editorCommand);
+      if (!stateful) return;
+      let active = false;
+      try { active = document.queryCommandState(button.dataset.editorCommand); } catch (_) {}
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  document.execCommand('styleWithCSS', false, true);
+  document.addEventListener('selectionchange', () => { rememberSelection(); updateToolbarState(); });
+  $$('[data-editor-command]').forEach(button => {
+    button.addEventListener('pointerdown', event => { rememberSelection(); event.preventDefault(); });
+    button.addEventListener('click', () => command(button.dataset.editorCommand, button.dataset.editorValue || null));
+  });
+  $$('[data-editor-select]').forEach(select => {
+    select.addEventListener('pointerdown', rememberSelection);
+    select.addEventListener('change', () => command(select.dataset.editorSelect, select.value));
+  });
+  $$('[data-editor-style]').forEach(select => {
+    select.addEventListener('pointerdown', rememberSelection);
+    select.addEventListener('change', () => {
+      editor.focus(); restoreSelection();
+      const block = selectedBlock();
+      if (block) block.style[select.dataset.editorStyle] = select.value;
+      announceInput();
+    });
+  });
+  $$('[data-editor-color]').forEach(input => {
+    input.addEventListener('pointerdown', rememberSelection);
+    input.addEventListener('input', () => command(input.dataset.editorColor, input.value));
+  });
+
+  const openDialog = id => {
+    const dialog = $(`#${id}`);
+    rememberSelection();
+    dialog.showModal();
+    setTimeout(() => dialog.querySelector('input,button:not(.dialog-close)')?.focus(), 0);
+  };
+  const closeDialog = dialog => { if (dialog?.open) dialog.close(); };
+  $$('dialog .dialog-close').forEach(button => button.addEventListener('click', () => closeDialog(button.closest('dialog'))));
+  $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => closeDialog($(`#${button.dataset.closeDialog}`))));
+
+  const insertActions = {
+    image: () => { rememberSelection(); bodyImageInput.click(); },
+    video: () => openDialog('video-dialog'),
+    quote: () => insertHtml('<blockquote>Escriba aquí la cita.</blockquote><p><br></p>'),
+    divider: () => insertHtml('<hr><p><br></p>'),
+    link: () => openDialog('link-dialog'),
+    file: () => openDialog('file-dialog'),
+    code: () => insertHtml('<pre><code>Escriba aquí el código.</code></pre><p><br></p>'),
+    table: () => openDialog('table-dialog'),
+    special: () => openDialog('special-dialog')
+  };
+  $$('[data-insert-action]').forEach(button => {
+    button.addEventListener('pointerdown', event => { rememberSelection(); event.preventDefault(); });
+    button.addEventListener('click', () => {
+      blockAddMenu.hidden = true;
+      blockAddButton.setAttribute('aria-expanded', 'false');
+      insertActions[button.dataset.insertAction]?.();
+    });
+  });
+  blockAddButton.addEventListener('click', () => {
+    blockAddMenu.hidden = !blockAddMenu.hidden;
+    blockAddButton.setAttribute('aria-expanded', String(!blockAddMenu.hidden));
+  });
+  document.addEventListener('click', event => {
+    if (!blockAddMenu.hidden && !blockAddMenu.contains(event.target) && event.target !== blockAddButton) {
+      blockAddMenu.hidden = true;
+      blockAddButton.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  const fileToData = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: reader.result });
+    reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
+    reader.readAsDataURL(file);
+  });
+  const insertImageFiles = async files => {
+    for (const file of files) {
+      if (!imageTypes.has(file.type) || file.size > 5 * 1024 * 1024) {
+        publishDetail.textContent = `${file.name}: use PNG, JPEG, WebP o GIF de hasta 5 MB.`;
+        continue;
+      }
+      const image = await fileToData(file);
+      const id = `img-${crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`}`;
+      const alt = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ');
+      insertHtml(`<figure class="article-media" data-image-id="${escapeHtml(id)}"><img src="${image.dataUrl}" data-image-id="${escapeHtml(id)}" alt="${escapeHtml(alt)}"><figcaption>Escriba aquí el pie de foto y la fuente.</figcaption></figure><p><br></p>`);
+    }
+    bodyImageInput.value = '';
+  };
+  bodyImageInput.addEventListener('change', () => insertImageFiles([...bodyImageInput.files]));
+  editor.addEventListener('dragover', event => { if ([...event.dataTransfer.types].includes('Files')) event.preventDefault(); });
+  editor.addEventListener('drop', event => {
+    const images = [...event.dataTransfer.files].filter(file => imageTypes.has(file.type));
+    if (!images.length) return;
+    event.preventDefault();
+    rememberSelection();
+    insertImageFiles(images);
+  });
+  editor.addEventListener('paste', event => {
+    const images = [...(event.clipboardData?.files || [])].filter(file => imageTypes.has(file.type));
+    if (images.length) {
+      event.preventDefault();
+      rememberSelection();
+      insertImageFiles(images);
+      return;
+    }
+    setTimeout(() => { editor.innerHTML = sanitizeEditorHtml(editor.innerHTML); announceInput(); }, 0);
+  });
+
+  const linkUrl = $('#link-url');
+  $('#link-button').addEventListener('pointerdown', event => { rememberSelection(); event.preventDefault(); });
+  $('#link-button').addEventListener('click', () => openDialog('link-dialog'));
+  $('#link-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const url = safeHref(linkUrl.value);
+    if (!url) { linkUrl.setCustomValidity('Use https://, http://, mailto: o un enlace interno #.'); linkUrl.reportValidity(); return; }
+    linkUrl.setCustomValidity('');
+    closeDialog($('#link-dialog'));
+    editor.focus(); restoreSelection();
+    const selection = window.getSelection();
     if (!selection.rangeCount || selection.getRangeAt(0).collapsed) {
-      const target = document.querySelector('#link-new-window').checked ? ' target="_blank" rel="noopener noreferrer"' : '';
-      document.execCommand('insertHTML', false, `<a href="${url.replace(/"/g, '&quot;')}"${target}>${url}</a>`);
+      const target = $('#link-new-window').checked ? ' target="_blank" rel="noopener noreferrer"' : '';
+      insertHtml(`<a href="${escapeHtml(url)}"${target}>${escapeHtml(url)}</a>`);
     } else {
       document.execCommand('createLink', false, url);
       const anchor = selection.anchorNode?.parentElement?.closest('a');
-      if (anchor && document.querySelector('#link-new-window').checked) {
-        anchor.target = '_blank';
-        anchor.rel = 'noopener noreferrer';
-      }
+      if (anchor && $('#link-new-window').checked) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
+      announceInput();
     }
-    linkDialog.close();
-    syncEditor();
-    editor.dispatchEvent(new Event('input', { bubbles: true }));
   });
-  document.querySelector('#link-cancel').addEventListener('click', () => linkDialog.close());
-  linkDialog.querySelector('.dialog-close').addEventListener('click', () => linkDialog.close());
-  resultDialog.querySelector('.dialog-close').addEventListener('click', () => resultDialog.close());
+  $('#link-cancel').addEventListener('click', () => closeDialog($('#link-dialog')));
+
+  $('#video-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const url = safeHref($('#video-url').value);
+    if (!url || !/(youtube\.com|youtu\.be|vimeo\.com)/i.test(url)) {
+      $('#video-url').setCustomValidity('Use una dirección válida de YouTube o Vimeo.');
+      $('#video-url').reportValidity();
+      return;
+    }
+    $('#video-url').setCustomValidity('');
+    const caption = $('#video-caption').value.trim() || 'Vídeo enlazado';
+    closeDialog($('#video-dialog'));
+    insertHtml(`<figure class="article-video" data-video-url="${escapeHtml(url)}"><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">Reproducir vídeo</a><figcaption>${escapeHtml(caption)}</figcaption></figure><p><br></p>`);
+    event.target.reset();
+  });
+  $('#file-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const url = safeHref($('#file-url').value);
+    if (!url) { $('#file-url').setCustomValidity('Use una dirección web válida.'); $('#file-url').reportValidity(); return; }
+    $('#file-url').setCustomValidity('');
+    closeDialog($('#file-dialog'));
+    insertHtml(`<div class="article-file"><strong>Archivo</strong><br><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml($('#file-label').value)}</a></div><p><br></p>`);
+    event.target.reset();
+  });
+  $('#table-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const rows = Math.max(1, Math.min(12, Number($('#table-rows').value) || 3));
+    const columns = Math.max(1, Math.min(8, Number($('#table-columns').value) || 3));
+    const header = $('#table-header').checked;
+    let html = '<table class="article-table">';
+    for (let row = 0; row < rows; row += 1) {
+      html += '<tr>';
+      const tag = header && row === 0 ? 'th' : 'td';
+      for (let column = 0; column < columns; column += 1) html += `<${tag}>${header && row === 0 ? `Encabezado ${column + 1}` : 'Dato'}</${tag}>`;
+      html += '</tr>';
+    }
+    html += '</table><p><br></p>';
+    closeDialog($('#table-dialog'));
+    insertHtml(html);
+  });
+  $$('#special-dialog .special-grid button').forEach(button => button.addEventListener('click', () => {
+    closeDialog($('#special-dialog'));
+    insertHtml(escapeHtml(button.textContent));
+  }));
+
+  $('#spellcheck-button').addEventListener('click', event => {
+    const enabled = editor.spellcheck = !editor.spellcheck;
+    event.currentTarget.classList.toggle('is-active', enabled);
+    event.currentTarget.setAttribute('aria-pressed', String(enabled));
+  });
 
   field('date').value = today;
-  restoreDraft();
-  syncEditor();
-
-  field('title').addEventListener('input', event => {
-    if (!slugWasEdited) field('slug').value = slugify(event.target.value);
-  });
-  field('slug').addEventListener('input', event => {
-    slugWasEdited = true;
-    event.target.value = slugify(event.target.value);
-  });
-
+  field('title').addEventListener('input', event => { if (!slugWasEdited) field('slug').value = slugify(event.target.value); });
+  field('slug').addEventListener('input', event => { slugWasEdited = true; event.target.value = slugify(event.target.value); });
   field('heroImage').addEventListener('change', async event => {
     const file = event.target.files[0];
     heroData = null;
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
+    if (!imageTypes.has(file.type) || file.type === 'image/gif' || file.size > 5 * 1024 * 1024) {
       event.target.value = '';
-      event.target.setCustomValidity('La imagen no puede superar 5 MB.');
+      event.target.setCustomValidity('Use PNG, JPEG o WebP de hasta 5 MB.');
       event.target.reportValidity();
       return;
     }
     event.target.setCustomValidity('');
-    heroData = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve({ name: file.name, type: file.type, dataUrl: reader.result });
-      reader.onerror = () => reject(new Error('No se pudo leer la imagen.'));
-      reader.readAsDataURL(file);
-    });
+    heroData = await fileToData(file);
   });
 
-  editor.addEventListener('paste', () => setTimeout(syncEditor));
-  editor.addEventListener('input', syncEditor);
-  form.addEventListener('input', () => {
+  editor.addEventListener('input', () => { syncEditor(); scheduleDraftState(); });
+  form.addEventListener('input', scheduleDraftState);
+  function scheduleDraftState() {
     draftState.textContent = 'Cambios sin guardar';
     publishState.textContent = 'Borrador modificado';
-  });
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(() => { saveDraft(false).catch(() => {}); }, 2000);
+  }
 
-  saveButton.addEventListener('click', () => saveDraft());
-  previewButton.addEventListener('click', () => {
+  const doSave = async () => {
+    try { await saveDraft(); }
+    catch (error) { publishState.textContent = 'No se pudo guardar'; publishDetail.textContent = error.message; }
+  };
+  const doPreview = async () => {
     if (!validForm()) return;
     const payload = getPayload();
     if (heroData) payload.heroPreview = heroData.dataUrl;
-    localStorage.setItem('comunicacion-preview', JSON.stringify(payload));
+    await dbWrite(previewKey, payload);
     window.open('preview.html', '_blank', 'noopener');
-  });
+  };
+  saveButton.addEventListener('click', doSave);
+  headerSaveButton.addEventListener('click', doSave);
+  previewButton.addEventListener('click', doPreview);
+  headerPreviewButton.addEventListener('click', doPreview);
+  headerPublishButton.addEventListener('click', () => form.requestSubmit());
 
   logoutButton.addEventListener('click', () => {
     sessionStorage.removeItem(sessionKey);
@@ -314,47 +571,41 @@
     if (localMode || !validForm()) return;
     setBusy(true);
     publishState.textContent = 'Publicando…';
-    publishDetail.textContent = 'Creando el artículo y actualizando la portada en un único commit.';
+    publishDetail.textContent = 'Creando el artículo, guardando las imágenes y actualizando la portada.';
     try {
       const result = await api('/api/publish', { method: 'POST', body: JSON.stringify(getPayload()) });
-      saveDraft(false);
+      await saveDraft(false);
       publishState.textContent = 'Publicado';
       publishDetail.textContent = result.commit || 'La actualización se ha enviado a GitHub Pages.';
-      document.querySelector('#result-message').textContent = 'GitHub Pages puede tardar uno o dos minutos en mostrar la nueva versión.';
-      const resultLink = document.querySelector('#result-link');
-      resultLink.href = result.url;
+      $('#result-message').textContent = 'GitHub Pages puede tardar uno o dos minutos en mostrar la nueva versión.';
+      $('#result-link').href = result.url;
       resultDialog.showModal();
     } catch (error) {
       publishState.textContent = 'No se pudo publicar';
       publishDetail.textContent = error.message;
-    } finally {
-      setBusy(false);
-    }
+    } finally { setBusy(false); }
   });
 
   const init = async () => {
+    await restoreDraft();
+    syncEditor();
     if (localMode) {
       setEditor(true);
       publishButton.disabled = true;
-      publishDetail.textContent = 'Modo local: la vista previa funciona; la publicación requiere configurar el Worker.';
+      headerPublishButton.disabled = true;
+      publishDetail.textContent = 'Modo local: edición y vista previa activas; publicar requiere el Worker.';
       return;
     }
     if (!configured) {
       loginButton.hidden = true;
       setupMessage.hidden = false;
-      setupMessage.textContent = 'Falta indicar la URL del Worker en admin/config.js. Consulte worker/README.md para completar la instalación.';
+      setupMessage.textContent = 'Falta indicar la URL del Worker en admin/config.js.';
       return;
     }
     loginButton.href = `${apiBase}/auth/login`;
     if (!session) return;
-    try {
-      const result = await api('/api/me');
-      setEditor(true, result.user);
-    } catch (_) {
-      sessionStorage.removeItem(sessionKey);
-      session = '';
-      setEditor(false);
-    }
+    try { const result = await api('/api/me'); setEditor(true, result.user); }
+    catch (_) { sessionStorage.removeItem(sessionKey); session = ''; setEditor(false); }
   };
 
   init();

@@ -1,11 +1,26 @@
 (() => {
   'use strict';
 
+  const readPreview = () => new Promise((resolve, reject) => {
+    const request = indexedDB.open('comunicacion-editor', 1);
+    request.onupgradeneeded = () => {
+      if (!request.result.objectStoreNames.contains('documents')) request.result.createObjectStore('documents');
+    };
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const db = request.result;
+      const get = db.transaction('documents', 'readonly').objectStore('documents').get('article-preview-v3');
+      get.onsuccess = () => { resolve(get.result || null); db.close(); };
+      get.onerror = () => { reject(get.error); db.close(); };
+    };
+  });
+
   const render = async () => {
     const status = document.querySelector('#preview-status');
     try {
-      const payload = JSON.parse(localStorage.getItem('comunicacion-preview') || 'null');
+      const payload = await readPreview();
       if (!payload) throw new Error('No hay un borrador para previsualizar.');
+      window.COMUNICACION_PREVIEW_PAYLOAD = payload;
       const response = await fetch('../post-template.html', { cache: 'no-store' });
       if (!response.ok) throw new Error(`No se pudo cargar la plantilla (${response.status}).`);
       let html = await response.text();

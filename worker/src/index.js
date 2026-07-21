@@ -1,7 +1,7 @@
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const API_VERSION = '2022-11-28';
-const MAX_BODY_BYTES = 8 * 1024 * 1024;
+const MAX_BODY_BYTES = 48 * 1024 * 1024;
 const SESSION_SECONDS = 2 * 60 * 60;
 
 export default {
@@ -234,7 +234,8 @@ async function validatePayload(input) {
     section: cleanText(input.section, 60, true),
     date,
     imageAlt: cleanText(input.imageAlt, 180),
-    bodyHtml: await sanitizeBodyHtml(input.bodyHtml)
+    bodyHtml: await sanitizeBodyHtml(input.bodyHtml),
+    bodyImages: validateBodyImages(input.bodyImages)
   };
   if (input.heroImage) fields.heroImage = validateImage(input.heroImage);
   return fields;
@@ -259,8 +260,9 @@ function sanitizeHref(value) {
 
 async function sanitizeBodyHtml(value) {
   const html = cleanText(value, 120000, true);
-  const allowed = new Set(['p', 'br', 'h2', 'h3', 'h4', 'strong', 'b', 'em', 'i', 'u', 's', 'strike', 'blockquote', 'ul', 'ol', 'li', 'a', 'hr', 'pre', 'code', 'span', 'font', 'div']);
+  const allowed = new Set(['p', 'br', 'h2', 'h3', 'h4', 'strong', 'b', 'em', 'i', 'u', 's', 'strike', 'blockquote', 'ul', 'ol', 'li', 'a', 'hr', 'pre', 'code', 'span', 'font', 'div', 'figure', 'img', 'figcaption', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'sup', 'sub']);
   const blocked = new Set(['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'svg', 'math', 'meta', 'link', 'base', 'template']);
+  const allowedClasses = new Set(['article-media', 'article-video', 'article-file', 'article-table']);
   const handler = {
     element(element) {
       const tag = element.tagName.toLowerCase();
@@ -277,6 +279,8 @@ async function sanitizeBodyHtml(value) {
       [...element.attributes].forEach(([name]) => element.removeAttribute(name));
       const style = sanitizeStyle(values.style);
       if (style) element.setAttribute('style', style);
+      const classes = String(values.class || '').split(/\s+/).filter(name => allowedClasses.has(name));
+      if (classes.length) element.setAttribute('class', classes.join(' '));
       if (tag === 'a') {
         const href = sanitizeHref(values.href);
         if (!href) {
@@ -289,6 +293,25 @@ async function sanitizeBodyHtml(value) {
           element.setAttribute('target', '_blank');
           element.setAttribute('rel', 'noopener noreferrer');
         }
+      }
+      if (tag === 'img') {
+        const src = String(values.src || '').trim();
+        if (!/^article-image:\/\/[a-z0-9-]{1,80}$/i.test(src) && !/^(?:\.\.\/)?assets\/articles\/[a-z0-9/-]+\.(?:png|jpe?g|webp|gif)$/i.test(src)) {
+          element.remove();
+          return;
+        }
+        element.setAttribute('src', src);
+        element.setAttribute('alt', String(values.alt || '').slice(0, 240));
+        if (/^[a-z0-9-]{1,80}$/i.test(values['data-image-id'] || '')) element.setAttribute('data-image-id', values['data-image-id']);
+      }
+      if (tag === 'figure') {
+        if (/^[a-z0-9-]{1,80}$/i.test(values['data-image-id'] || '')) element.setAttribute('data-image-id', values['data-image-id']);
+        const videoUrl = sanitizeHref(values['data-video-url']);
+        if (videoUrl && /(youtube\.com|youtu\.be|vimeo\.com)/i.test(videoUrl)) element.setAttribute('data-video-url', videoUrl);
+      }
+      if (tag === 'th' || tag === 'td') {
+        if (/^[1-9][0-9]?$/.test(values.colspan || '')) element.setAttribute('colspan', values.colspan);
+        if (/^[1-9][0-9]?$/.test(values.rowspan || '')) element.setAttribute('rowspan', values.rowspan);
       }
       if (tag === 'font') {
         const face = String(values.face || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80);
@@ -314,6 +337,25 @@ function validateImage(image) {
   const approxSize = Math.floor(match[2].length * 3 / 4);
   if (approxSize > 5 * 1024 * 1024) fail(400, 'La imagen supera 5 MB.');
   return { type, extension: allowed[type], base64: match[2] };
+}
+
+function validateBodyImages(images) {
+  if (images == null) return [];
+  if (!Array.isArray(images) || images.length > 8) fail(400, 'Puede publicar hasta 8 imágenes dentro del artículo.');
+  const seen = new Set();
+  return images.map(image => {
+    const id = cleanText(image?.id, 80, true).toLowerCase();
+    if (!/^[a-z0-9-]+$/.test(id) || seen.has(id)) fail(400, 'Una imagen del cuerpo no tiene un identificador válido.');
+    seen.add(id);
+    const type = String(image?.type || '');
+    const allowed = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif' };
+    if (!allowed[type]) fail(400, 'El formato de una imagen del cuerpo no está permitido.');
+    const match = String(image?.dataUrl || '').match(/^data:([^;]+);base64,([A-Za-z0-9+/=]+)$/);
+    if (!match || match[1] !== type) fail(400, 'Una imagen del cuerpo no es válida.');
+    const approxSize = Math.floor(match[2].length * 3 / 4);
+    if (approxSize > 5 * 1024 * 1024) fail(400, 'Una imagen del cuerpo supera 5 MB.');
+    return { id, type, extension: allowed[type], base64: match[2] };
+  });
 }
 
 function dateLabel(value) {
@@ -405,6 +447,14 @@ async function publish(request, env) {
     imageEntry = { path: heroPath, mode: '100644', type: 'blob', sha: blob.sha };
   }
 
+  const bodyImageEntries = await Promise.all(payload.bodyImages.map(async image => {
+    const path = `assets/articles/${payload.slug}/${image.id}.${image.extension}`;
+    const blob = await github(env, githubToken, '/git/blobs', { method: 'POST', body: JSON.stringify({ content: image.base64, encoding: 'base64' }) });
+    payload.bodyHtml = payload.bodyHtml.split(`article-image://${image.id}`).join(path);
+    return { path, mode: '100644', type: 'blob', sha: blob.sha };
+  }));
+  if (/article-image:\/\//i.test(payload.bodyHtml)) fail(400, 'El artículo contiene una imagen que no se ha podido guardar.');
+
   const config = articleConfig(payload, env, heroPath);
   const configSource = `window.COMUNICACION_POST = ${JSON.stringify(config, null, 2).replace(/</g, '\\u003c')};\n`;
   const scripts = `<script src="content/${payload.slug}.js"></script>`;
@@ -423,6 +473,7 @@ async function publish(request, env) {
     { path: 'content/articles.json', mode: '100644', type: 'blob', content: `${JSON.stringify(manifest, null, 2)}\n` }
   ];
   if (imageEntry) tree.push(imageEntry);
+  tree.push(...bodyImageEntries);
 
   const newTree = await github(env, githubToken, '/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: baseTree, tree }) });
   const commit = await github(env, githubToken, '/git/commits', {
