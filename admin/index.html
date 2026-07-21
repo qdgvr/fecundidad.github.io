@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://comunicacion-publisher.comunicacion-qdgvr.workers.dev; object-src 'none'; base-uri 'self'; form-action 'self'">
-  <link rel="stylesheet" href="admin.css?v=1">
+  <link rel="stylesheet" href="admin.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#workspace">Saltar al editor</a>
@@ -33,13 +33,10 @@
       <aside class="editor-sidebar">
         <p class="eyebrow">Nueva publicación</p>
         <h1>Editor de reportajes</h1>
-        <p>Complete el texto, revise la vista previa y publique. El diseño, los mapas y las animaciones se heredan de la plantilla maestra.</p>
+        <p>Complete los datos básicos y escriba el artículo en un único lienzo. La publicación aplica automáticamente el diseño editorial de Comunicación.</p>
         <nav aria-label="Secciones del formulario">
           <a href="#datos-basicos">Datos básicos</a>
-          <a href="#prologo">Prólogo</a>
-          <a href="#capitulos">Capítulos</a>
-          <a href="#texto">Texto</a>
-          <a href="#cierre">Cierre</a>
+          <a href="#contenido">Cuerpo del artículo</a>
         </nav>
         <div class="draft-state" id="draft-state">Sin cambios pendientes</div>
       </aside>
@@ -79,52 +76,76 @@
           </div>
         </section>
 
-        <section class="form-section" id="prologo">
-          <div class="section-title"><span>02</span><div><p>Entrada visual</p><h2>Prólogo del globo</h2></div></div>
-          <p class="section-help">El globo conserva su funcionamiento. Estos dos pasos controlan el enfoque y el relato previo al título.</p>
-          <div class="step-editor">
-            <label class="field">Región del primer paso
-              <select name="globeRegion1"><option value="europe">Europa</option><option value="east-asia">Asia Oriental</option><option value="usa">Estados Unidos</option><option value="world">Mundo</option></select>
-            </label>
-            <label class="field">Título del primer paso<input name="globeTitle1" type="text" maxlength="100" value="El mapa del cambio"></label>
-            <label class="field field-wide">Texto del primer paso<textarea name="globeText1" rows="4" maxlength="700" placeholder="Texto que aparece durante el primer movimiento del globo"></textarea></label>
-          </div>
-          <div class="step-editor">
-            <label class="field">Región del segundo paso
-              <select name="globeRegion2"><option value="usa">Estados Unidos</option><option value="europe">Europa</option><option value="east-asia">Asia Oriental</option><option value="world">Mundo</option></select>
-            </label>
-            <label class="field">Título del segundo paso<input name="globeTitle2" type="text" maxlength="100" value="La escala del reportaje"></label>
-            <label class="field field-wide">Texto del segundo paso<textarea name="globeText2" rows="4" maxlength="700" placeholder="Segundo momento narrativo antes del título"></textarea></label>
-          </div>
-        </section>
+        <section class="form-section rich-section" id="contenido">
+          <div class="section-title"><span>02</span><div><p>Redacción</p><h2>Cuerpo del artículo</h2></div></div>
+          <p class="section-help">Escriba con libertad. Puede combinar encabezados, párrafos, listas, citas, enlaces y estilos sin depender de una estructura fija.</p>
 
-        <section class="form-section" id="capitulos">
-          <div class="section-title"><span>03</span><div><p>Estructura</p><h2>Tres capítulos</h2></div></div>
-          <div class="chapter-editor-grid">
-            <fieldset><legend>Capítulo 1</legend><label class="field">Índice<input name="nav1" type="text" value="Ocio digital"></label><label class="field">Título<input name="heading1" type="text" value="Ocio digital diario"></label></fieldset>
-            <fieldset><legend>Capítulo 2</legend><label class="field">Índice<input name="nav2" type="text" value="Tiempo exterior"></label><label class="field">Título<input name="heading2" type="text" value="Horas exteriores diarias"></label></fieldset>
-            <fieldset><legend>Capítulo 3</legend><label class="field">Índice<input name="nav3" type="text" value="Fecundidad"></label><label class="field">Título<input name="heading3" type="text" value="Datos de fecundidad"></label></fieldset>
-          </div>
-        </section>
+          <div class="rich-editor" data-editor-root>
+            <div class="rich-toolbar" role="toolbar" aria-label="Herramientas de formato del artículo">
+              <div class="toolbar-group toolbar-selects">
+                <label class="toolbar-label">Bloque
+                  <select data-editor-select="formatBlock" aria-label="Tipo de bloque">
+                    <option value="p">Párrafo</option>
+                    <option value="h2">Título</option>
+                    <option value="h3">Subtítulo</option>
+                    <option value="h4">Encabezado menor</option>
+                    <option value="blockquote">Cita</option>
+                    <option value="pre">Código</option>
+                  </select>
+                </label>
+                <label class="toolbar-label">Fuente
+                  <select data-editor-select="fontName" aria-label="Familia tipográfica">
+                    <option value="Arial">Sans</option>
+                    <option value="Georgia">Serif</option>
+                    <option value="Courier New">Monoespaciada</option>
+                  </select>
+                </label>
+                <label class="toolbar-label">Tamaño
+                  <select data-editor-select="fontSize" aria-label="Tamaño del texto">
+                    <option value="2">Pequeño</option>
+                    <option value="3" selected>Normal</option>
+                    <option value="4">Grande</option>
+                    <option value="5">Muy grande</option>
+                  </select>
+                </label>
+              </div>
 
-        <section class="form-section" id="texto">
-          <div class="section-title"><span>04</span><div><p>Narración</p><h2>Cuerpo del reportaje</h2></div></div>
-          <p class="section-help">Separe párrafos con una línea en blanco. Cada bloque ocupa una posición fija entre los interactivos y gráficos.</p>
-          <label class="field narrative-field">Apertura<textarea name="intro" rows="10" required placeholder="Párrafos situados después del prólogo y antes del primer interactivo"></textarea></label>
-          <label class="field narrative-field">Después del ocio digital<textarea name="afterDigital" rows="8" placeholder="Interpretación posterior al primer mapa"></textarea></label>
-          <label class="field narrative-field">Antes del tiempo exterior<textarea name="beforeExterior" rows="6" placeholder="Transición hacia el segundo mapa"></textarea></label>
-          <label class="field narrative-field">Después del tiempo exterior<textarea name="afterExterior" rows="8"></textarea></label>
-          <label class="field narrative-field">Después del primer gráfico de relación<textarea name="afterGraph1" rows="8"></textarea></label>
-          <label class="field narrative-field">Después de fecundidad<textarea name="afterFertility" rows="8"></textarea></label>
-          <label class="field narrative-field">Después del segundo gráfico de relación<textarea name="afterGraph2" rows="8"></textarea></label>
-        </section>
+              <div class="toolbar-group" aria-label="Historial">
+                <button type="button" data-editor-command="undo" title="Deshacer" aria-label="Deshacer">↶</button>
+                <button type="button" data-editor-command="redo" title="Rehacer" aria-label="Rehacer">↷</button>
+              </div>
+              <div class="toolbar-group" aria-label="Énfasis">
+                <button type="button" data-editor-command="bold" title="Negrita" aria-label="Negrita"><strong>B</strong></button>
+                <button type="button" data-editor-command="italic" title="Cursiva" aria-label="Cursiva"><em>I</em></button>
+                <button type="button" data-editor-command="underline" title="Subrayado" aria-label="Subrayado"><u>U</u></button>
+                <button type="button" data-editor-command="strikeThrough" title="Tachado" aria-label="Tachado"><s>S</s></button>
+              </div>
+              <div class="toolbar-group color-tools" aria-label="Color">
+                <label title="Color del texto" aria-label="Color del texto"><span>A</span><input type="color" value="#f5f2eb" data-editor-color="foreColor"></label>
+                <label title="Color de resaltado" aria-label="Color de resaltado"><span class="marker-icon">A</span><input type="color" value="#315f61" data-editor-color="hiliteColor"></label>
+              </div>
+              <div class="toolbar-group" aria-label="Alineación">
+                <button type="button" data-editor-command="justifyLeft" title="Alinear a la izquierda" aria-label="Alinear a la izquierda">≡</button>
+                <button type="button" data-editor-command="justifyCenter" title="Centrar" aria-label="Centrar">≣</button>
+                <button type="button" data-editor-command="justifyRight" title="Alinear a la derecha" aria-label="Alinear a la derecha">≡</button>
+                <button type="button" data-editor-command="justifyFull" title="Justificar" aria-label="Justificar">☰</button>
+              </div>
+              <div class="toolbar-group" aria-label="Listas y citas">
+                <button type="button" data-editor-command="insertUnorderedList" title="Lista con viñetas" aria-label="Lista con viñetas">•≡</button>
+                <button type="button" data-editor-command="insertOrderedList" title="Lista numerada" aria-label="Lista numerada">1≡</button>
+                <button type="button" data-editor-command="formatBlock" data-editor-value="blockquote" title="Cita" aria-label="Insertar cita">“”</button>
+                <button type="button" data-editor-command="insertHorizontalRule" title="Separador" aria-label="Insertar separador">―</button>
+              </div>
+              <div class="toolbar-group" aria-label="Enlaces y limpieza">
+                <button type="button" id="link-button" title="Insertar enlace" aria-label="Insertar enlace">↗</button>
+                <button type="button" data-editor-command="unlink" title="Quitar enlace" aria-label="Quitar enlace">⌁</button>
+                <button type="button" data-editor-command="removeFormat" title="Limpiar formato" aria-label="Limpiar formato">Tx</button>
+              </div>
+            </div>
 
-        <section class="form-section" id="cierre">
-          <div class="section-title"><span>05</span><div><p>Salida</p><h2>Cierre y edición</h2></div></div>
-          <label class="field narrative-field">Cierre del reportaje<textarea name="closing" rows="12" required></textarea></label>
-          <div class="field-grid two-columns">
-            <label class="field">Título de la edición<input name="editionTitle" type="text" value="De la edición digital de Comunicación"></label>
-            <label class="field">Texto de la edición<input name="editionText" type="text" value="Descubra más historias en nuestra portada."></label>
+            <div id="rich-editor-canvas" class="rich-editor-canvas" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Cuerpo del artículo" data-placeholder="Empiece a escribir el artículo…"><p><br></p></div>
+            <textarea name="bodyHtml" id="body-html" hidden required></textarea>
+            <div class="editor-status"><span id="editor-count">0 palabras · 0 caracteres</span><span>HTML seguro al publicar</span></div>
           </div>
         </section>
 
@@ -144,6 +165,19 @@
     <h2>El reportaje está en camino</h2>
     <p id="result-message"></p>
     <div class="dialog-actions"><a class="primary-button" id="result-link" href="#">Abrir artículo</a><a class="secondary-button" href="../main.html">Ir a la portada</a></div>
+  </dialog>
+
+  <dialog id="link-dialog" class="link-dialog">
+    <form method="dialog" id="link-form">
+      <button class="dialog-close" type="button" aria-label="Cerrar">×</button>
+      <p class="eyebrow">Enlace</p>
+      <h2>Insertar vínculo</h2>
+      <label class="field">Dirección URL
+        <input id="link-url" type="url" inputmode="url" placeholder="https://ejemplo.com" required>
+      </label>
+      <label class="check-field"><input id="link-new-window" type="checkbox" checked> Abrir en una pestaña nueva</label>
+      <div class="dialog-actions"><button class="secondary-button" id="link-cancel" type="button">Cancelar</button><button class="primary-button" value="default" type="submit">Insertar</button></div>
+    </form>
   </dialog>
 
   <script src="config.js"></script>

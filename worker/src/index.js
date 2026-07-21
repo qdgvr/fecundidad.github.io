@@ -220,9 +220,10 @@ function cleanText(value, max, required = false) {
   return text;
 }
 
-function validatePayload(input) {
+async function validatePayload(input) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) fail(400, 'El formulario no contiene un artículo válido.');
   const slug = cleanText(input.slug, 80, true).toLowerCase();
-  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug) || ['index', 'main', 'admin', 'content', 'worker'].includes(slug)) fail(400, 'El slug no es válido o está reservado.');
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(slug) || ['index', 'main', 'admin', 'content', 'worker', 'post', 'post-template'].includes(slug)) fail(400, 'El slug no es válido o está reservado.');
   const date = cleanText(input.date, 10, true);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) fail(400, 'La fecha no es válida.');
   const fields = {
@@ -233,24 +234,75 @@ function validatePayload(input) {
     section: cleanText(input.section, 60, true),
     date,
     imageAlt: cleanText(input.imageAlt, 180),
-    globeRegion1: cleanText(input.globeRegion1, 30) || 'europe',
-    globeTitle1: cleanText(input.globeTitle1, 100),
-    globeText1: cleanText(input.globeText1, 700),
-    globeRegion2: cleanText(input.globeRegion2, 30) || 'usa',
-    globeTitle2: cleanText(input.globeTitle2, 100),
-    globeText2: cleanText(input.globeText2, 700),
-    nav1: cleanText(input.nav1, 80), heading1: cleanText(input.heading1, 120),
-    nav2: cleanText(input.nav2, 80), heading2: cleanText(input.heading2, 120),
-    nav3: cleanText(input.nav3, 80), heading3: cleanText(input.heading3, 120),
-    intro: cleanText(input.intro, 15000, true),
-    afterDigital: cleanText(input.afterDigital, 12000), beforeExterior: cleanText(input.beforeExterior, 12000),
-    afterExterior: cleanText(input.afterExterior, 12000), afterGraph1: cleanText(input.afterGraph1, 12000),
-    afterFertility: cleanText(input.afterFertility, 12000), afterGraph2: cleanText(input.afterGraph2, 12000),
-    closing: cleanText(input.closing, 15000, true),
-    editionTitle: cleanText(input.editionTitle, 140), editionText: cleanText(input.editionText, 240)
+    bodyHtml: await sanitizeBodyHtml(input.bodyHtml)
   };
   if (input.heroImage) fields.heroImage = validateImage(input.heroImage);
   return fields;
+}
+
+function sanitizeStyle(value) {
+  const allowed = new Set(['text-align', 'font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration', 'line-height', 'color', 'background-color']);
+  return String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
+    const separator = item.indexOf(':');
+    if (separator < 1) return '';
+    const property = item.slice(0, separator).trim().toLowerCase();
+    const styleValue = item.slice(separator + 1).trim();
+    if (!allowed.has(property) || /url\s*\(|expression\s*\(|@import|javascript:/i.test(styleValue)) return '';
+    return `${property}: ${styleValue}`;
+  }).filter(Boolean).join('; ');
+}
+
+function sanitizeHref(value) {
+  const href = String(value || '').trim();
+  return /^(https?:\/\/|mailto:|#)/i.test(href) ? href : '';
+}
+
+async function sanitizeBodyHtml(value) {
+  const html = cleanText(value, 120000, true);
+  const allowed = new Set(['p', 'br', 'h2', 'h3', 'h4', 'strong', 'b', 'em', 'i', 'u', 's', 'strike', 'blockquote', 'ul', 'ol', 'li', 'a', 'hr', 'pre', 'code', 'span', 'font', 'div']);
+  const blocked = new Set(['script', 'style', 'iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'svg', 'math', 'meta', 'link', 'base', 'template']);
+  const handler = {
+    element(element) {
+      const tag = element.tagName.toLowerCase();
+      if (blocked.has(tag)) {
+        element.remove();
+        return;
+      }
+      if (!allowed.has(tag)) {
+        element.removeAndKeepContent();
+        return;
+      }
+
+      const values = Object.fromEntries([...element.attributes]);
+      [...element.attributes].forEach(([name]) => element.removeAttribute(name));
+      const style = sanitizeStyle(values.style);
+      if (style) element.setAttribute('style', style);
+      if (tag === 'a') {
+        const href = sanitizeHref(values.href);
+        if (!href) {
+          element.removeAndKeepContent();
+          return;
+        }
+        element.setAttribute('href', href);
+        if (values.title) element.setAttribute('title', String(values.title).slice(0, 180));
+        if (values.target === '_blank') {
+          element.setAttribute('target', '_blank');
+          element.setAttribute('rel', 'noopener noreferrer');
+        }
+      }
+      if (tag === 'font') {
+        const face = String(values.face || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80);
+        if (face) element.setAttribute('face', face);
+        if (/^#[0-9a-f]{3,8}$/i.test(values.color || '')) element.setAttribute('color', values.color);
+        if (/^[1-7]$/.test(values.size || '')) element.setAttribute('size', values.size);
+      }
+    }
+  };
+  const response = new HTMLRewriter().on('*', handler).transform(new Response(`<template-root>${html}</template-root>`));
+  const sanitized = (await response.text()).trim();
+  const plainText = sanitized.replace(/<[^>]*>/g, '').replace(/&nbsp;|&#160;/gi, ' ').trim();
+  if (!plainText) fail(400, 'El cuerpo del artículo está vacío.');
+  return sanitized;
 }
 
 function validateImage(image) {
@@ -264,61 +316,25 @@ function validateImage(image) {
   return { type, extension: allowed[type], base64: match[2] };
 }
 
-function splitParagraphs(value) {
-  return String(value || '').split(/\n\s*\n/).map(item => item.trim()).filter(Boolean);
-}
-
 function dateLabel(value) {
   return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
 }
 
-function articleConfig(payload, env, heroPath, cards) {
-  const presets = {
-    europe: { region: 'europe', lat: 47, lon: 8, camera: 4.15 },
-    'east-asia': { region: 'east_asia', lat: 36, lon: 115, camera: 4.1 },
-    usa: { region: 'united_states', lat: 39, lon: -98, camera: 4.25 },
-    world: { region: 'world', lat: 18, lon: 0, camera: 5.7 }
-  };
-  const first = presets[payload.globeRegion1] || presets.europe;
-  const second = presets[payload.globeRegion2] || presets.usa;
+function articleConfig(payload, env, heroPath) {
   return {
     slug: payload.slug,
     meta: { title: `Comunicación | ${payload.title}`, description: payload.description, canonical: `${env.SITE_URL.replace(/\/$/, '')}/${payload.slug}.html` },
     brand: { name: 'Comunicación', motto: 'veritas lux mea', href: '/fecundidad.github.io/main.html' },
-    globeSteps: [
-      { ...first, label: '01', title: payload.globeTitle1 || 'El mapa del cambio', text: payload.globeText1 },
-      { ...second, label: '02', title: payload.globeTitle2 || 'La escala del reportaje', text: payload.globeText2 },
-      { region: 'title', label: payload.section, title: payload.title, text: payload.description, titleCard: true }
-    ],
-    navigation: [
-      { label: '1.', title: payload.nav1 || 'Ocio digital', href: '#ocio-digital' },
-      { label: '2.', title: payload.nav2 || 'Tiempo exterior', href: '#tiempo-exterior' },
-      { label: '3.', title: payload.nav3 || 'Fecundidad', href: '#fecundidad' }
-    ],
-    content: {
-      text: {
-        '#x-block .metric-kicker': `1. ${payload.nav1 || 'Ocio digital'}`, '#x-block .metric-heading h2': payload.heading1 || 'Ocio digital diario',
-        '#m-block .metric-kicker': `2. ${payload.nav2 || 'Tiempo exterior'}`, '#m-block .metric-heading h2': payload.heading2 || 'Horas exteriores diarias',
-        '#y-block .metric-kicker': `3. ${payload.nav3 || 'Fecundidad'}`, '#y-block .metric-heading h2': payload.heading3 || 'Datos de fecundidad'
-      },
-      paragraphs: {
-        '[data-template-slot="intro-body"]': splitParagraphs(payload.intro),
-        '[data-template-slot="after-ocio-digital"]': splitParagraphs(payload.afterDigital),
-        '[data-template-slot="before-tiempo-exterior"]': splitParagraphs(payload.beforeExterior),
-        '[data-template-slot="after-tiempo-exterior"]': splitParagraphs(payload.afterExterior),
-        '[data-template-slot="after-graph-1"]': splitParagraphs(payload.afterGraph1),
-        '[data-template-slot="after-fecundidad"]': splitParagraphs(payload.afterFertility),
-        '[data-template-slot="after-graph-2"]': splitParagraphs(payload.afterGraph2),
-        '[data-template-slot="closing-body"]': splitParagraphs(payload.closing)
-      },
-      html: {}, attributes: {}, remove: [], hide: []
-    },
-    footer: {
-      editionTitle: payload.editionTitle || `De la edición del ${dateLabel(payload.date)}`,
-      editionText: payload.editionText || 'Descubra más historias en nuestra portada.',
-      editionImage: { src: heroPath, alt: payload.imageAlt },
-      moreTitle: 'Más en Comunicación',
-      cards
+    article: {
+      section: payload.section,
+      title: payload.title,
+      description: payload.description,
+      author: payload.author,
+      date: payload.date,
+      dateLabel: dateLabel(payload.date),
+      heroSrc: heroPath,
+      heroAlt: payload.imageAlt,
+      bodyHtml: payload.bodyHtml
     }
   };
 }
@@ -362,18 +378,18 @@ async function publish(request, env) {
   } catch (_) {
     fail(400, 'El formulario no contiene JSON válido.');
   }
-  const payload = validatePayload(input);
+  const payload = await validatePayload(input);
   const branch = env.GITHUB_BRANCH || 'main';
 
   const existing = await github(env, githubToken, `/contents/${encodeURIComponent(payload.slug)}.html?ref=${encodeURIComponent(branch)}`, { optional: true });
   if (existing) fail(409, 'Ya existe un artículo con ese slug.');
 
   const [template, manifestText, ref] = await Promise.all([
-    github(env, githubToken, `/contents/index.html?ref=${encodeURIComponent(branch)}`, { raw: true }),
+    github(env, githubToken, `/contents/post-template.html?ref=${encodeURIComponent(branch)}`, { raw: true }),
     github(env, githubToken, `/contents/content/articles.json?ref=${encodeURIComponent(branch)}`, { raw: true, optional: true }),
     github(env, githubToken, `/git/ref/heads/${encodeURIComponent(branch)}`)
   ]);
-  if (!template.includes('<!-- REPORTAGE_TEMPLATE_RUNTIME -->')) fail(500, 'La plantilla maestra no contiene el marcador editorial.');
+  if (!template.includes('<!-- POST_TEMPLATE_RUNTIME -->')) fail(500, 'La plantilla de artículos no contiene el marcador editorial.');
 
   const headSha = ref.object.sha;
   const parent = await github(env, githubToken, `/git/commits/${headSha}`);
@@ -381,7 +397,7 @@ async function publish(request, env) {
   let manifest = [];
   try { manifest = JSON.parse(manifestText || '[]'); } catch (_) { manifest = []; }
 
-  let heroPath = 'assets/tfg-edition.png';
+  let heroPath = '';
   let imageEntry = null;
   if (payload.heroImage) {
     heroPath = `assets/articles/${payload.slug}/hero.${payload.heroImage.extension}`;
@@ -389,11 +405,10 @@ async function publish(request, env) {
     imageEntry = { path: heroPath, mode: '100644', type: 'blob', sha: blob.sha };
   }
 
-  const related = manifest.slice(0, 5).map(item => ({ title: item.title, description: item.description, href: item.url || `${item.slug}.html`, external: false }));
-  const config = articleConfig(payload, env, heroPath, related);
-  const configSource = `window.REPORTAGE_ARTICLE = ${JSON.stringify(config, null, 2).replace(/</g, '\\u003c')};\n`;
-  const scripts = `<script src="content/${payload.slug}.js"></script>\n  <script src="article-template.js?v=editor-1"></script>`;
-  const pageSource = template.replace('<!-- REPORTAGE_TEMPLATE_RUNTIME -->', scripts);
+  const config = articleConfig(payload, env, heroPath);
+  const configSource = `window.COMUNICACION_POST = ${JSON.stringify(config, null, 2).replace(/</g, '\\u003c')};\n`;
+  const scripts = `<script src="content/${payload.slug}.js"></script>`;
+  const pageSource = template.replace('<!-- POST_TEMPLATE_RUNTIME -->', scripts);
 
   const entry = {
     slug: payload.slug, url: `${payload.slug}.html`, title: payload.title, description: payload.description,

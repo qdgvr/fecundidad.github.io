@@ -4,12 +4,15 @@
   const config = window.COMUNICACION_ADMIN_CONFIG || {};
   const apiBase = String(config.apiBaseUrl || '').replace(/\/$/, '');
   const configured = apiBase && !apiBase.includes('YOUR-WORKER');
-  const localMode = !configured && (location.hostname === '127.0.0.1' || location.hostname === 'localhost' || location.protocol === 'file:');
+  const localMode = location.hostname === '127.0.0.1' || location.hostname === 'localhost' || location.protocol === 'file:';
   const sessionKey = 'comunicacion-admin-session';
-  const draftKey = 'comunicacion-article-draft';
+  const draftKey = 'comunicacion-article-draft-v2';
+  const allowedTags = new Set(['P', 'BR', 'H2', 'H3', 'H4', 'STRONG', 'B', 'EM', 'I', 'U', 'S', 'STRIKE', 'BLOCKQUOTE', 'UL', 'OL', 'LI', 'A', 'HR', 'PRE', 'CODE', 'SPAN', 'FONT', 'DIV']);
+  const blockedTags = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'FORM', 'INPUT', 'BUTTON', 'TEXTAREA', 'SELECT', 'SVG', 'MATH', 'META', 'LINK', 'BASE', 'TEMPLATE']);
   let session = sessionStorage.getItem(sessionKey) || '';
   let heroData = null;
   let slugWasEdited = false;
+  let savedRange = null;
 
   const loginPanel = document.querySelector('#login-panel');
   const editorShell = document.querySelector('#editor-shell');
@@ -25,6 +28,11 @@
   const publishState = document.querySelector('#publish-state');
   const publishDetail = document.querySelector('#publish-detail');
   const resultDialog = document.querySelector('#result-dialog');
+  const linkDialog = document.querySelector('#link-dialog');
+  const linkForm = document.querySelector('#link-form');
+  const editor = document.querySelector('#rich-editor-canvas');
+  const bodyHtml = document.querySelector('#body-html');
+  const editorCount = document.querySelector('#editor-count');
 
   const hashParams = new URLSearchParams(location.hash.replace(/^#/, ''));
   if (hashParams.get('session')) {
@@ -55,7 +63,84 @@
     return body;
   };
 
+  const safeStyle = value => String(value || '').split(';').map(item => item.trim()).filter(Boolean).map(item => {
+    const separator = item.indexOf(':');
+    if (separator < 1) return '';
+    const property = item.slice(0, separator).trim().toLowerCase();
+    const styleValue = item.slice(separator + 1).trim();
+    const allowed = ['text-align', 'font-family', 'font-size', 'font-weight', 'font-style', 'text-decoration', 'line-height', 'color', 'background-color'];
+    if (!allowed.includes(property) || /url\s*\(|expression\s*\(|@import|javascript:/i.test(styleValue)) return '';
+    return `${property}: ${styleValue}`;
+  }).filter(Boolean).join('; ');
+
+  const safeHref = value => {
+    const href = String(value || '').trim();
+    if (/^(https?:\/\/|mailto:|#)/i.test(href)) return href;
+    return '';
+  };
+
+  const sanitizeEditorHtml = html => {
+    const template = document.createElement('template');
+    template.innerHTML = String(html || '');
+    [...template.content.querySelectorAll('*')].forEach(node => {
+      if (blockedTags.has(node.tagName)) {
+        node.remove();
+        return;
+      }
+      if (!allowedTags.has(node.tagName)) {
+        node.replaceWith(...node.childNodes);
+        return;
+      }
+      const href = node.tagName === 'A' ? safeHref(node.getAttribute('href')) : '';
+      const title = node.tagName === 'A' ? String(node.getAttribute('title') || '').slice(0, 180) : '';
+      const target = node.tagName === 'A' && node.getAttribute('target') === '_blank' ? '_blank' : '';
+      const style = safeStyle(node.getAttribute('style'));
+      const face = node.tagName === 'FONT' ? String(node.getAttribute('face') || '').replace(/[^\w\s,"'-]/g, '').slice(0, 80) : '';
+      const color = node.tagName === 'FONT' && /^#[0-9a-f]{3,8}$/i.test(node.getAttribute('color') || '') ? node.getAttribute('color') : '';
+      const size = node.tagName === 'FONT' && /^[1-7]$/.test(node.getAttribute('size') || '') ? node.getAttribute('size') : '';
+      [...node.attributes].forEach(attribute => node.removeAttribute(attribute.name));
+      if (style) node.setAttribute('style', style);
+      if (node.tagName === 'A' && href) {
+        node.setAttribute('href', href);
+        if (title) node.setAttribute('title', title);
+        if (target) {
+          node.setAttribute('target', '_blank');
+          node.setAttribute('rel', 'noopener noreferrer');
+        }
+      } else if (node.tagName === 'A') {
+        node.replaceWith(...node.childNodes);
+      }
+      if (face) node.setAttribute('face', face);
+      if (color) node.setAttribute('color', color);
+      if (size) node.setAttribute('size', size);
+    });
+    return template.innerHTML.trim();
+  };
+
+  const syncEditor = () => {
+    const html = sanitizeEditorHtml(editor.innerHTML);
+    bodyHtml.value = html;
+    const plain = editor.textContent.replace(/\u00a0/g, ' ').trim();
+    const words = plain ? plain.split(/\s+/).length : 0;
+    editorCount.textContent = `${words.toLocaleString('es-ES')} palabras · ${plain.length.toLocaleString('es-ES')} caracteres`;
+    editor.dataset.empty = plain ? 'false' : 'true';
+    bodyHtml.setCustomValidity(plain ? '' : 'Escriba el cuerpo del artículo.');
+    return html;
+  };
+
+  const validForm = () => {
+    syncEditor();
+    if (!form.reportValidity()) return false;
+    if (bodyHtml.validationMessage) {
+      editor.focus();
+      publishDetail.textContent = bodyHtml.validationMessage;
+      return false;
+    }
+    return true;
+  };
+
   const getPayload = () => {
+    syncEditor();
     const data = Object.fromEntries(new FormData(form).entries());
     delete data.heroImage;
     if (heroData) data.heroImage = heroData;
@@ -79,6 +164,10 @@
     try {
       const draft = JSON.parse(raw);
       Object.entries(draft).forEach(([name, value]) => {
+        if (name === 'bodyHtml' && typeof value === 'string') {
+          editor.innerHTML = sanitizeEditorHtml(value) || '<p><br></p>';
+          return;
+        }
         const input = field(name);
         if (input && typeof value === 'string') input.value = value;
       });
@@ -93,8 +182,82 @@
     previewButton.disabled = busy;
   };
 
+  const rangeInsideEditor = range => range && editor.contains(range.commonAncestorContainer);
+  const rememberSelection = () => {
+    const selection = window.getSelection();
+    if (selection.rangeCount && editor.contains(selection.anchorNode)) savedRange = selection.getRangeAt(0).cloneRange();
+  };
+  const restoreSelection = () => {
+    if (!rangeInsideEditor(savedRange)) return;
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+  };
+  const command = (name, value = null) => {
+    editor.focus();
+    restoreSelection();
+    document.execCommand(name, false, value);
+    rememberSelection();
+    syncEditor();
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  document.execCommand('styleWithCSS', false, true);
+  document.addEventListener('selectionchange', rememberSelection);
+  document.querySelectorAll('[data-editor-command]').forEach(button => {
+    button.addEventListener('mousedown', event => event.preventDefault());
+    button.addEventListener('click', () => command(button.dataset.editorCommand, button.dataset.editorValue || null));
+  });
+  document.querySelectorAll('[data-editor-select]').forEach(select => {
+    select.addEventListener('change', () => {
+      const name = select.dataset.editorSelect;
+      const value = name === 'formatBlock' ? `<${select.value}>` : select.value;
+      command(name, value);
+    });
+  });
+  document.querySelectorAll('[data-editor-color]').forEach(input => input.addEventListener('input', () => command(input.dataset.editorColor, input.value)));
+
+  document.querySelector('#link-button').addEventListener('mousedown', event => event.preventDefault());
+  document.querySelector('#link-button').addEventListener('click', () => {
+    rememberSelection();
+    document.querySelector('#link-url').value = '';
+    linkDialog.showModal();
+    document.querySelector('#link-url').focus();
+  });
+  linkForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const url = safeHref(document.querySelector('#link-url').value);
+    if (!url) {
+      document.querySelector('#link-url').setCustomValidity('Use una dirección https://, http://, mailto: o un enlace interno #.');
+      document.querySelector('#link-url').reportValidity();
+      return;
+    }
+    document.querySelector('#link-url').setCustomValidity('');
+    editor.focus();
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!selection.rangeCount || selection.getRangeAt(0).collapsed) {
+      const target = document.querySelector('#link-new-window').checked ? ' target="_blank" rel="noopener noreferrer"' : '';
+      document.execCommand('insertHTML', false, `<a href="${url.replace(/"/g, '&quot;')}"${target}>${url}</a>`);
+    } else {
+      document.execCommand('createLink', false, url);
+      const anchor = selection.anchorNode?.parentElement?.closest('a');
+      if (anchor && document.querySelector('#link-new-window').checked) {
+        anchor.target = '_blank';
+        anchor.rel = 'noopener noreferrer';
+      }
+    }
+    linkDialog.close();
+    syncEditor();
+    editor.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  document.querySelector('#link-cancel').addEventListener('click', () => linkDialog.close());
+  linkDialog.querySelector('.dialog-close').addEventListener('click', () => linkDialog.close());
+  resultDialog.querySelector('.dialog-close').addEventListener('click', () => resultDialog.close());
+
   field('date').value = today;
   restoreDraft();
+  syncEditor();
 
   field('title').addEventListener('input', event => {
     if (!slugWasEdited) field('slug').value = slugify(event.target.value);
@@ -123,6 +286,8 @@
     });
   });
 
+  editor.addEventListener('paste', () => setTimeout(syncEditor));
+  editor.addEventListener('input', syncEditor);
   form.addEventListener('input', () => {
     draftState.textContent = 'Cambios sin guardar';
     publishState.textContent = 'Borrador modificado';
@@ -130,7 +295,7 @@
 
   saveButton.addEventListener('click', () => saveDraft());
   previewButton.addEventListener('click', () => {
-    if (!form.reportValidity()) return;
+    if (!validForm()) return;
     const payload = getPayload();
     if (heroData) payload.heroPreview = heroData.dataUrl;
     localStorage.setItem('comunicacion-preview', JSON.stringify(payload));
@@ -144,11 +309,9 @@
     if (configured) loginButton.href = `${apiBase}/auth/login`;
   });
 
-  document.querySelector('.dialog-close').addEventListener('click', () => resultDialog.close());
-
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (localMode || !form.reportValidity()) return;
+    if (localMode || !validForm()) return;
     setBusy(true);
     publishState.textContent = 'Publicando…';
     publishDetail.textContent = 'Creando el artículo y actualizando la portada en un único commit.';
