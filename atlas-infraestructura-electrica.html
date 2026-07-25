@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Atlas interactivo de la infraestructura eléctrica cartografiada públicamente en Europa, Estados Unidos y Asia Oriental.">
+  <meta name="theme-color" content="#000000">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" href="data:,">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://openinframap.org; worker-src blob:; child-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Comunicación</title>
+  <link rel="stylesheet" href="assets/vendor/maplibre-gl-5.21.1.css?v=5.21.1">
+  <link rel="stylesheet" href="post.css?v=3">
+  <link rel="stylesheet" href="open-grid-atlas.css?v=4">
+  <script src="content/atlas-infraestructura-electrica.js?v=3"></script>
+</head>
+<body class="grid-atlas-page">
+  <a class="post-skip" href="#post-body">Saltar al contenido</a>
+  <header class="post-header">
+    <a class="post-menu" href="main.html" aria-label="Volver a la portada"><span></span><span></span></a>
+    <a class="post-brand" data-post-brand href="main.html"><strong>Comunicación</strong><em>veritas lux mea</em></a>
+    <a class="post-home" href="main.html">Portada</a>
+  </header>
+
+  <main>
+    <header class="post-intro">
+      <p class="post-kicker" data-post-section></p>
+      <h1 data-post-title></h1>
+      <p class="post-dek" data-post-description></p>
+      <div class="post-meta"><span>Por <strong data-post-author></strong></span><time data-post-date></time></div>
+    </header>
+
+    <article class="post-body" id="post-body" data-post-body></article>
+  </main>
+
+  <footer class="post-footer">
+    <a class="post-footer-brand" href="main.html">Comunicación</a>
+    <p>Veritas lux mea</p>
+    <nav aria-label="Enlaces editoriales"><a href="main.html">Portada</a><a href="admin/">Redacción</a></nav>
+  </footer>
+  <script src="post-template.js?v=2"></script>
+  <script src="assets/vendor/maplibre-gl-5.21.1.js?v=5.21.1"></script>
+  <script src="open-grid-atlas.js?v=6"></script>
+</body>
+</html>

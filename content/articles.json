@@ -1,5 +1,17 @@
 [
   {
+    "slug": "atlas-infraestructura-electrica",
+    "url": "atlas-infraestructura-electrica.html",
+    "title": "Atlas abierto de la infraestructura eléctrica",
+    "description": "Europa, Estados Unidos, China, Japón, Corea del Sur y Taiwán en una misma vista cartográfica.",
+    "section": "Infraestructura",
+    "author": "Kitak Kang",
+    "date": "2026-07-25",
+    "dateLabel": "25 de julio de 2026",
+    "thumbnail": "assets/open-grid-atlas.svg",
+    "imageAlt": "Atlas de líneas eléctricas sobre un mapa mundial oscuro"
+  },
+  {
     "slug": "index",
     "url": "index.html",
     "title": "Del ocio digital al aplazamiento de la maternidad",

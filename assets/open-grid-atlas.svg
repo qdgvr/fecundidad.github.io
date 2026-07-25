@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Atlas de infraestructura eléctrica</title>
+  <desc id="desc">Composición cartográfica oscura con líneas eléctricas de distintos niveles de tensión.</desc>
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111a21"/>
+      <stop offset="1" stop-color="#06090c"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sea)"/>
+  <g fill="#172126" stroke="#344148" stroke-width="2">
+    <path d="M70 108 231 78 352 129 474 114 539 189 500 266 410 304 345 378 249 360 183 284 94 247Z"/>
+    <path d="M349 399 463 421 510 514 481 617 405 760 340 811 295 730 312 620 270 536Z"/>
+    <path d="M690 107 793 62 948 84 1041 131 1189 122 1342 179 1501 269 1520 365 1422 420 1285 405 1189 466 1046 431 956 350 839 333 760 276 659 220Z"/>
+    <path d="M1005 470 1106 488 1194 565 1235 697 1172 819 1085 783 1069 684 999 617 944 535Z"/>
+    <path d="M1314 595 1441 560 1536 635 1508 734 1390 761 1302 690Z"/>
+    <path d="M1286 256 1313 291 1298 353 1268 318Z"/>
+    <path d="M1372 323 1397 356 1381 414 1353 382Z"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke="#f2cc50" stroke-width="2" opacity=".78">
+      <path d="M125 151 248 201 330 174 427 233 505 207"/>
+      <path d="M739 161 827 186 903 152 1008 201 1112 175 1218 226 1320 207 1450 289"/>
+      <path d="M1000 531 1071 582 1141 548 1200 630 1160 715"/>
+      <path d="M1344 617 1421 642 1488 702"/>
+    </g>
+    <g stroke="#ef5a72" stroke-width="4" opacity=".88" filter="url(#glow)">
+      <path d="M92 218 195 247 286 224 363 287 447 257 519 302"/>
+      <path d="M681 209 786 239 860 206 934 256 1026 228 1110 280 1207 255 1295 308"/>
+      <path d="M1218 279 1275 334 1307 401"/>
+      <path d="M1328 329 1375 374 1392 432"/>
+    </g>
+    <g stroke="#6bc4ff" stroke-width="3" opacity=".82">
+      <path d="M111 124 226 172 317 141 410 196 502 178"/>
+      <path d="M714 109 809 143 894 116 995 160 1101 139 1200 185 1304 164 1428 237"/>
+      <path d="M1043 493 1114 529 1175 501 1223 558"/>
+    </g>
+    <g stroke="#845eea" stroke-width="3" stroke-dasharray="9 8" opacity=".85">
+      <path d="M488 160 606 137 707 162"/>
+      <path d="M1283 231 1350 271 1420 293"/>
+      <path d="M1360 459 1421 487 1512 470"/>
+    </g>
+  </g>
+  <g fill="#f7f4ed" stroke="#050708" stroke-width="5">
+    <circle cx="363" cy="287" r="10"/><circle cx="786" cy="239" r="10"/><circle cx="934" cy="256" r="10"/>
+    <circle cx="1110" cy="280" r="10"/><circle cx="1295" cy="308" r="10"/><circle cx="1375" cy="374" r="10"/>
+  </g>
+  <g transform="translate(74 744)">
+    <rect width="742" height="103" fill="#050607" opacity=".9"/>
+    <text x="31" y="43" fill="#36babc" font-family="Helvetica,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">INFRAESTRUCTURA</text>
+    <text x="31" y="78" fill="#f7f4ed" font-family="Georgia,serif" font-size="34" font-weight="700">Atlas abierto de la red eléctrica</text>
+  </g>
+</svg>
