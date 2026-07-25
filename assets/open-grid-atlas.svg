@@ -49,9 +49,10 @@
     <circle cx="363" cy="287" r="10"/><circle cx="786" cy="239" r="10"/><circle cx="934" cy="256" r="10"/>
     <circle cx="1110" cy="280" r="10"/><circle cx="1295" cy="308" r="10"/><circle cx="1375" cy="374" r="10"/>
   </g>
-  <g transform="translate(74 744)">
-    <rect width="742" height="103" fill="#050607" opacity=".9"/>
-    <text x="31" y="43" fill="#36babc" font-family="Helvetica,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">INFRAESTRUCTURA</text>
-    <text x="31" y="78" fill="#f7f4ed" font-family="Georgia,serif" font-size="34" font-weight="700">Atlas abierto de la red eléctrica</text>
+  <g transform="translate(560 695)">
+    <rect width="480" height="152" fill="#050607" opacity=".9"/>
+    <text x="30" y="39" fill="#36babc" font-family="Helvetica,Arial,sans-serif" font-size="17" font-weight="700" letter-spacing="4">INFRAESTRUCTURA</text>
+    <text x="30" y="82" fill="#f7f4ed" font-family="Georgia,serif" font-size="31" font-weight="700">Atlas abierto</text>
+    <text x="30" y="121" fill="#f7f4ed" font-family="Georgia,serif" font-size="28" font-weight="700">infraestructura eléctrica</text>
   </g>
 </svg>
