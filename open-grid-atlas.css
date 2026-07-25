@@ -1,3 +1,8 @@
+.grid-atlas-page,
+html {
+  overflow-x: clip;
+}
+
 .post-intro {
   margin-bottom: clamp(42px, 6vw, 78px);
 }
