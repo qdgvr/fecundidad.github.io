@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-07-26T01:34:09.698188+00:00",
+  "source": {
+    "id": "us-eia860m-2026-06",
+    "publisher": "U.S. Energy Information Administration",
+    "title": "Preliminary Monthly Electric Generator Inventory",
+    "period": "2026-06",
+    "release_date": "2026-07-23",
+    "page_url": "https://www.eia.gov/electricity/data/eia860m/",
+    "download_url": "https://www.eia.gov/electricity/data/eia860m/xls/june_generator2026.xlsx",
+    "source_sha256": "47d28a1e5599135b619d249971f35f03fef8a5b3062c2d66c436b55e8f8c3072",
+    "download_transport": "local input",
+    "license": "U.S. Government public domain",
+    "license_url": "https://www.eia.gov/about/copyrights_reuse.php"
+  },
+  "scope": {
+    "region": "continental United States",
+    "bounds": {
+      "west": -125.0,
+      "south": 24.0,
+      "east": -66.0,
+      "north": 50.0
+    },
+    "excluded_states": [
+      "AK",
+      "HI",
+      "PR"
+    ],
+    "worksheets": [
+      "Operating",
+      "Planned"
+    ]
+  },
+  "transform": {
+    "unit_of_observation": "one GeoJSON point per EIA Plant ID",
+    "coordinate_rule": "most frequent reported longitude/latitude pair when a plant has more than one coordinate pair",
+    "capacity_rule": "sum generator nameplate and summer capacities separately for Operating and Planned worksheets",
+    "status_rule": "preserve EIA leading status codes and generator counts; Operating status OS is excluded only from AVAILABLE_NAMEPLATE_MW",
+    "telemetry": "none; EIA-860M is a dated inventory"
+  },
+  "property_schema": {
+    "src": "source registry identifier",
+    "i": "original EIA Plant ID",
+    "n": "plant name",
+    "st": "two-letter state code",
+    "co": "county",
+    "ei": "EIA entity ID",
+    "en": "entity name",
+    "ba": "balancing authority code",
+    "se": "sector",
+    "cu": "generator rows in Operating",
+    "pu": "generator rows in Planned",
+    "cm": "current nameplate capacity, MW",
+    "cs": "current net summer capacity, MW",
+    "am": "available nameplate capacity excluding status OS, MW",
+    "pm": "planned nameplate capacity, MW",
+    "psm": "planned net summer capacity, MW",
+    "dm": "display capacity: max(cm, pm), MW",
+    "os": "Operating status-code counts separated by |",
+    "ps": "Planned status-code counts separated by |",
+    "t": "technologies separated by |",
+    "f": "energy-source codes separated by |",
+    "oy": "earliest reported operating year",
+    "py": "earliest reported planned operation year",
+    "cv": "distinct reported coordinate pairs for the Plant ID",
+    "sp": "source reporting period",
+    "rd": "source release date",
+    "url": "official source page URL",
+    "lic": "source reuse label",
+    "ev": "evidence class",
+    "gc": "geometry confidence"
+  },
+  "counts": {
+    "plant_features": 15764,
+    "plants_with_current_units": 14325,
+    "plants_with_planned_units": 1535,
+    "current_generator_rows": 27427,
+    "planned_generator_rows": 2267,
+    "coordinate_conflict_plants": 0
+  },
+  "row_audit": {
+    "source_rows": {
+      "Operating": 28198,
+      "Planned": 2298
+    },
+    "valid_conus_rows": {
+      "Operating": 27427,
+      "Planned": 2267
+    },
+    "invalid_coordinate_rows": {
+      "Operating": 2,
+      "Planned": 2
+    },
+    "outside_region_rows": {
+      "Operating": 769,
+      "Planned": 29
+    }
+  },
+  "output": {
+    "path": "data/grid-atlas/us-eia860m-plants.geojson",
+    "bytes": 9557484,
+    "sha256": "951ddbb9d351afd6f5bac68a10155599c7495a24be90bb7613926a492deeb151"
+  }
+}

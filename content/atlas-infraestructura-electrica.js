@@ -14,8 +14,8 @@ window.COMUNICACION_POST = {
     title: 'Atlas abierto de la infraestructura eléctrica',
     description: 'Europa, Estados Unidos, China, Japón, Corea del Sur y Taiwán en un mismo atlas interactivo.',
     author: 'Kitak Kang',
-    date: '2026-07-25',
-    dateLabel: '25 de julio de 2026',
+    date: '2026-07-26',
+    dateLabel: '26 de julio de 2026',
     bodyHtml: `
       <section class="grid-atlas" data-grid-atlas aria-label="Atlas interactivo de infraestructura eléctrica">
         <div class="grid-atlas-toolbar">
@@ -29,7 +29,7 @@ window.COMUNICACION_POST = {
           </div>
           <div class="grid-atlas-actions">
             <button type="button" data-layers-button aria-controls="grid-atlas-layers" aria-expanded="false">Capas</button>
-            <button type="button" data-scope-button aria-controls="grid-atlas-scope" aria-expanded="false">Límites</button>
+            <button type="button" data-scope-button aria-controls="grid-atlas-scope" aria-expanded="false">Fuentes</button>
             <a data-open-map href="https://openinframap.org/#3.5/51/10/A,B,L,P" target="_blank" rel="noopener noreferrer">Abrir mapa <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -37,17 +37,23 @@ window.COMUNICACION_POST = {
         <div class="grid-atlas-drawers">
           <section class="grid-atlas-drawer grid-atlas-layers" id="grid-atlas-layers" data-layers-panel hidden aria-labelledby="grid-atlas-layers-title">
             <div class="grid-atlas-drawer-heading">
-              <strong id="grid-atlas-layers-title">Capas cartografiadas</strong>
-              <span>Los filtros cambian lo visible; no corrigen omisiones.</span>
+              <strong id="grid-atlas-layers-title">Capas de la red integrada</strong>
+              <span>La procedencia y el grado de inferencia se conservan por objeto.</span>
             </div>
             <div class="grid-atlas-layers-grid">
               <fieldset class="grid-atlas-layer-options">
                 <legend>Infraestructura</legend>
-                <label><input type="checkbox" data-layer-toggle="overhead" checked><span>Líneas aéreas</span></label>
-                <label><input type="checkbox" data-layer-toggle="underground" checked><span>Cables y tramos subterráneos/submarinos</span></label>
-                <label><input type="checkbox" data-layer-toggle="substations" checked><span>Subestaciones y convertidores</span></label>
-                <label><input type="checkbox" data-layer-toggle="plants" checked><span>Centrales mapeadas · parcial</span></label>
-                <label><input type="checkbox" data-layer-toggle="generators" checked><span>Generadores mapeados · parcial</span></label>
+                <label><input type="checkbox" data-layer-toggle="official" checked><span>Red oficial o validada disponible</span></label>
+                <label><input type="checkbox" data-layer-toggle="model-corridors"><span>Corredores de capacidad esquemáticos</span></label>
+                <label><input type="checkbox" data-layer-toggle="kpg-model"><span>Topología sintética KPG 193 · no es la red real</span></label>
+                <label><input type="checkbox" data-layer-toggle="gem-plants" checked><span>Centrales operativas/en obra · GEM 2026</span></label>
+                <label><input type="checkbox" data-layer-toggle="gem-planned"><span>Proyectos anunciados · GEM 2026</span></label>
+                <label><input type="checkbox" data-layer-toggle="gem-retired"><span>Centrales retiradas/inactivas · GEM 2026</span></label>
+                <label><input type="checkbox" data-layer-toggle="overhead" checked><span>Líneas aéreas · OSM</span></label>
+                <label><input type="checkbox" data-layer-toggle="underground" checked><span>Cables subterráneos/submarinos · OSM</span></label>
+                <label><input type="checkbox" data-layer-toggle="substations" checked><span>Subestaciones y convertidores · OSM</span></label>
+                <label><input type="checkbox" data-layer-toggle="plants"><span>Centrales adicionales · OSM</span></label>
+                <label><input type="checkbox" data-layer-toggle="generators"><span>Generadores adicionales · OSM</span></label>
                 <label><input type="checkbox" data-layer-toggle="equipment"><span>Equipos OSM · parcial · z14+</span></label>
                 <label><input type="checkbox" data-layer-toggle="construction" checked><span>Líneas en construcción</span></label>
                 <label><input type="checkbox" data-layer-toggle="disused" checked><span>Líneas fuera de uso</span></label>
@@ -65,8 +71,10 @@ window.COMUNICACION_POST = {
               </label>
 
               <div class="grid-atlas-status-key" aria-label="Simbología de estado de las líneas">
-                <strong>Estado de líneas en OpenStreetMap</strong>
-                <span><i class="grid-atlas-status-line status-active"></i>Sin etiqueta de ciclo de vida</span>
+                <strong>Procedencia y estado</strong>
+                <span><i class="grid-atlas-status-line status-official"></i>Fuente oficial o validada</span>
+                <span><i class="grid-atlas-status-line status-modelled"></i>Enlace modelado, no trazado</span>
+                <span><i class="grid-atlas-status-line status-active"></i>Geometría OSM</span>
                 <span><i class="grid-atlas-status-line status-construction"></i>En construcción</span>
                 <span><i class="grid-atlas-status-line status-disused"></i>Fuera de uso</span>
               </div>
@@ -75,41 +83,87 @@ window.COMUNICACION_POST = {
 
           <section class="grid-atlas-drawer grid-atlas-scope" id="grid-atlas-scope" data-scope-panel hidden aria-labelledby="grid-atlas-scope-title">
             <div class="grid-atlas-scope-callout">
-              <strong id="grid-atlas-scope-title">Uso correcto</strong>
-              <span>Distribución geográfica de infraestructura eléctrica publicada en OpenStreetMap.</span>
+              <strong id="grid-atlas-scope-title">Fusión trazable</strong>
+              <span data-source-summary>Geometría OSM, centrales verificadas y fuentes oficiales cuando ofrecen datos reutilizables.</span>
             </div>
+            <section class="grid-atlas-evidence" data-region-evidence aria-label="Cobertura y hechos verificados de la región">
+              <div class="grid-atlas-evidence-copy">
+                <span>Cobertura regional verificada</span>
+                <strong data-profile-title>Geometría oficial multifuente sin falsa precisión</strong>
+                <p data-profile-summary>Francia incorpora IGN BD TOPO; Gran Bretaña añade OS OpenMap Local; Alemania suma BKG ≥110 kV y proyectos BNetzA, y Noruega conserva NVE. Las rectas de planificación se distinguen del trazado físico.</p>
+              </div>
+              <dl class="grid-atlas-evidence-metrics" data-profile-metrics>
+                <div><dt>14.497</dt><dd>líneas oficiales IGN · Francia</dd></div>
+                <div><dt>3.414</dt><dd>líneas OS · Gran Bretaña</dd></div>
+                <div><dt>12.986</dt><dd>líneas BKG ≥110 kV · Alemania</dd></div>
+                <div><dt>184</dt><dd>objetos de proyecto BNetzA</dd></div>
+                <div><dt>390</dt><dd>tramos de transmisión NVE</dd></div>
+              </dl>
+              <div class="grid-atlas-evidence-links" data-profile-links>
+                <a href="https://www.data.gouv.fr/datasets/bd-topo-r" target="_blank" rel="noopener noreferrer">IGN BD TOPO · Licence Ouverte 2.0 ↗</a>
+                <a href="https://docs.os.uk/os-downloads/products/maps-and-imagery-portfolio/os-openmap-local/os-openmap-local-technical-specification/feature-types/electricitytransmissionline" target="_blank" rel="noopener noreferrer">OS OpenMap Local · OGL 3.0 ↗</a>
+                <a href="https://gdz.bkg.bund.de/index.php/default/digitales-landschaftsmodell-1-250-000-kompakt-dlm250-kompakt.html" target="_blank" rel="noopener noreferrer">BKG DLM250 · dl-de/by-2-0 ↗</a>
+                <a href="https://odre.opendatasoft.com/explore/dataset/lignes-aeriennes-rte-nv/" target="_blank" rel="noopener noreferrer">RTE ODRÉ · Licence Ouverte 2.0 ↗</a>
+                <a href="https://www.nve.no/energi/energisystem/nett/kraftsystemdata/nettkart/" target="_blank" rel="noopener noreferrer">NVE Nettanlegg · NLOD ↗</a>
+              </div>
+            </section>
+            <section class="grid-atlas-inventory" data-official-inventory hidden aria-labelledby="grid-atlas-inventory-title">
+              <div class="grid-atlas-inventory-head">
+                <div>
+                  <span>Inventario oficial sin geometría inventada</span>
+                  <h3 id="grid-atlas-inventory-title" data-inventory-title></h3>
+                  <p data-inventory-summary></p>
+                </div>
+                <label>
+                  <span>Buscar registros</span>
+                  <input type="search" data-inventory-search autocomplete="off" placeholder="Nombre, tensión, etapa…" />
+                </label>
+              </div>
+              <div class="grid-atlas-inventory-body">
+                <div class="grid-atlas-inventory-list" data-inventory-list role="list"></div>
+                <article class="grid-atlas-inventory-detail" data-inventory-detail></article>
+              </div>
+              <div class="grid-atlas-inventory-foot">
+                <p class="grid-atlas-inventory-note" data-inventory-note></p>
+                <nav class="grid-atlas-inventory-pagination" aria-label="Páginas del inventario">
+                  <button type="button" data-inventory-previous>Página anterior</button>
+                  <span data-inventory-page-status aria-live="polite"></span>
+                  <button type="button" data-inventory-next>Página siguiente</button>
+                </nav>
+              </div>
+            </section>
             <div class="grid-atlas-scope-grid">
               <div>
-                <strong>Origen y cobertura</strong>
-                <span>Inventario voluntario, no oficial. El detalle y la actualización varían; no existe una capa oficial homogénea y comparable para las seis regiones.</span>
+                <strong>Base geográfica mundial</strong>
+                <span><a href="https://openinframap.org/" target="_blank" rel="noopener noreferrer">OpenInfraMap / OpenStreetMap ↗</a>: trazados, cables, subestaciones y equipos etiquetados. Cada objeto conserva su enlace OSM.</span>
               </div>
               <div>
-                <strong>Evidencia de Corea del Sur</strong>
-                <span><a href="https://arxiv.org/abs/2606.12791" target="_blank" rel="noopener noreferrer">Preprint GIST, junio de 2026 ↗</a>: cobertura de trazados 765/345/154 kV ≈100/96/79%; 19 subestaciones de 345 kV y 130 de 154 kV necesitaron enlaces estimados.</span>
+                <strong>Centrales · seis regiones</strong>
+                <span><a href="https://globalenergymonitor.org/projects/global-integrated-power-tracker/" target="_blank" rel="noopener noreferrer">Global Energy Monitor, marzo de 2026 ↗</a>: capacidad, tecnología, combustible, estado, propiedad y fechas por unidad o fase.</span>
               </div>
               <div>
-                <strong>Tramos difíciles de observar</strong>
-                <span>En Corea, el 14,9% de la longitud de transmisión era subterránea en 2024. Cables urbanos, enlaces submarinos, HVDC de Jeju y generación distribuida pueden faltar.</span>
+                <strong>Estados Unidos · integrado</strong>
+                <span><a href="https://catalog.data.gov/dataset/electric-power-transmission-lines" target="_blank" rel="noopener noreferrer">HIFLD / U.S. Government ↗</a> aporta la red nacional archivada; <a href="https://catalog.data.gov/dataset/california-electric-transmission-lines" target="_blank" rel="noopener noreferrer">CEC ↗</a> actualiza California, <a href="https://services3.arcgis.com/Iz3chmSt4P7oOoZy/arcgis/rest/services/BPA_TransmissionLines_View/FeatureServer/0" target="_blank" rel="noopener noreferrer">BPA ↗</a> añade 705 líneas del noroeste y <a href="https://www.eia.gov/electricity/data/eia860m/" target="_blank" rel="noopener noreferrer">EIA-860M junio de 2026 ↗</a> añade 15.764 centrales continentales.</span>
               </div>
               <div>
-                <strong>Trazado no es circuit-km</strong>
-                <span>Corea: ≈15.175 km cartografiados frente a 35.856 circuit-km oficiales. Un cruce no prueba conexión; al ajustar circuitos, el preprint obtuvo 108/107/97% para 765/345/154 kV.</span>
+                <strong>Europa · geometría e inventario oficial</strong>
+                <span><a href="https://www.data.gouv.fr/datasets/bd-topo-r" target="_blank" rel="noopener noreferrer">IGN BD TOPO ↗</a> aporta Francia; <a href="https://docs.os.uk/os-downloads/products/maps-and-imagery-portfolio/os-openmap-local/os-openmap-local-technical-specification/feature-types/electricitytransmissionline" target="_blank" rel="noopener noreferrer">OS OpenMap Local ↗</a> añade 3.414 líneas cartográficas de transmisión de Gran Bretaña y <a href="https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-brt-topnl" target="_blank" rel="noopener noreferrer">Kadaster BRT TOP10NL ↗</a> 496 líneas de alta tensión de Países Bajos; ambas capas conservan la geometría 1:10.000 sin simplificar ni inventar tensión. <a href="https://gdz.bkg.bund.de/index.php/default/digitales-landschaftsmodell-1-250-000-kompakt-dlm250-kompakt.html" target="_blank" rel="noopener noreferrer">BKG DLM250 ↗</a> y <a href="https://www.netzausbau.de/" target="_blank" rel="noopener noreferrer">BNetzA ↗</a> cubren Alemania, marcando «Luftlinie» como esquema. <a href="https://www.nve.no/energi/energisystem/nett/kraftsystemdata/nettkart/" target="_blank" rel="noopener noreferrer">NVE ↗</a> cubre Noruega y <a href="https://opendata.swiss/en/dataset/elektrische-anlagen-mit-einer-nennspannung-von-uber-36-kv" target="_blank" rel="noopener noreferrer">SFOE ↗</a> Suiza >36 kV; RTE conserva inventario sin coordenadas propias.</span>
               </div>
               <div>
-                <strong>Modelo eléctrico incompleto</strong>
-                <span>El detalle z14+ muestra equipos etiquetados, no las 925 subestaciones oficiales de Corea como una taxonomía equivalente ni barras, bancos, circuitos, impedancias, taps o compensación completos.</span>
+                <strong>Corea del Sur · inventario oficial y contraste</strong>
+                <span><a href="https://www.kepco.co.kr/home/business/transbus.do" target="_blank" rel="noopener noreferrer">KEPCO 2024 ↗</a> verifica 35.856 c-km de transmisión, 925 subestaciones y 14,9 % de red subterránea. La <a href="https://www.kepco.co.kr/home/disclosure/transdisclosure/transstatus/transinfo.do" target="_blank" rel="noopener noreferrer">plataforma de obras ↗</a> declara 849 proyectos, pero sus listas exponen 848: todos se pueden buscar y el atlas no inventa el faltante ni una ruta. <a href="https://github.com/agm-center/kpg-testgrid/tree/5c9580b9effdd388bcc2433c8b66dea85c159617/kpg193_v2_0" target="_blank" rel="noopener noreferrer">KPG 193 v2.0 · ODbL ↗</a> y <a href="https://arxiv.org/abs/2606.12791" target="_blank" rel="noopener noreferrer">GIST 2.217 barras ↗</a> quedan separados como modelos sintéticos.</span>
               </div>
               <div>
-                <strong>Sin operación en tiempo real</strong>
-                <span>No incluye flujo, congestión, límites térmicos, N-1, estabilidad de tensión, estado de interruptores, averías, mantenimiento ni capacidad de conexión.</span>
+                <strong>Japón · geometría y capacidad oficiales</strong>
+                <span><a href="https://maps.gsi.go.jp/development/vt.html" target="_blank" rel="noopener noreferrer">GSI ↗</a> aporta líneas de transmisión oficiales a z14–16 y centrales a z13–16. <a href="https://www.occto.or.jp/assets/renkeisenriyou/oshirase/2025/files/oshirase_20260311_1_2026-2035_unyouyouryou.pdf" target="_blank" rel="noopener noreferrer">OCCTO 2026-2035 ↗</a> añade siete enlaces con capacidad direccional; sus rectas siguen marcadas como esquema.</span>
               </div>
               <div>
-                <strong>Generación y distribución</strong>
-                <span>Corea: 121,4 GW etiquetados frente a 157,1 GW oficiales; solar OSM 406 MW frente a 27.096 MW oficiales y eólica oficial 2.248 MW. La red de 22,9 kV, los cierres, cambios de combustible, obras y múltiples unidades no quedan representados de forma completa.</span>
+                <strong>Taiwán · activos oficiales</strong>
+                <span><a href="https://data.gov.tw/dataset/161874" target="_blank" rel="noopener noreferrer">Taipower / data.gov.tw ↗</a>: las 505.791 coordenadas válidas de feeder o transformador se transforman de TWD67 a WGS84 y se muestran completas en 5.570 celdas de 0,02°, sin muestreo ni suma engañosa de capacidad.</span>
               </div>
               <div>
-                <strong>Complemento necesario</strong>
-                <span>No agregue longitudes, potencia ni rankings regionales sin validar. Un modelo de flujo exige estadísticas oficiales, datos de carga, parámetros eléctricos, circuitos, transformadores y estados separados.</span>
+                <strong>China · inventario oficial verificable</strong>
+                <span><a href="https://prpq.nea.gov.cn/zxdt/12012.html" target="_blank" rel="noopener noreferrer">NEA 2024 ↗</a> verifica 51 sistemas HVDC, 233.574 MW y 52.949 km; los 51 se pueden buscar por atributos y terminales publicados. El informe no ofrece coordenadas reutilizables, y el proyecto Tíbet-Gran Bahía se muestra sólo como corredor esquemático oficializado.</span>
               </div>
             </div>
           </section>
@@ -132,9 +186,9 @@ window.COMUNICACION_POST = {
 
           <div class="grid-atlas-truth" aria-label="Contexto del mapa">
             <strong data-region-label>Europa</strong>
-            <span>OSM · geográfico</span>
+            <span data-source-label>OSM + GEM</span>
             <span data-visible-label>Líneas visibles · &gt;199 kV + HVDC etiquetado</span>
-            <span>No tiempo real</span>
+            <span data-data-status>Fuentes fechadas</span>
           </div>
 
           <aside class="grid-atlas-legend" aria-label="Leyenda de tensión">
@@ -161,6 +215,8 @@ window.COMUNICACION_POST = {
         <div class="grid-atlas-credit">
           <span>Datos © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · ODbL</span>
           <span>Visualización © <a href="https://openinframap.org/copyright" target="_blank" rel="noopener noreferrer">OpenInfraMap</a> · CC BY 4.0</span>
+          <span>Centrales © <a href="https://globalenergymonitor.org/" target="_blank" rel="noopener noreferrer">Global Energy Monitor</a> · CC BY 4.0</span>
+          <span data-official-credit hidden>Capas oficiales regionales · consulte Fuentes</span>
         </div>
       </section>
     `

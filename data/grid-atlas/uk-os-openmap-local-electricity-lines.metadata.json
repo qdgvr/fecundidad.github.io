@@ -1,0 +1,3127 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-26T02:21:11.889207+00:00",
+  "source": {
+    "id": "uk-os-openmap-local-electricity-2026-04",
+    "publisher": "Ordnance Survey",
+    "title": "OS OpenMap – Local",
+    "product_id": "OpenMapLocal",
+    "version": "2026-04",
+    "product_api_url": "https://api.os.uk/downloads/v1/products/OpenMapLocal",
+    "downloads_api_url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads",
+    "documentation_url": "https://docs.os.uk/os-downloads/products/maps-and-imagery-portfolio/os-openmap-local/os-openmap-local-overview",
+    "feature_documentation_url": "https://docs.os.uk/os-downloads/products/maps-and-imagery-portfolio/os-openmap-local/os-openmap-local-technical-specification/feature-types/electricitytransmissionline",
+    "archive": {
+      "file_name": "opmplc_essh_gb.zip",
+      "public_download_url": "https://api.os.uk/downloads/v1/products/OpenMapLocal/downloads?area=GB&format=ESRI%C2%AE+Shapefile&redirect",
+      "catalog_size_bytes": 2455061187,
+      "catalog_md5": "d255239a55763ab13f99f31f5d64d495",
+      "retrieval_mode": "HTTP byte-range member extraction",
+      "complete_archive_md5_verified": false,
+      "local_archive_md5": null,
+      "server_content_md5_hex": null,
+      "server_content_md5_matches_catalog": null,
+      "http_range": {
+        "content_range_total_bytes": 2455061187,
+        "last_modified": "Tue, 07 Jul 2026 09:13:46 GMT",
+        "etag": "\"0x8DEDC080CEC115B\"",
+        "content_md5_base64": null,
+        "accept_ranges": "bytes",
+        "range_request_count": 43,
+        "range_bytes_downloaded": 89473731,
+        "range_block_bytes": 2097152,
+        "note": "The temporary signed redirect URL is intentionally not recorded."
+      }
+    },
+    "selected_members": {
+      "count": 160,
+      "compressed_size_bytes": 2850174,
+      "uncompressed_size_bytes": 11412828,
+      "files": {
+        "data/NC/NC_ElectricityTransmissionLine.dbf": {
+          "tile": "NC",
+          "extension": "dbf",
+          "size_bytes": 582,
+          "compressed_size_bytes": 319,
+          "zip_crc32": "35e658dd",
+          "sha256": "c47e153fb629b5f751d1ff56e7efb48e2330d2d1235b141d1c9bb404e578ef86",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NC/NC_ElectricityTransmissionLine.prj": {
+          "tile": "NC",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NC/NC_ElectricityTransmissionLine.shp": {
+          "tile": "NC",
+          "extension": "shp",
+          "size_bytes": 57548,
+          "compressed_size_bytes": 14261,
+          "zip_crc32": "61aa66ca",
+          "sha256": "125a9b8d521c7e850929b6fab1b337513b23d3eb818099679b0b5ab14f679283",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NC/NC_ElectricityTransmissionLine.shx": {
+          "tile": "NC",
+          "extension": "shx",
+          "size_bytes": 188,
+          "compressed_size_bytes": 121,
+          "zip_crc32": "e5f5b086",
+          "sha256": "c2b440c89bb2c822a4d888dff1c9b5f07ad3f3aea426c49d16a1597101abc47a",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ND/ND_ElectricityTransmissionLine.dbf": {
+          "tile": "ND",
+          "extension": "dbf",
+          "size_bytes": 450,
+          "compressed_size_bytes": 252,
+          "zip_crc32": "5ef88352",
+          "sha256": "b67f24fe9fd2a6d572c3638f2126f57a0457cdf3fce78c6fb292abd55f5e3788",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ND/ND_ElectricityTransmissionLine.prj": {
+          "tile": "ND",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ND/ND_ElectricityTransmissionLine.shp": {
+          "tile": "ND",
+          "extension": "shp",
+          "size_bytes": 23588,
+          "compressed_size_bytes": 6020,
+          "zip_crc32": "94badf25",
+          "sha256": "1fcea386d18959e43092dc9c24048b6f2d1b5e3ce969ca958a12495c49ff1226",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ND/ND_ElectricityTransmissionLine.shx": {
+          "tile": "ND",
+          "extension": "shx",
+          "size_bytes": 164,
+          "compressed_size_bytes": 93,
+          "zip_crc32": "b2249dcd",
+          "sha256": "f78c9c119489683225596bd568280984e59dd37459e0eaeb94fa7645ba2a9e73",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NG/NG_ElectricityTransmissionLine.dbf": {
+          "tile": "NG",
+          "extension": "dbf",
+          "size_bytes": 142,
+          "compressed_size_bytes": 89,
+          "zip_crc32": "42b5db08",
+          "sha256": "f14120c87217e4b1c3e7e95abbb8b3c1a6e7e8ab9bc96051aeb7e4f7c4ad3c94",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NG/NG_ElectricityTransmissionLine.prj": {
+          "tile": "NG",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NG/NG_ElectricityTransmissionLine.shp": {
+          "tile": "NG",
+          "extension": "shp",
+          "size_bytes": 21436,
+          "compressed_size_bytes": 5179,
+          "zip_crc32": "e9427a15",
+          "sha256": "ccb008ce5334a011d89270eb3ccf109c6df46a15d74c0ebd2f3b9068a48d6615",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NG/NG_ElectricityTransmissionLine.shx": {
+          "tile": "NG",
+          "extension": "shx",
+          "size_bytes": 108,
+          "compressed_size_bytes": 45,
+          "zip_crc32": "d312160b",
+          "sha256": "257f98be1377a72e1019258847a103baadd81d184c1fe4d5a65334062f03f8ee",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NH/NH_ElectricityTransmissionLine.dbf": {
+          "tile": "NH",
+          "extension": "dbf",
+          "size_bytes": 3618,
+          "compressed_size_bytes": 1854,
+          "zip_crc32": "c29517fe",
+          "sha256": "e43669f7276207382625e6f1d6dfb5fbf5fd8b63e761455c7ded4b6d208d65bf",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NH/NH_ElectricityTransmissionLine.prj": {
+          "tile": "NH",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NH/NH_ElectricityTransmissionLine.shp": {
+          "tile": "NH",
+          "extension": "shp",
+          "size_bytes": 273476,
+          "compressed_size_bytes": 67369,
+          "zip_crc32": "0aa0fdc9",
+          "sha256": "e6a77ac17356babc502bff0c18b709b47db286e6146572986ce2d95d68647f3e",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NH/NH_ElectricityTransmissionLine.shx": {
+          "tile": "NH",
+          "extension": "shx",
+          "size_bytes": 740,
+          "compressed_size_bytes": 484,
+          "zip_crc32": "e7162447",
+          "sha256": "f4225d04a231cb06a4e49cf4589ad99369d7e4c46a38b1ac9925c742c8690ea2",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NJ/NJ_ElectricityTransmissionLine.dbf": {
+          "tile": "NJ",
+          "extension": "dbf",
+          "size_bytes": 1594,
+          "compressed_size_bytes": 826,
+          "zip_crc32": "01ffecae",
+          "sha256": "dc00f7ef45957f7e347c2153a21ecc8a735ba2168dd113e31e4360b4696ecde6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NJ/NJ_ElectricityTransmissionLine.prj": {
+          "tile": "NJ",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NJ/NJ_ElectricityTransmissionLine.shp": {
+          "tile": "NJ",
+          "extension": "shp",
+          "size_bytes": 219252,
+          "compressed_size_bytes": 54530,
+          "zip_crc32": "d3afb9e6",
+          "sha256": "e8216deffdbff859766ba4170636638405d1ec569a06e79b206cce93b12ae494",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NJ/NJ_ElectricityTransmissionLine.shx": {
+          "tile": "NJ",
+          "extension": "shx",
+          "size_bytes": 372,
+          "compressed_size_bytes": 272,
+          "zip_crc32": "0eb3786a",
+          "sha256": "885df2658d5cd1b196d570b3d8c70b3fa7073cb24f99f4a3a688fcce43302e6e",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NK/NK_ElectricityTransmissionLine.dbf": {
+          "tile": "NK",
+          "extension": "dbf",
+          "size_bytes": 538,
+          "compressed_size_bytes": 299,
+          "zip_crc32": "13320a4c",
+          "sha256": "66229ea4d1647dfc2be6e0eefffcb369690b09ac017ed27342d09c1915771b54",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NK/NK_ElectricityTransmissionLine.prj": {
+          "tile": "NK",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NK/NK_ElectricityTransmissionLine.shp": {
+          "tile": "NK",
+          "extension": "shp",
+          "size_bytes": 33716,
+          "compressed_size_bytes": 8706,
+          "zip_crc32": "7dda23f0",
+          "sha256": "d3eed01b3c510bffed76e0d0312ebfc4bd27923b4fdf8ca32c872d6425b3ea5d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NK/NK_ElectricityTransmissionLine.shx": {
+          "tile": "NK",
+          "extension": "shx",
+          "size_bytes": 180,
+          "compressed_size_bytes": 119,
+          "zip_crc32": "8e9b6544",
+          "sha256": "4da43a4db7d2645129dbc0749605016a062128197ccb284da1b21cbbdcfed6bf",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NM/NM_ElectricityTransmissionLine.dbf": {
+          "tile": "NM",
+          "extension": "dbf",
+          "size_bytes": 142,
+          "compressed_size_bytes": 89,
+          "zip_crc32": "7c3fb53e",
+          "sha256": "38877e6c84742515b1ad89861cb12183f3aff6cf0f64e10cd68587dbb7996180",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NM/NM_ElectricityTransmissionLine.prj": {
+          "tile": "NM",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NM/NM_ElectricityTransmissionLine.shp": {
+          "tile": "NM",
+          "extension": "shp",
+          "size_bytes": 20476,
+          "compressed_size_bytes": 5133,
+          "zip_crc32": "25e92df2",
+          "sha256": "b762904258d1eadeced50221feb89b34238403f7570805e70af3c6a3410deb41",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NM/NM_ElectricityTransmissionLine.shx": {
+          "tile": "NM",
+          "extension": "shx",
+          "size_bytes": 108,
+          "compressed_size_bytes": 57,
+          "zip_crc32": "ebf3cbff",
+          "sha256": "af0f4e7275efa904e6f22fbfec9a2981886dd8ec4111c892647ac959e4eaead9",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NN/NN_ElectricityTransmissionLine.dbf": {
+          "tile": "NN",
+          "extension": "dbf",
+          "size_bytes": 2958,
+          "compressed_size_bytes": 1514,
+          "zip_crc32": "467fe340",
+          "sha256": "714f5894484fb71fb1730e8e7faa395c98dcf2d7041eb1b1be9511a9fb398a3d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NN/NN_ElectricityTransmissionLine.prj": {
+          "tile": "NN",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NN/NN_ElectricityTransmissionLine.shp": {
+          "tile": "NN",
+          "extension": "shp",
+          "size_bytes": 227100,
+          "compressed_size_bytes": 56001,
+          "zip_crc32": "2a6b861a",
+          "sha256": "764269fb50df94591d5371c35f9b97d378f09b65adc092fe752c34d8dffbe20a",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NN/NN_ElectricityTransmissionLine.shx": {
+          "tile": "NN",
+          "extension": "shx",
+          "size_bytes": 620,
+          "compressed_size_bytes": 393,
+          "zip_crc32": "0157e2b7",
+          "sha256": "44272e027f850a68107acf302972cf646398d189d0cad6a2d87f23ce0f63b90d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NO/NO_ElectricityTransmissionLine.dbf": {
+          "tile": "NO",
+          "extension": "dbf",
+          "size_bytes": 1902,
+          "compressed_size_bytes": 979,
+          "zip_crc32": "bdd91081",
+          "sha256": "3a96cf99ef780120c1e7b9f45b4e0cbb4f80b9f572d94fc69353d786ee732875",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NO/NO_ElectricityTransmissionLine.prj": {
+          "tile": "NO",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NO/NO_ElectricityTransmissionLine.shp": {
+          "tile": "NO",
+          "extension": "shp",
+          "size_bytes": 164284,
+          "compressed_size_bytes": 41104,
+          "zip_crc32": "9f621f60",
+          "sha256": "1689f97d579ac3611d78e1f733c363e9add3acfc790803669d8e49a2b2a39fbb",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NO/NO_ElectricityTransmissionLine.shx": {
+          "tile": "NO",
+          "extension": "shx",
+          "size_bytes": 428,
+          "compressed_size_bytes": 302,
+          "zip_crc32": "cae927ee",
+          "sha256": "c039df2ae7fd60fb8b98a1befcfff65fa34a5ebd364d0ff5319330b8b4d7197e",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NR/NR_ElectricityTransmissionLine.dbf": {
+          "tile": "NR",
+          "extension": "dbf",
+          "size_bytes": 274,
+          "compressed_size_bytes": 169,
+          "zip_crc32": "acb178bd",
+          "sha256": "26f689cacda921bb9f528b5bc33296d4cd1c986e3730edd2583d28b1578782f9",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NR/NR_ElectricityTransmissionLine.prj": {
+          "tile": "NR",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NR/NR_ElectricityTransmissionLine.shp": {
+          "tile": "NR",
+          "extension": "shp",
+          "size_bytes": 49636,
+          "compressed_size_bytes": 12309,
+          "zip_crc32": "2b8d58ff",
+          "sha256": "2af1ae0fe0e3bda1d75ffbbaf05c06894fff420140e3ca120c059daf972679bb",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NR/NR_ElectricityTransmissionLine.shx": {
+          "tile": "NR",
+          "extension": "shx",
+          "size_bytes": 132,
+          "compressed_size_bytes": 82,
+          "zip_crc32": "ee518489",
+          "sha256": "b63420b2c6ee6ca0377fc7785146766b9a4936ffae4c5faf285101e1b693168c",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NS/NS_ElectricityTransmissionLine.dbf": {
+          "tile": "NS",
+          "extension": "dbf",
+          "size_bytes": 6786,
+          "compressed_size_bytes": 3476,
+          "zip_crc32": "cf10bf37",
+          "sha256": "db5cc426faf4695c8020a640800620693dde3e1adc1b56dfc73c851d8c01540c",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NS/NS_ElectricityTransmissionLine.prj": {
+          "tile": "NS",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NS/NS_ElectricityTransmissionLine.shp": {
+          "tile": "NS",
+          "extension": "shp",
+          "size_bytes": 503844,
+          "compressed_size_bytes": 125029,
+          "zip_crc32": "7c077c0d",
+          "sha256": "8c70f054d6b85d3f3742b829a0fc26ecac38a81233a9eae3333165814103abc8",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NS/NS_ElectricityTransmissionLine.shx": {
+          "tile": "NS",
+          "extension": "shx",
+          "size_bytes": 1316,
+          "compressed_size_bytes": 824,
+          "zip_crc32": "59047904",
+          "sha256": "5056d5cbbf8044ff9de052a5f33b7c5930c0a501abe64bf26ba217b5b387f198",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NT/NT_ElectricityTransmissionLine.dbf": {
+          "tile": "NT",
+          "extension": "dbf",
+          "size_bytes": 3574,
+          "compressed_size_bytes": 1829,
+          "zip_crc32": "88ce371c",
+          "sha256": "1b52e925658754d290711cde9e5b7f9da1a8000101d16128e8028c98a726632b",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NT/NT_ElectricityTransmissionLine.prj": {
+          "tile": "NT",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NT/NT_ElectricityTransmissionLine.shp": {
+          "tile": "NT",
+          "extension": "shp",
+          "size_bytes": 264780,
+          "compressed_size_bytes": 65787,
+          "zip_crc32": "21012f0f",
+          "sha256": "490b321026b59fff6f58a5592c36c34915cea3ece18910d4aeecbe7f127831b9",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NT/NT_ElectricityTransmissionLine.shx": {
+          "tile": "NT",
+          "extension": "shx",
+          "size_bytes": 732,
+          "compressed_size_bytes": 477,
+          "zip_crc32": "c54fbb6b",
+          "sha256": "d3cac8ca05e5bc748277292cbfd3517a4c0cd18d6f8f684328e666992004d1bf",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NU/NU_ElectricityTransmissionLine.dbf": {
+          "tile": "NU",
+          "extension": "dbf",
+          "size_bytes": 230,
+          "compressed_size_bytes": 142,
+          "zip_crc32": "3feff920",
+          "sha256": "49da63bc4d60accee2532e9c027cbb63f481680311521587c4598023f4ec8de7",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NU/NU_ElectricityTransmissionLine.prj": {
+          "tile": "NU",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NU/NU_ElectricityTransmissionLine.shp": {
+          "tile": "NU",
+          "extension": "shp",
+          "size_bytes": 25580,
+          "compressed_size_bytes": 6465,
+          "zip_crc32": "6aafaf69",
+          "sha256": "2488c74ceb6fe91a80ad563079da3ecb8d99b3e9c2c7d9b670776ff77c7444dc",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NU/NU_ElectricityTransmissionLine.shx": {
+          "tile": "NU",
+          "extension": "shx",
+          "size_bytes": 124,
+          "compressed_size_bytes": 69,
+          "zip_crc32": "f38ea4dc",
+          "sha256": "0acf95faab2940beb0a9dcfbd468cf98344342a7f21e47661f79aaf834fcd273",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NX/NX_ElectricityTransmissionLine.dbf": {
+          "tile": "NX",
+          "extension": "dbf",
+          "size_bytes": 1066,
+          "compressed_size_bytes": 560,
+          "zip_crc32": "25bd605b",
+          "sha256": "f76b1b04f64692c7a02285689a14b86df55419a5226bae8f52cc305b64d05b5a",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NX/NX_ElectricityTransmissionLine.prj": {
+          "tile": "NX",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NX/NX_ElectricityTransmissionLine.shp": {
+          "tile": "NX",
+          "extension": "shp",
+          "size_bytes": 106228,
+          "compressed_size_bytes": 26679,
+          "zip_crc32": "33fb2fb3",
+          "sha256": "244d8c06cafbb74e182fed5632456d941857d822be2ef4c29b418bca3c4d2fba",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NX/NX_ElectricityTransmissionLine.shx": {
+          "tile": "NX",
+          "extension": "shx",
+          "size_bytes": 276,
+          "compressed_size_bytes": 187,
+          "zip_crc32": "8a2aaa87",
+          "sha256": "13bdd2230c79ce173fe4ee309419680d2adf418a6940dab54b44ff94630b2976",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NY/NY_ElectricityTransmissionLine.dbf": {
+          "tile": "NY",
+          "extension": "dbf",
+          "size_bytes": 3046,
+          "compressed_size_bytes": 1559,
+          "zip_crc32": "aac44cc6",
+          "sha256": "1c62fe64f3c13042246e09b519877597af922e3fabaca062cc2e5015121df519",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NY/NY_ElectricityTransmissionLine.prj": {
+          "tile": "NY",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NY/NY_ElectricityTransmissionLine.shp": {
+          "tile": "NY",
+          "extension": "shp",
+          "size_bytes": 223756,
+          "compressed_size_bytes": 55644,
+          "zip_crc32": "6bb462e4",
+          "sha256": "4fff516fc951ab3009819cd0a53f37be2e222a842c6af495c20a01d33d2ed2a3",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NY/NY_ElectricityTransmissionLine.shx": {
+          "tile": "NY",
+          "extension": "shx",
+          "size_bytes": 636,
+          "compressed_size_bytes": 415,
+          "zip_crc32": "01617111",
+          "sha256": "fdc2449ba1a1634f3de9331b510b7a9b70a807ae74d7d8db5c266a05fe5ad127",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NZ/NZ_ElectricityTransmissionLine.dbf": {
+          "tile": "NZ",
+          "extension": "dbf",
+          "size_bytes": 7358,
+          "compressed_size_bytes": 3759,
+          "zip_crc32": "f9269b0a",
+          "sha256": "272faf5200c15a21f60e0dcfadaaefdea18d7609a62ce54b658a68a66442dce7",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NZ/NZ_ElectricityTransmissionLine.prj": {
+          "tile": "NZ",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NZ/NZ_ElectricityTransmissionLine.shp": {
+          "tile": "NZ",
+          "extension": "shp",
+          "size_bytes": 384924,
+          "compressed_size_bytes": 94339,
+          "zip_crc32": "e22d3e9a",
+          "sha256": "cb04052cabf5095bc183e993d0516c40483f5d927bda0dbbc3f70aceb65b0c4d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/NZ/NZ_ElectricityTransmissionLine.shx": {
+          "tile": "NZ",
+          "extension": "shx",
+          "size_bytes": 1420,
+          "compressed_size_bytes": 857,
+          "zip_crc32": "2c35e120",
+          "sha256": "13cb46da661c3b3479dece2f56a067f16f372387e0dee15cbd7b451d84c94222",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SD/SD_ElectricityTransmissionLine.dbf": {
+          "tile": "SD",
+          "extension": "dbf",
+          "size_bytes": 6962,
+          "compressed_size_bytes": 3551,
+          "zip_crc32": "1283e577",
+          "sha256": "e1bef4277b288708cd0afbd9e87ebbb625df56bcf20b6d34e7aa136e690add70",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SD/SD_ElectricityTransmissionLine.prj": {
+          "tile": "SD",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SD/SD_ElectricityTransmissionLine.shp": {
+          "tile": "SD",
+          "extension": "shp",
+          "size_bytes": 474628,
+          "compressed_size_bytes": 113529,
+          "zip_crc32": "015822bf",
+          "sha256": "29cac9c0b943f6e7a5e4254ff0110a0c056ba93aa1311b8c290d7b4cb9672e34",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SD/SD_ElectricityTransmissionLine.shx": {
+          "tile": "SD",
+          "extension": "shx",
+          "size_bytes": 1348,
+          "compressed_size_bytes": 868,
+          "zip_crc32": "230a86b8",
+          "sha256": "32cd6db4e19a962acecf761f11dd9f755ad4069c7461ea6930fbaae39e130781",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SE/SE_ElectricityTransmissionLine.dbf": {
+          "tile": "SE",
+          "extension": "dbf",
+          "size_bytes": 10218,
+          "compressed_size_bytes": 5209,
+          "zip_crc32": "b0d0fe34",
+          "sha256": "18d3bb05990d43550ce2e8c3bf9cda12bd42aaf68be89bef7fbcf764a89b174a",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SE/SE_ElectricityTransmissionLine.prj": {
+          "tile": "SE",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SE/SE_ElectricityTransmissionLine.shp": {
+          "tile": "SE",
+          "extension": "shp",
+          "size_bytes": 620916,
+          "compressed_size_bytes": 148080,
+          "zip_crc32": "7a29dbb5",
+          "sha256": "3e4008a83d6daa199c0b3d59608cf932a2dfef06f95be726fbe4b01a1a1c770c",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SE/SE_ElectricityTransmissionLine.shx": {
+          "tile": "SE",
+          "extension": "shx",
+          "size_bytes": 1940,
+          "compressed_size_bytes": 1176,
+          "zip_crc32": "7d18e41b",
+          "sha256": "5fd5c9290e13307efbf474d4c415883e011609e6ca8af4d512bc8bd6656c388a",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SH/SH_ElectricityTransmissionLine.dbf": {
+          "tile": "SH",
+          "extension": "dbf",
+          "size_bytes": 1946,
+          "compressed_size_bytes": 1003,
+          "zip_crc32": "03d4d3bd",
+          "sha256": "531a723827dc8966a7b8e8348f5dd26d25ab22cbd0ccffece8b659813c629f96",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SH/SH_ElectricityTransmissionLine.prj": {
+          "tile": "SH",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SH/SH_ElectricityTransmissionLine.shp": {
+          "tile": "SH",
+          "extension": "shp",
+          "size_bytes": 150772,
+          "compressed_size_bytes": 36543,
+          "zip_crc32": "4cdc1a9e",
+          "sha256": "8d21ecd48b528de0f80d76efcb21274d57563cf82722ea4b9ffbda2e1112b175",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SH/SH_ElectricityTransmissionLine.shx": {
+          "tile": "SH",
+          "extension": "shx",
+          "size_bytes": 436,
+          "compressed_size_bytes": 297,
+          "zip_crc32": "f5974673",
+          "sha256": "e9dd63508dce4e3b2dc61995b16d9d0c63fb9420055adff5f20dc668e5ebca8f",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SJ/SJ_ElectricityTransmissionLine.dbf": {
+          "tile": "SJ",
+          "extension": "dbf",
+          "size_bytes": 12198,
+          "compressed_size_bytes": 6217,
+          "zip_crc32": "72de3e52",
+          "sha256": "781070f3fe6173460f73a40f24a433dcc4c3b1e98ad3de0768141627e67e6945",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SJ/SJ_ElectricityTransmissionLine.prj": {
+          "tile": "SJ",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SJ/SJ_ElectricityTransmissionLine.shp": {
+          "tile": "SJ",
+          "extension": "shp",
+          "size_bytes": 721932,
+          "compressed_size_bytes": 172663,
+          "zip_crc32": "eba87d71",
+          "sha256": "0b9e00f69755c8b6733dd5a6995f85f88ca2d52569bcf6e475e0034f72d05498",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SJ/SJ_ElectricityTransmissionLine.shx": {
+          "tile": "SJ",
+          "extension": "shx",
+          "size_bytes": 2300,
+          "compressed_size_bytes": 1408,
+          "zip_crc32": "8ee53fc6",
+          "sha256": "4efbda268362df0c53c5f3a7b369d690f09e65fce246bc0404d97e499b786d0d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SK/SK_ElectricityTransmissionLine.dbf": {
+          "tile": "SK",
+          "extension": "dbf",
+          "size_bytes": 11714,
+          "compressed_size_bytes": 5979,
+          "zip_crc32": "4c1d161d",
+          "sha256": "853456865162db0111d36b7fef0e77a7159cccad09d498fbb851c28c00538dd5",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SK/SK_ElectricityTransmissionLine.prj": {
+          "tile": "SK",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SK/SK_ElectricityTransmissionLine.shp": {
+          "tile": "SK",
+          "extension": "shp",
+          "size_bytes": 726244,
+          "compressed_size_bytes": 175032,
+          "zip_crc32": "3ce4e288",
+          "sha256": "47caf62cfc0910f22a90cbe0672af244d83b0d26193194885932e41a71261195",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SK/SK_ElectricityTransmissionLine.shx": {
+          "tile": "SK",
+          "extension": "shx",
+          "size_bytes": 2212,
+          "compressed_size_bytes": 1332,
+          "zip_crc32": "3fce8a9c",
+          "sha256": "8e42dd71229cbce150f99d2601246940fe7073fc61a7e401da235464284aa7ce",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SM/SM_ElectricityTransmissionLine.dbf": {
+          "tile": "SM",
+          "extension": "dbf",
+          "size_bytes": 846,
+          "compressed_size_bytes": 450,
+          "zip_crc32": "a25f4c57",
+          "sha256": "e0fe7d3bfc38f8d9fa1a1c78dd4aa1dd764ba7336e35162648c36363a61587a6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SM/SM_ElectricityTransmissionLine.prj": {
+          "tile": "SM",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SM/SM_ElectricityTransmissionLine.shp": {
+          "tile": "SM",
+          "extension": "shp",
+          "size_bytes": 88700,
+          "compressed_size_bytes": 21532,
+          "zip_crc32": "2723a869",
+          "sha256": "3dfe7046397fe050b57ca84f4d558e3493d423d75a2737ba97ca3da83e02f55d",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SM/SM_ElectricityTransmissionLine.shx": {
+          "tile": "SM",
+          "extension": "shx",
+          "size_bytes": 236,
+          "compressed_size_bytes": 155,
+          "zip_crc32": "863b31ef",
+          "sha256": "9f874a192cc5b43887564ac795cc5a2f95602032e1a7eedb89f131324a492230",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SN/SN_ElectricityTransmissionLine.dbf": {
+          "tile": "SN",
+          "extension": "dbf",
+          "size_bytes": 4014,
+          "compressed_size_bytes": 2058,
+          "zip_crc32": "0d036f40",
+          "sha256": "e9371a0048a7b11d7cb33da3f91c7d30c53bcdec799a0ff473bedacfb5b240b0",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SN/SN_ElectricityTransmissionLine.prj": {
+          "tile": "SN",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SN/SN_ElectricityTransmissionLine.shp": {
+          "tile": "SN",
+          "extension": "shp",
+          "size_bytes": 236220,
+          "compressed_size_bytes": 57012,
+          "zip_crc32": "3da1d82b",
+          "sha256": "e4c6996fd4a3725702375f47c0a7ef8d60b24b490c3356636a7e1f30013c72c4",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SN/SN_ElectricityTransmissionLine.shx": {
+          "tile": "SN",
+          "extension": "shx",
+          "size_bytes": 812,
+          "compressed_size_bytes": 497,
+          "zip_crc32": "54fe5f9d",
+          "sha256": "518fdca04337b40b1c31b61de6302561ca39ebe726c2c6a319404da4307e75a3",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SO/SO_ElectricityTransmissionLine.dbf": {
+          "tile": "SO",
+          "extension": "dbf",
+          "size_bytes": 7446,
+          "compressed_size_bytes": 3808,
+          "zip_crc32": "299f1bc0",
+          "sha256": "26daba8653e376e5fa754aab2d8597f0e5576c280050d680f4dfc4b3e9c6d861",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SO/SO_ElectricityTransmissionLine.prj": {
+          "tile": "SO",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SO/SO_ElectricityTransmissionLine.shp": {
+          "tile": "SO",
+          "extension": "shp",
+          "size_bytes": 487852,
+          "compressed_size_bytes": 118006,
+          "zip_crc32": "ce481e65",
+          "sha256": "16f5c9933f158f690eee7ff826fea3a46a544637324800541626c12686c7e7b0",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SO/SO_ElectricityTransmissionLine.shx": {
+          "tile": "SO",
+          "extension": "shx",
+          "size_bytes": 1436,
+          "compressed_size_bytes": 898,
+          "zip_crc32": "b161c87f",
+          "sha256": "3ca845230b4c95b292a799646359b036d9b86ebb5f4374c07cf3f4f450a453ac",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SP/SP_ElectricityTransmissionLine.dbf": {
+          "tile": "SP",
+          "extension": "dbf",
+          "size_bytes": 8722,
+          "compressed_size_bytes": 4463,
+          "zip_crc32": "2bc0d3c6",
+          "sha256": "da9dfeb543103bb9833030269a402a93681287ce7b9a020bd8c7893c130f24c0",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SP/SP_ElectricityTransmissionLine.prj": {
+          "tile": "SP",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SP/SP_ElectricityTransmissionLine.shp": {
+          "tile": "SP",
+          "extension": "shp",
+          "size_bytes": 592932,
+          "compressed_size_bytes": 143935,
+          "zip_crc32": "cf663a8e",
+          "sha256": "f4f37daf9c898ae83f2dbbc0247b5ce3b3b818be9ba0316be84d412eb80c086f",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SP/SP_ElectricityTransmissionLine.shx": {
+          "tile": "SP",
+          "extension": "shx",
+          "size_bytes": 1668,
+          "compressed_size_bytes": 1038,
+          "zip_crc32": "8bd6245b",
+          "sha256": "eaf62df217dc8f3b56d12811ff54ab176ba433d7159174ceaa6bfef041c5ac57",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SR/SR_ElectricityTransmissionLine.dbf": {
+          "tile": "SR",
+          "extension": "dbf",
+          "size_bytes": 142,
+          "compressed_size_bytes": 89,
+          "zip_crc32": "5114bc46",
+          "sha256": "4da7ebf126c46a6dc84ccfa5b616ea3ac97c72ec15c237641b27695b5b2aee08",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SR/SR_ElectricityTransmissionLine.prj": {
+          "tile": "SR",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SR/SR_ElectricityTransmissionLine.shp": {
+          "tile": "SR",
+          "extension": "shp",
+          "size_bytes": 23452,
+          "compressed_size_bytes": 5735,
+          "zip_crc32": "6b8d6fce",
+          "sha256": "1d1c1a1abd18a3962a0b29e898ad6177c624cd93ce1c787b254bc6954a00e0f5",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SR/SR_ElectricityTransmissionLine.shx": {
+          "tile": "SR",
+          "extension": "shx",
+          "size_bytes": 108,
+          "compressed_size_bytes": 59,
+          "zip_crc32": "2c8c3f56",
+          "sha256": "72d055baba8b31259feca18e39f74509e59781bd57314a754e303557d4f14717",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SS/SS_ElectricityTransmissionLine.dbf": {
+          "tile": "SS",
+          "extension": "dbf",
+          "size_bytes": 5290,
+          "compressed_size_bytes": 2712,
+          "zip_crc32": "658041f9",
+          "sha256": "9c19100d9e6b75e0745982f57149b2ee091bdbd5db49915240784078d57c8516",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SS/SS_ElectricityTransmissionLine.prj": {
+          "tile": "SS",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SS/SS_ElectricityTransmissionLine.shp": {
+          "tile": "SS",
+          "extension": "shp",
+          "size_bytes": 238932,
+          "compressed_size_bytes": 58127,
+          "zip_crc32": "3ed668e5",
+          "sha256": "07027bab72ff954e297d1cb8fda4a16035e74113ad47cacda9320b49dfb57484",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SS/SS_ElectricityTransmissionLine.shx": {
+          "tile": "SS",
+          "extension": "shx",
+          "size_bytes": 1044,
+          "compressed_size_bytes": 630,
+          "zip_crc32": "c51094ce",
+          "sha256": "6d7d431b7200aaa52cccb5686a08a2a1e49784ea7cd942d4d667768a30c75bbb",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ST/ST_ElectricityTransmissionLine.dbf": {
+          "tile": "ST",
+          "extension": "dbf",
+          "size_bytes": 11274,
+          "compressed_size_bytes": 5754,
+          "zip_crc32": "da23609c",
+          "sha256": "f4b7445c4d9bacbfc3e1a7e06cb935e04c9a71b26a54d4c4475c8efd020142d9",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ST/ST_ElectricityTransmissionLine.prj": {
+          "tile": "ST",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ST/ST_ElectricityTransmissionLine.shp": {
+          "tile": "ST",
+          "extension": "shp",
+          "size_bytes": 759188,
+          "compressed_size_bytes": 183558,
+          "zip_crc32": "d9a77264",
+          "sha256": "1361bee955b161961c0c2ffcb3658ddf0d09dd7d96de6d2256a9838a2534dddd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/ST/ST_ElectricityTransmissionLine.shx": {
+          "tile": "ST",
+          "extension": "shx",
+          "size_bytes": 2132,
+          "compressed_size_bytes": 1295,
+          "zip_crc32": "232f14ea",
+          "sha256": "89b96d14ffe4c28e994441a22cfa360cffc21255978d2a3597ee109d6d11a6c4",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SU/SU_ElectricityTransmissionLine.dbf": {
+          "tile": "SU",
+          "extension": "dbf",
+          "size_bytes": 8634,
+          "compressed_size_bytes": 4419,
+          "zip_crc32": "89f72f0b",
+          "sha256": "997bcd46460111b6444dd4bcc288a770588991a0a01476fc675a50d25e00d805",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SU/SU_ElectricityTransmissionLine.prj": {
+          "tile": "SU",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SU/SU_ElectricityTransmissionLine.shp": {
+          "tile": "SU",
+          "extension": "shp",
+          "size_bytes": 620884,
+          "compressed_size_bytes": 151695,
+          "zip_crc32": "65d1967f",
+          "sha256": "c305f9b16df7f8c6a199f24e3a2d9ef18ad47d4df07644cdfc8c2baaf8521fa6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SU/SU_ElectricityTransmissionLine.shx": {
+          "tile": "SU",
+          "extension": "shx",
+          "size_bytes": 1652,
+          "compressed_size_bytes": 1023,
+          "zip_crc32": "65b9ca46",
+          "sha256": "6a5aea849a42ea6e216fe1eae6009985a0e6b4cb123cd6fd8c26a6629e74e891",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SW/SW_ElectricityTransmissionLine.dbf": {
+          "tile": "SW",
+          "extension": "dbf",
+          "size_bytes": 1066,
+          "compressed_size_bytes": 559,
+          "zip_crc32": "ab91c071",
+          "sha256": "73173896b7acce31c1e22f87fecb7526ba4c906a856135592ae0e63099b122f7",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SW/SW_ElectricityTransmissionLine.prj": {
+          "tile": "SW",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SW/SW_ElectricityTransmissionLine.shp": {
+          "tile": "SW",
+          "extension": "shp",
+          "size_bytes": 133204,
+          "compressed_size_bytes": 33764,
+          "zip_crc32": "6f3d7381",
+          "sha256": "f2ed9e3700f785039ce9f543fece6623d2a3c2f4732856af9c475bf33a94e9e8",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SW/SW_ElectricityTransmissionLine.shx": {
+          "tile": "SW",
+          "extension": "shx",
+          "size_bytes": 276,
+          "compressed_size_bytes": 195,
+          "zip_crc32": "e972b8a2",
+          "sha256": "c97f9d5a7cc4cd179b23958f783e49421a63bfe0f40900f92058bf3dfefcfcc6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SX/SX_ElectricityTransmissionLine.dbf": {
+          "tile": "SX",
+          "extension": "dbf",
+          "size_bytes": 2386,
+          "compressed_size_bytes": 1218,
+          "zip_crc32": "7d539514",
+          "sha256": "6be5a4f4424d8ca31552a96bb278d9a081e6908a9bee3e39e750bbf5617f68e9",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SX/SX_ElectricityTransmissionLine.prj": {
+          "tile": "SX",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SX/SX_ElectricityTransmissionLine.shp": {
+          "tile": "SX",
+          "extension": "shp",
+          "size_bytes": 236196,
+          "compressed_size_bytes": 58864,
+          "zip_crc32": "f25930ef",
+          "sha256": "16168ab16de4b66416c983ab3c8ba5684c61ec3196d66be173d9c1452ecc6fe6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SX/SX_ElectricityTransmissionLine.shx": {
+          "tile": "SX",
+          "extension": "shx",
+          "size_bytes": 516,
+          "compressed_size_bytes": 349,
+          "zip_crc32": "26c5e833",
+          "sha256": "29e85405e47f935aac6a78c138de5fba7619d1bf7cbd3ee25f9fb1953945d867",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SY/SY_ElectricityTransmissionLine.dbf": {
+          "tile": "SY",
+          "extension": "dbf",
+          "size_bytes": 2166,
+          "compressed_size_bytes": 1115,
+          "zip_crc32": "7c819e95",
+          "sha256": "14b1a30169b52c63e6f21da8ca29e6fd832f37026e8bfefa4934c5c61d61e8d6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SY/SY_ElectricityTransmissionLine.prj": {
+          "tile": "SY",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SY/SY_ElectricityTransmissionLine.shp": {
+          "tile": "SY",
+          "extension": "shp",
+          "size_bytes": 163244,
+          "compressed_size_bytes": 40030,
+          "zip_crc32": "a06af7bc",
+          "sha256": "7a9cad5ed8beb06ca639dfa82f5d5000fe94c882b4a914697ed0658ff0095802",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SY/SY_ElectricityTransmissionLine.shx": {
+          "tile": "SY",
+          "extension": "shx",
+          "size_bytes": 476,
+          "compressed_size_bytes": 312,
+          "zip_crc32": "328a5d19",
+          "sha256": "fad3db5805e93947d3cc12785cdd07ad32598865fe364d1fde245a8999a24847",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SZ/SZ_ElectricityTransmissionLine.dbf": {
+          "tile": "SZ",
+          "extension": "dbf",
+          "size_bytes": 890,
+          "compressed_size_bytes": 472,
+          "zip_crc32": "af6fad4c",
+          "sha256": "979dc8b47b87d3cb8834ea119a1afb4ebc9fc9a90a46ce5c7459e22034ddd542",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SZ/SZ_ElectricityTransmissionLine.prj": {
+          "tile": "SZ",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SZ/SZ_ElectricityTransmissionLine.shp": {
+          "tile": "SZ",
+          "extension": "shp",
+          "size_bytes": 74548,
+          "compressed_size_bytes": 18200,
+          "zip_crc32": "1bb77974",
+          "sha256": "fef4f5d61b1712fa13248ae3cbc36bf242c33ceb412f5a4290f2c1e530fffa82",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/SZ/SZ_ElectricityTransmissionLine.shx": {
+          "tile": "SZ",
+          "extension": "shx",
+          "size_bytes": 244,
+          "compressed_size_bytes": 174,
+          "zip_crc32": "371d570d",
+          "sha256": "ec9c79fc1e6d772eb2ee42705e63db3e08fcd3b5213f1decb89a4671cd2c19fb",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TA/TA_ElectricityTransmissionLine.dbf": {
+          "tile": "TA",
+          "extension": "dbf",
+          "size_bytes": 1902,
+          "compressed_size_bytes": 984,
+          "zip_crc32": "58f51155",
+          "sha256": "474ee7c4e848c6f1beb894b1fe24fe0289b2a80a98d9ec3caf43c12fad302b31",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TA/TA_ElectricityTransmissionLine.prj": {
+          "tile": "TA",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TA/TA_ElectricityTransmissionLine.shp": {
+          "tile": "TA",
+          "extension": "shp",
+          "size_bytes": 126844,
+          "compressed_size_bytes": 30882,
+          "zip_crc32": "71b97894",
+          "sha256": "2cc4ad626fdc3ea80aa4888772884ef3ed624d0099e38911863176a4507c7822",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TA/TA_ElectricityTransmissionLine.shx": {
+          "tile": "TA",
+          "extension": "shx",
+          "size_bytes": 428,
+          "compressed_size_bytes": 290,
+          "zip_crc32": "f3324a34",
+          "sha256": "19d829e7aeb673a64f4522f8d0cf8d81475a2e7f69ebc768bd4aabe3b215d93e",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TF/TF_ElectricityTransmissionLine.dbf": {
+          "tile": "TF",
+          "extension": "dbf",
+          "size_bytes": 3706,
+          "compressed_size_bytes": 1901,
+          "zip_crc32": "97bcc3ef",
+          "sha256": "86884a0683ef83a5226ca5308f6b80d6a58335cabe9a2cf74fc67bfb7d0e6ac4",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TF/TF_ElectricityTransmissionLine.prj": {
+          "tile": "TF",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TF/TF_ElectricityTransmissionLine.shp": {
+          "tile": "TF",
+          "extension": "shp",
+          "size_bytes": 303508,
+          "compressed_size_bytes": 74126,
+          "zip_crc32": "d7e4e194",
+          "sha256": "8104604af753e3d9d9ba4d74f0f0ca7a01bb07c64947048c243e6c5f0f2735bc",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TF/TF_ElectricityTransmissionLine.shx": {
+          "tile": "TF",
+          "extension": "shx",
+          "size_bytes": 756,
+          "compressed_size_bytes": 499,
+          "zip_crc32": "3bda830c",
+          "sha256": "044da29bff8da6913231538e8e1f06b4e2199b816c1120759dd0a845b4f59bfc",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TG/TG_ElectricityTransmissionLine.dbf": {
+          "tile": "TG",
+          "extension": "dbf",
+          "size_bytes": 978,
+          "compressed_size_bytes": 515,
+          "zip_crc32": "2c6ab824",
+          "sha256": "120d15bb1f71c09e592fb771dbe5dbbb3a3dc0d353c491f113b0170292f89db1",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TG/TG_ElectricityTransmissionLine.prj": {
+          "tile": "TG",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TG/TG_ElectricityTransmissionLine.shp": {
+          "tile": "TG",
+          "extension": "shp",
+          "size_bytes": 64068,
+          "compressed_size_bytes": 15991,
+          "zip_crc32": "d85d470f",
+          "sha256": "41c414636ac61c6737d6e1dc244b18bb29557ea82a928d9df96eda2550578db6",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TG/TG_ElectricityTransmissionLine.shx": {
+          "tile": "TG",
+          "extension": "shx",
+          "size_bytes": 260,
+          "compressed_size_bytes": 165,
+          "zip_crc32": "eec4e0cb",
+          "sha256": "e99d712fb7fb4c196ff09db8d402cb3c9aa4f91e54fca850a0a3303e95ed60e3",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TL/TL_ElectricityTransmissionLine.dbf": {
+          "tile": "TL",
+          "extension": "dbf",
+          "size_bytes": 9558,
+          "compressed_size_bytes": 4896,
+          "zip_crc32": "c3d600bb",
+          "sha256": "cad033d500fffd08049e10a0f89fadb18f0b74891cf9444fa8282328028c7b13",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TL/TL_ElectricityTransmissionLine.prj": {
+          "tile": "TL",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TL/TL_ElectricityTransmissionLine.shp": {
+          "tile": "TL",
+          "extension": "shp",
+          "size_bytes": 505196,
+          "compressed_size_bytes": 123989,
+          "zip_crc32": "ec508e2e",
+          "sha256": "123cafae071eda6d6859eef9c22111a4f978722c31e5e9fa8f347949afc3dc65",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TL/TL_ElectricityTransmissionLine.shx": {
+          "tile": "TL",
+          "extension": "shx",
+          "size_bytes": 1820,
+          "compressed_size_bytes": 1086,
+          "zip_crc32": "36394fac",
+          "sha256": "a93cbd27887a1ea3097e491fe85c6c3f0a4514397efc5f176786d6f95eaa3c20",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TM/TM_ElectricityTransmissionLine.dbf": {
+          "tile": "TM",
+          "extension": "dbf",
+          "size_bytes": 3310,
+          "compressed_size_bytes": 1704,
+          "zip_crc32": "b626e0a5",
+          "sha256": "384efb0ef33aa5e35f28e9fd92ba8383e3818a6852c64099d6de31aa1ffb7009",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TM/TM_ElectricityTransmissionLine.prj": {
+          "tile": "TM",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TM/TM_ElectricityTransmissionLine.shp": {
+          "tile": "TM",
+          "extension": "shp",
+          "size_bytes": 200220,
+          "compressed_size_bytes": 50052,
+          "zip_crc32": "85877631",
+          "sha256": "ebaa3d3a8c017c492e17604aff5193962fbbc12c5fe265a43ad4bb5612bef98b",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TM/TM_ElectricityTransmissionLine.shx": {
+          "tile": "TM",
+          "extension": "shx",
+          "size_bytes": 684,
+          "compressed_size_bytes": 437,
+          "zip_crc32": "b38ae837",
+          "sha256": "118c562e66695822ea53eab897b6ef79828f5b014755d4bbaa08f4d17755fda8",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TQ/TQ_ElectricityTransmissionLine.dbf": {
+          "tile": "TQ",
+          "extension": "dbf",
+          "size_bytes": 13386,
+          "compressed_size_bytes": 6831,
+          "zip_crc32": "f02c170c",
+          "sha256": "6baddc314fcca6bf3a7594d142d6ea262dba7a9674a45029fc5647a7f3f7e6dc",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TQ/TQ_ElectricityTransmissionLine.prj": {
+          "tile": "TQ",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TQ/TQ_ElectricityTransmissionLine.shp": {
+          "tile": "TQ",
+          "extension": "shp",
+          "size_bytes": 904628,
+          "compressed_size_bytes": 221547,
+          "zip_crc32": "80470434",
+          "sha256": "0589d1b5499aaf734d20e1f947ac8800d553059cd347e47e9fff537590f1e8ef",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TQ/TQ_ElectricityTransmissionLine.shx": {
+          "tile": "TQ",
+          "extension": "shx",
+          "size_bytes": 2516,
+          "compressed_size_bytes": 1505,
+          "zip_crc32": "41c7f3a1",
+          "sha256": "a7aff6a3ebca8e05a5a4a2fbec258d1d7dd2ead52f1957913466011f3e8b098e",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TR/TR_ElectricityTransmissionLine.dbf": {
+          "tile": "TR",
+          "extension": "dbf",
+          "size_bytes": 1902,
+          "compressed_size_bytes": 980,
+          "zip_crc32": "31b4bd10",
+          "sha256": "c6dd41d59e9e176e73f729f4bdfcaba6db99a829494c3e3c9bc28fb2257893a0",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TR/TR_ElectricityTransmissionLine.prj": {
+          "tile": "TR",
+          "extension": "prj",
+          "size_bytes": 441,
+          "compressed_size_bytes": 293,
+          "zip_crc32": "01295060",
+          "sha256": "ad96eed627c47af784bec8e46b066c9ed71838479489aa4e5456bfcd8b2495cd",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TR/TR_ElectricityTransmissionLine.shp": {
+          "tile": "TR",
+          "extension": "shp",
+          "size_bytes": 143068,
+          "compressed_size_bytes": 35631,
+          "zip_crc32": "b6ea25e3",
+          "sha256": "031e2457c7bf2f83ec4ec29cb43232fb42be2867c1c9d3aac41bb09a6024b9ff",
+          "zip_crc_verified_by_full_member_read": true
+        },
+        "data/TR/TR_ElectricityTransmissionLine.shx": {
+          "tile": "TR",
+          "extension": "shx",
+          "size_bytes": 428,
+          "compressed_size_bytes": 289,
+          "zip_crc32": "625fcc8b",
+          "sha256": "dbcfb6cb0d55d0e3fe7494181253aba5642eb00efe1fd3d6ef53c6a3aabb81e1",
+          "zip_crc_verified_by_full_member_read": true
+        }
+      }
+    }
+  },
+  "licence": {
+    "name": "Open Government Licence version 3.0",
+    "short_name": "OGL 3.0",
+    "url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "attribution_required": true,
+    "commercial_use_permitted": true,
+    "modification_permitted": true,
+    "redistribution_permitted": true,
+    "required_attribution": "Contains OS data © Crown copyright and database right 2026"
+  },
+  "scope": {
+    "geography": "Great Britain",
+    "source_layer": "ElectricityTransmissionLine",
+    "source_definition": "Cables used to supply electricity that are suspended between pylons.",
+    "source_scale": "1:10,000",
+    "source_crs": "EPSG:27700",
+    "output_crs": "OGC:CRS84",
+    "source_grid_square_count": 40,
+    "source_grid_squares": [
+      "NC",
+      "ND",
+      "NG",
+      "NH",
+      "NJ",
+      "NK",
+      "NM",
+      "NN",
+      "NO",
+      "NR",
+      "NS",
+      "NT",
+      "NU",
+      "NX",
+      "NY",
+      "NZ",
+      "SD",
+      "SE",
+      "SH",
+      "SJ",
+      "SK",
+      "SM",
+      "SN",
+      "SO",
+      "SP",
+      "SR",
+      "SS",
+      "ST",
+      "SU",
+      "SW",
+      "SX",
+      "SY",
+      "SZ",
+      "TA",
+      "TF",
+      "TG",
+      "TL",
+      "TM",
+      "TQ",
+      "TR"
+    ]
+  },
+  "transform": {
+    "unit_of_observation": "one original OS ID, with clipped/grid-square parts grouped as LineString or MultiLineString",
+    "projection": "Inverse British National Grid on Airy 1830, then the standard seven-parameter OSGB36-to-WGS84 Helmert transform.",
+    "projection_accuracy_note": "The Helmert transform can differ from OSTN15 by several metres. It is appropriate for the generalized 1:10,000 web context layer, not cadastral or survey use.",
+    "geometry": "No simplification, smoothing or inferred connectivity. Coordinates rounded to six decimal degrees. Identical parts are deduplicated and line direction is canonicalized.",
+    "coordinate_decimal_places": 6,
+    "voltage": "OS OpenMap Local publishes no numeric voltage; VOLTAGE_KV is intentionally null.",
+    "self_check": {
+      "input_easting_northing": [
+        651409.903,
+        313177.27
+      ],
+      "expected_wgs84": [
+        1.716052,
+        52.657979
+      ],
+      "tolerance_degrees": 2e-05,
+      "actual_wgs84": [
+        1.716051945712885,
+        52.6579785974266
+      ],
+      "maximum_absolute_error_degrees": 4.025733986168234e-07,
+      "passed": true
+    }
+  },
+  "property_schema": {
+    "REGION_KEY": "Constant atlas region key: great-britain.",
+    "ASSET_KIND": "Constant: official_transmission_line.",
+    "SOURCE_ID": "Stable source identifier: uk-os-openmap-local-electricity-2026-04.",
+    "ORIGINAL_ID": "Original OS UUID from the Shapefile ID field.",
+    "FEATURE_CODE": "Original FEATCODE; expected value 15102.",
+    "GRID_SQUARES": "Pipe-separated source 100 km grid-square codes.",
+    "VOLTAGE_KV": "Always null because voltage is not published.",
+    "SOURCE_DATE": "OS product version: 2026-04.",
+    "SOURCE_URL": "Official OS product API URL.",
+    "SOURCE_LICENSE": "Short reuse label: OGL 3.0.",
+    "EVIDENCE": "Constant evidence class: official.",
+    "GEOMETRY_CONFIDENCE": "Source scale, CRS transform, precision and simplification note."
+  },
+  "statistics": {
+    "source_record_count": 3659,
+    "source_part_count": 3659,
+    "source_point_count": 339719,
+    "deleted_record_count": 0,
+    "null_shape_count": 0,
+    "feature_code_counts": {
+      "15102": 3659
+    },
+    "unique_original_id_count": 3414,
+    "multipart_feature_count": 0,
+    "duplicate_identical_part_count": 245,
+    "output_geometry_counts": {
+      "LineString": 3414
+    },
+    "output_bounds_crs84": {
+      "west": -5.936317,
+      "south": 50.14287,
+      "east": 1.721511,
+      "north": 58.575236
+    },
+    "tiles": {
+      "NC": {
+        "dbf": {
+          "record_count": 11,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 11,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 11
+          },
+          "source_bbox_epsg27700": {
+            "west": 239633.25,
+            "south": 897486.76,
+            "east": 318495.0,
+            "north": 966580.86
+          },
+          "part_count": 11,
+          "point_count": 1765
+        }
+      },
+      "ND": {
+        "dbf": {
+          "record_count": 8,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 8,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 8
+          },
+          "source_bbox_epsg27700": {
+            "west": 288828.5,
+            "south": 906004.75,
+            "east": 318495.0,
+            "north": 966535.09
+          },
+          "part_count": 8,
+          "point_count": 712
+        }
+      },
+      "NG": {
+        "dbf": {
+          "record_count": 1,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 1,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 1
+          },
+          "source_bbox_epsg27700": {
+            "west": 162638.5,
+            "south": 801870.0,
+            "east": 211650.5,
+            "north": 825141.0
+          },
+          "part_count": 1,
+          "point_count": 664
+        }
+      },
+      "NH": {
+        "dbf": {
+          "record_count": 80,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 80,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 80
+          },
+          "source_bbox_epsg27700": {
+            "west": 162638.5,
+            "south": 686571.06,
+            "east": 319997.76,
+            "north": 959498.5
+          },
+          "part_count": 80,
+          "point_count": 8323
+        }
+      },
+      "NJ": {
+        "dbf": {
+          "record_count": 34,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 34,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 34
+          },
+          "source_bbox_epsg27700": {
+            "west": 265935.92,
+            "south": 737127.33,
+            "east": 412062.10000000003,
+            "north": 866251.76
+          },
+          "part_count": 34,
+          "point_count": 6755
+        }
+      },
+      "NK": {
+        "dbf": {
+          "record_count": 10,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 10,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 10
+          },
+          "source_bbox_epsg27700": {
+            "west": 369237.74,
+            "south": 821260.85,
+            "east": 412062.10000000003,
+            "north": 866251.76
+          },
+          "part_count": 10,
+          "point_count": 1023
+        }
+      },
+      "NM": {
+        "dbf": {
+          "record_count": 1,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 1,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 1
+          },
+          "source_bbox_epsg27700": {
+            "west": 186669.05000000002,
+            "south": 690035.58,
+            "east": 211664.27000000002,
+            "north": 711888.77
+          },
+          "part_count": 1,
+          "point_count": 634
+        }
+      },
+      "NN": {
+        "dbf": {
+          "record_count": 65,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 65,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 65
+          },
+          "source_bbox_epsg27700": {
+            "west": 186669.05000000002,
+            "south": 673446.0,
+            "east": 335159.60000000003,
+            "north": 808296.3200000001
+          },
+          "part_count": 65,
+          "point_count": 6915
+        }
+      },
+      "NO": {
+        "dbf": {
+          "record_count": 41,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 41,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 41
+          },
+          "source_bbox_epsg27700": {
+            "west": 277035.92,
+            "south": 688434.5,
+            "east": 389787.19,
+            "north": 814235.43
+          },
+          "part_count": 41,
+          "point_count": 5018
+        }
+      },
+      "NR": {
+        "dbf": {
+          "record_count": 4,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 4,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 4
+          },
+          "source_bbox_epsg27700": {
+            "west": 178768.68,
+            "south": 638571.54,
+            "east": 211664.27000000002,
+            "north": 711888.77
+          },
+          "part_count": 4,
+          "point_count": 1537
+        }
+      },
+      "NS": {
+        "dbf": {
+          "record_count": 152,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 152,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 152
+          },
+          "source_bbox_epsg27700": {
+            "west": 209865.08000000002,
+            "south": 579120.14,
+            "east": 328988.19,
+            "north": 808296.3200000001
+          },
+          "part_count": 152,
+          "point_count": 15324
+        }
+      },
+      "NT": {
+        "dbf": {
+          "record_count": 79,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 79,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 79
+          },
+          "source_bbox_epsg27700": {
+            "west": 279024.53,
+            "south": 561384.64,
+            "east": 412923.64,
+            "north": 747000.84
+          },
+          "part_count": 79,
+          "point_count": 8054
+        }
+      },
+      "NU": {
+        "dbf": {
+          "record_count": 3,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 3,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 3
+          },
+          "source_bbox_epsg27700": {
+            "west": 379447.4,
+            "south": 568919.11,
+            "east": 422148.37,
+            "north": 642398.99
+          },
+          "part_count": 3,
+          "point_count": 788
+        }
+      },
+      "NX": {
+        "dbf": {
+          "record_count": 22,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 22,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 22
+          },
+          "source_bbox_epsg27700": {
+            "west": 209865.08000000002,
+            "south": 504340.41000000003,
+            "east": 336551.60000000003,
+            "north": 619627.9500000001
+          },
+          "part_count": 22,
+          "point_count": 3256
+        }
+      },
+      "NY": {
+        "dbf": {
+          "record_count": 67,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 67,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 67
+          },
+          "source_bbox_epsg27700": {
+            "west": 298629.09,
+            "south": 476087.32,
+            "east": 416473.24,
+            "north": 615767.72
+          },
+          "part_count": 67,
+          "point_count": 6805
+        }
+      },
+      "NZ": {
+        "dbf": {
+          "record_count": 165,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 165,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 165
+          },
+          "source_bbox_epsg27700": {
+            "west": 338756.9,
+            "south": 445483.38,
+            "east": 489977.46,
+            "north": 642398.99
+          },
+          "part_count": 165,
+          "point_count": 11572
+        }
+      },
+      "SD": {
+        "dbf": {
+          "record_count": 156,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 156,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 156
+          },
+          "source_bbox_epsg27700": {
+            "west": 303108.48,
+            "south": 393451.32,
+            "east": 413089.46,
+            "north": 561356.86
+          },
+          "part_count": 156,
+          "point_count": 14400
+        }
+      },
+      "SE": {
+        "dbf": {
+          "record_count": 230,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 230,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 230
+          },
+          "source_bbox_epsg27700": {
+            "west": 378945.10000000003,
+            "south": 385756.25,
+            "east": 521549.5,
+            "north": 522055.9
+          },
+          "part_count": 230,
+          "point_count": 18768
+        }
+      },
+      "SH": {
+        "dbf": {
+          "record_count": 42,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 42,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 42
+          },
+          "source_bbox_epsg27700": {
+            "west": 229391.23,
+            "south": 337623.02,
+            "east": 329019.9,
+            "north": 393793.37
+          },
+          "part_count": 42,
+          "point_count": 4593
+        }
+      },
+      "SJ": {
+        "dbf": {
+          "record_count": 275,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 275,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 275
+          },
+          "source_bbox_epsg27700": {
+            "west": 256040.56,
+            "south": 277229.27,
+            "east": 423691.85000000003,
+            "north": 427737.67
+          },
+          "part_count": 275,
+          "point_count": 21801
+        }
+      },
+      "SK": {
+        "dbf": {
+          "record_count": 264,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 264,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 264
+          },
+          "source_bbox_epsg27700": {
+            "west": 391997.66000000003,
+            "south": 259173.69,
+            "east": 519587.51,
+            "north": 411922.52
+          },
+          "part_count": 264,
+          "point_count": 21966
+        }
+      },
+      "SM": {
+        "dbf": {
+          "record_count": 17,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 17,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 17
+          },
+          "source_bbox_epsg27700": {
+            "west": 187735.75,
+            "south": 199995.52000000002,
+            "east": 304980.29,
+            "north": 216093.04
+          },
+          "part_count": 17,
+          "point_count": 2722
+        }
+      },
+      "SN": {
+        "dbf": {
+          "record_count": 89,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 89,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 89
+          },
+          "source_bbox_epsg27700": {
+            "west": 193296.7,
+            "south": 183091.15,
+            "east": 309834.79,
+            "north": 281278.33
+          },
+          "part_count": 89,
+          "point_count": 7134
+        }
+      },
+      "SO": {
+        "dbf": {
+          "record_count": 167,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 167,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 167
+          },
+          "source_bbox_epsg27700": {
+            "west": 193424.6,
+            "south": 189995.64,
+            "east": 449874.10000000003,
+            "north": 309181.95
+          },
+          "part_count": 167,
+          "point_count": 14783
+        }
+      },
+      "SP": {
+        "dbf": {
+          "record_count": 196,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 196,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 196
+          },
+          "source_bbox_epsg27700": {
+            "west": 391656.60000000003,
+            "south": 189983.54,
+            "east": 513735.17,
+            "north": 353611.35000000003
+          },
+          "part_count": 196,
+          "point_count": 17987
+        }
+      },
+      "SR": {
+        "dbf": {
+          "record_count": 1,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 1,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 1
+          },
+          "source_bbox_epsg27700": {
+            "west": 193296.7,
+            "south": 199995.52000000002,
+            "east": 257002.82,
+            "north": 215820.1
+          },
+          "part_count": 1,
+          "point_count": 727
+        }
+      },
+      "SS": {
+        "dbf": {
+          "record_count": 118,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 118,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 118
+          },
+          "source_bbox_epsg27700": {
+            "west": 194122.67,
+            "south": 59112.41,
+            "east": 318933.23,
+            "north": 201584.55000000002
+          },
+          "part_count": 118,
+          "point_count": 7139
+        }
+      },
+      "ST": {
+        "dbf": {
+          "record_count": 254,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 254,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 254
+          },
+          "source_bbox_epsg27700": {
+            "west": 250496.45,
+            "south": 80740.6,
+            "east": 464283.58,
+            "north": 216653.76
+          },
+          "part_count": 254,
+          "point_count": 23023
+        }
+      },
+      "SU": {
+        "dbf": {
+          "record_count": 194,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 194,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 194
+          },
+          "source_bbox_epsg27700": {
+            "west": 365580.65,
+            "south": 80740.6,
+            "east": 523984.4,
+            "north": 225741.98
+          },
+          "part_count": 194,
+          "point_count": 18866
+        }
+      },
+      "SW": {
+        "dbf": {
+          "record_count": 22,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 22,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 22
+          },
+          "source_bbox_epsg27700": {
+            "west": 150289.37,
+            "south": 32681.100000000002,
+            "east": 250242.86000000002,
+            "north": 124743.14
+          },
+          "part_count": 22,
+          "point_count": 4099
+        }
+      },
+      "SX": {
+        "dbf": {
+          "record_count": 52,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 52,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 52
+          },
+          "source_bbox_epsg27700": {
+            "west": 194110.62,
+            "south": 44466.0,
+            "east": 303515.62,
+            "north": 124743.14
+          },
+          "part_count": 52,
+          "point_count": 7235
+        }
+      },
+      "SY": {
+        "dbf": {
+          "record_count": 47,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 47,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 47
+          },
+          "source_bbox_epsg27700": {
+            "west": 257101.98,
+            "south": 54721.49,
+            "east": 407400.7,
+            "north": 113318.06
+          },
+          "part_count": 47,
+          "point_count": 4969
+        }
+      },
+      "SZ": {
+        "dbf": {
+          "record_count": 18,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 18,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 18
+          },
+          "source_bbox_epsg27700": {
+            "west": 397253.05,
+            "south": 90308.76,
+            "east": 452758.75,
+            "north": 105103.3
+          },
+          "part_count": 18,
+          "point_count": 2277
+        }
+      },
+      "TA": {
+        "dbf": {
+          "record_count": 41,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 41,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 41
+          },
+          "source_bbox_epsg27700": {
+            "west": 443171.52,
+            "south": 399051.88,
+            "east": 529393.2,
+            "north": 487390.2
+          },
+          "part_count": 41,
+          "point_count": 3848
+        }
+      },
+      "TF": {
+        "dbf": {
+          "record_count": 82,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 82,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 82
+          },
+          "source_bbox_epsg27700": {
+            "west": 479449.72000000003,
+            "south": 259173.69,
+            "east": 621848.3,
+            "north": 404720.12
+          },
+          "part_count": 82,
+          "point_count": 9256
+        }
+      },
+      "TG": {
+        "dbf": {
+          "record_count": 20,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 20,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 20
+          },
+          "source_bbox_epsg27700": {
+            "west": 584448.42,
+            "south": 245999.22,
+            "east": 652612.38,
+            "north": 324100.14
+          },
+          "part_count": 20,
+          "point_count": 1944
+        }
+      },
+      "TL": {
+        "dbf": {
+          "record_count": 215,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 215,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 215
+          },
+          "source_bbox_epsg27700": {
+            "west": 486925.05,
+            "south": 186188.76,
+            "east": 611631.73,
+            "north": 333854.22000000003
+          },
+          "part_count": 215,
+          "point_count": 15193
+        }
+      },
+      "TM": {
+        "dbf": {
+          "record_count": 73,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 73,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 73
+          },
+          "source_bbox_epsg27700": {
+            "west": 576800.11,
+            "south": 190777.75,
+            "east": 652612.38,
+            "north": 306153.10000000003
+          },
+          "part_count": 73,
+          "point_count": 6053
+        }
+      },
+      "TQ": {
+        "dbf": {
+          "record_count": 302,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-08",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 302,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 302
+          },
+          "source_bbox_epsg27700": {
+            "west": 464490.62,
+            "south": 100722.3,
+            "east": 617265.8,
+            "north": 227114.77000000002
+          },
+          "part_count": 302,
+          "point_count": 27436
+        }
+      },
+      "TR": {
+        "dbf": {
+          "record_count": 41,
+          "header_length": 97,
+          "record_length": 44,
+          "last_update": "2026-04-02",
+          "fields": [
+            {
+              "name": "ID",
+              "type": "C",
+              "length": 38,
+              "decimals": 0
+            },
+            {
+              "name": "FEATCODE",
+              "type": "N",
+              "length": 5,
+              "decimals": 0
+            }
+          ]
+        },
+        "shapefile": {
+          "record_count": 41,
+          "shape_type": 13,
+          "shape_type_counts": {
+            "13": 41
+          },
+          "source_bbox_epsg27700": {
+            "west": 581657.6900000001,
+            "south": 111913.65000000001,
+            "east": 637837.2000000001,
+            "north": 169221.2
+          },
+          "part_count": 41,
+          "point_count": 4355
+        }
+      }
+    }
+  },
+  "verification": {
+    "product_version_verified": true,
+    "catalog_archive_size_verified": true,
+    "selected_member_zip_crc_verified": true,
+    "selected_member_sha256_recorded": true,
+    "source_crs_verified": true,
+    "source_feature_code_verified": true,
+    "transform_self_check_passed": true,
+    "output_json_reparsed": true,
+    "feature_ids_unique": true,
+    "feature_count_verified": 3414,
+    "bounds_verified": {
+      "west": -5.936317,
+      "south": 50.14287,
+      "east": 1.721511,
+      "north": 58.575236
+    },
+    "output_below_10_mib": true
+  },
+  "output": {
+    "path": "data/grid-atlas/uk-os-openmap-local-electricity-lines.geojson",
+    "format": "RFC 7946 GeoJSON FeatureCollection",
+    "feature_count": 3414,
+    "size_bytes": 7779915,
+    "sha256": "60bd5a1519a64f87b1887bd41be4b20723d699f354a1af2f700fd6e7f97bd748"
+  },
+  "processing": {
+    "script": "scripts/grid-atlas/build-uk-os-openmap-local-grid.py",
+    "steps": [
+      "Verify OS product ID and pinned 2026-04 version.",
+      "Select the GB ESRI Shapefile archive from the downloads API.",
+      "Read the remote ZIP by byte range or verify a complete local ZIP.",
+      "Read and CRC/SHA-256 verify only ElectricityTransmissionLine members.",
+      "Validate DBF ID/FEATCODE and EPSG:27700 Shapefile schemas.",
+      "Group clipped parts by the original OS UUID.",
+      "Transform BNG vertices to WGS84 and round to six decimals.",
+      "Write atomically and reparse to verify hash, count and bounds."
+    ]
+  }
+}

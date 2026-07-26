@@ -1,0 +1,649 @@
+{
+  "schema_version": 2,
+  "title": "Taipower renewable hosting capacity source and display layers",
+  "description": "Official feeder hosting capacity joined to transformer points. The raw output preserves source rows and the display output aggregates valid points to a 0.02-degree grid. Neither is feeder line geometry or a connectivity/topology model.",
+  "generated_at": "2026-07-26T00:20:09.672831+00:00",
+  "source": {
+    "publisher": "Taiwan Power Company (台灣電力公司)",
+    "catalogue": "Taiwan Government Data Open Platform",
+    "dataset_id": "d077009",
+    "catalogue_dataset_id": 161874,
+    "portal_url": "https://data.gov.tw/dataset/161874",
+    "download_url": "https://service.taipower.com.tw/data/opendata/apply/file/d077009/001.zip",
+    "source_date": "2026-04-27",
+    "update_frequency": "semiannual",
+    "retrieval_mode": "network",
+    "http": {
+      "transport": "curl with platform TLS verification",
+      "transport_note": "Python urllib could not validate the server certificate on this host (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1028)>); curl was used without insecure flags.",
+      "requested_url": "https://service.taipower.com.tw/data/opendata/apply/file/d077009/001.zip",
+      "response_url": "https://service.taipower.com.tw/data/opendata/apply/file/d077009/001.zip",
+      "status": 200,
+      "content_type": "application/x-zip-compressed",
+      "content_length_header": 7096402,
+      "last_modified": "2026-04-27T07:41:06+00:00",
+      "etag": "\"095a43419d6dc1:0\"",
+      "server_date": "2026-07-26T00:19:47+00:00"
+    },
+    "archive": {
+      "source_filename": "001.zip",
+      "size_bytes": 7096402,
+      "sha256": "bba513ab4f5755983cd46e78a5772098afbb40a7954529e61a696b054a84a774"
+    }
+  },
+  "licence": {
+    "name": "Taiwan Open Government Data License, version 1.0",
+    "url": "https://data.gov.tw/license",
+    "attribution_required": true,
+    "commercial_use_permitted": true,
+    "modification_permitted": true,
+    "redistribution_permitted": true,
+    "cc_by_4_compatible": true,
+    "suggested_attribution": "Taiwan Power Company (台灣電力公司), d077009, Taiwan Government Data Open Platform."
+  },
+  "coordinate_reference_systems": {
+    "source": {
+      "id": "EPSG:3828",
+      "name": "TWD67 / TM2 zone 121",
+      "axis_order": [
+        "X easting",
+        "Y northing"
+      ],
+      "unit": "metre",
+      "validity_bounds_used": {
+        "min_x": 145616.57,
+        "min_y": 2419172.28,
+        "max_x": 359551.35,
+        "max_y": 2803869.61
+      }
+    },
+    "intermediate": {
+      "id": "EPSG:3826",
+      "name": "TWD97 / TM2 zone 121",
+      "method": "Published Taiwan-wide 2D plane-coordinate approximation: X97=X67+807.8+A*X67+B*Y67; Y97=Y67-248.6+A*Y67+B*X67; A=1.549e-05, B=6.521e-06."
+    },
+    "output": {
+      "id": "OGC:CRS84",
+      "name": "WGS 84 longitude/latitude for RFC 7946 GeoJSON",
+      "coordinate_order": [
+        "longitude",
+        "latitude"
+      ],
+      "precision_decimal_places": 6
+    },
+    "accuracy_note": "The national 2D approximation and TWD97/WGS84 equivalence are appropriate for web mapping, not cadastral or survey use.",
+    "self_check": {
+      "input_twd67_tm2": [
+        213291.0,
+        2673189.0
+      ],
+      "expected_wgs84": [
+        120.64691,
+        24.161768
+      ],
+      "tolerance_degrees": 5e-05
+    }
+  },
+  "feature_property_schema": {
+    "a": {
+      "title": "source_area",
+      "type": "string",
+      "description": "Uppercase area prefix shared by the two source CSV files."
+    },
+    "f": {
+      "title": "feeder",
+      "type": "string",
+      "description": "Original FEEDER identifier."
+    },
+    "c": {
+      "title": "hosting_capacity_kw",
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "CAPACITY joined from the area's capacity CSV, in kW; null when the source point's feeder has no matching capacity row."
+    },
+    "r": {
+      "title": "source_rownum",
+      "type": [
+        "integer",
+        "string"
+      ],
+      "description": "Original ROWNUM value."
+    },
+    "x": {
+      "title": "source_twd67_x_m",
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Original TWD67 / TM2 zone 121 X coordinate in metres."
+    },
+    "y": {
+      "title": "source_twd67_y_m",
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Original TWD67 / TM2 zone 121 Y coordinate in metres."
+    },
+    "q": {
+      "title": "coordinate_quality",
+      "type": "string",
+      "description": "Present only when geometry is null: invalid_source_coordinate."
+    }
+  },
+  "display_feature_property_schema": {
+    "REGION_KEY": "Constant region key: taiwan.",
+    "ASSET_KIND": "Constant display asset type: hosting_cluster.",
+    "SOURCE_ID": "Stable source identifier: taipower-d077009.",
+    "POINT_COUNT": "Valid source transformer points assigned to the grid cell.",
+    "FEEDER_COUNT": "Unique non-placeholder FEEDER identifiers in the grid cell.",
+    "CAPACITY_REPORTED_COUNT": "Unique feeders in the cell with a reported CAPACITY value.",
+    "CAPACITY_MIN_KW": "Minimum reported capacity across unique feeders; null when unavailable.",
+    "CAPACITY_MAX_KW": "Maximum reported capacity across unique feeders; null when unavailable.",
+    "CAPACITY_MEAN_KW": "Arithmetic mean across unique feeder capacity values; repeated transformer points do not weight or sum capacity.",
+    "SOURCE_AREAS": "Sorted source-area prefixes represented in the cell.",
+    "SOURCE_DATE": "Source snapshot date: 2026-04-27.",
+    "SOURCE_URL": "Official source ZIP URL.",
+    "SOURCE_LICENSE": "Short licence label: OGDL 1.0.",
+    "EVIDENCE": "Constant evidence class: reported.",
+    "GEOMETRY_CONFIDENCE": "Constant geometry class: aggregated-0.02-degree-grid."
+  },
+  "source_members": {
+    "CHANGHUA": {
+      "capacity_file": {
+        "name": "CHANGHUA_capacity.csv",
+        "sha256": "bb066383f8381ebfbd124a29b18ee6650de3929d1d67e2524ee7e434d33405a8",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:28",
+        "row_count": 557
+      },
+      "point_file": {
+        "name": "CHANGHUA_tr_feeder.csv",
+        "sha256": "61002a6732b08802b9a443ff7140d53b387d4701e4582d5a5025291632053199",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:48:42",
+        "row_count": 42056
+      }
+    },
+    "CHIAYI": {
+      "capacity_file": {
+        "name": "CHIAYI_capacity.csv",
+        "sha256": "3a6a53d3135fb6054915d056d7305cdb3ef6c43b1c4ec25a5c3eb1c9608e0808",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:28",
+        "row_count": 301
+      },
+      "point_file": {
+        "name": "CHIAYI_tr_feeder.csv",
+        "sha256": "5eb9580e880b59c5eace208b7e3e6e546154fc3795cac8fa3026b618515fc734",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:49:00",
+        "row_count": 32192
+      }
+    },
+    "HSINCHU": {
+      "capacity_file": {
+        "name": "HSINCHU_capacity.csv",
+        "sha256": "59aadf043eb0f69d8c963b960e390d869f425dbe50b1933a3640f868fa9cc457",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 619
+      },
+      "point_file": {
+        "name": "HSINCHU_tr_feeder.csv",
+        "sha256": "ad758370cd524b332a9bc1922a397b89bc3360fb51d8002da25c0a6289c78fce",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:49:26",
+        "row_count": 23903
+      }
+    },
+    "HUALIEN": {
+      "capacity_file": {
+        "name": "HUALIEN_capacity.csv",
+        "sha256": "8d0040a5b2f7d958a9f6a07f0d77129d07e94c2a558588eb966ba02a600f1f1f",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 168
+      },
+      "point_file": {
+        "name": "HUALIEN_tr_feeder.csv",
+        "sha256": "9b40065cb5eb07a4a1e345b32f9ad6adab1203f8e69c4005306b7e8cee68aabc",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:49:38",
+        "row_count": 13965
+      }
+    },
+    "KAOHSIUNG": {
+      "capacity_file": {
+        "name": "KAOHSIUNG_capacity.csv",
+        "sha256": "91c126413a9021877c1323a1c7519672e5d95007e896b38a09ed4846833d557d",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 1090
+      },
+      "point_file": {
+        "name": "KAOHSIUNG_tr_feeder.csv",
+        "sha256": "c16503bba455c6d99e08c734fbdac9afa7c0a9ad3d277b7727534c5e6fc68277",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:49:48",
+        "row_count": 46115
+      }
+    },
+    "KEELUNG": {
+      "capacity_file": {
+        "name": "KEELUNG_capacity.csv",
+        "sha256": "7e484ae46c9224df663f16709175b00fceb43f35eb49e5cf2f60b0cfd139f3fa",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 220
+      },
+      "point_file": {
+        "name": "KEELUNG_tr_feeder.csv",
+        "sha256": "87e16638caf59b1e1791002d3837020cb9e25ea42ead10ee8f787f6ebe323bc6",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:50:00",
+        "row_count": 3279
+      }
+    },
+    "MIAOLI": {
+      "capacity_file": {
+        "name": "MIAOLI_capacity.csv",
+        "sha256": "e2518ae2767aa1e5bff27f0246e3fbe98f16367477753d61fad2638903d4ea04",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 328
+      },
+      "point_file": {
+        "name": "MIAOLI_tr_feeder.csv",
+        "sha256": "1a35fe59c21588dda10629c46056ee0224940555a28d47e3d58a12fa3090c09a",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:50:10",
+        "row_count": 22356
+      }
+    },
+    "NANTOU": {
+      "capacity_file": {
+        "name": "NANTOU_capacity.csv",
+        "sha256": "be2f22656928916891d9c84ca1ef178afb66370b583724a8de65aec3f8757b95",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:28",
+        "row_count": 299
+      },
+      "point_file": {
+        "name": "NANTOU_tr_feeder.csv",
+        "sha256": "d8ca41419cd598248f4e717e25b9ca5169595d7317905c85438b066360d0f43f",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:50:20",
+        "row_count": 24606
+      }
+    },
+    "NEWTAIPEI": {
+      "capacity_file": {
+        "name": "NEWTAIPEI_capacity.csv",
+        "sha256": "fe120437c3fcbf113f7c1caa8519c10204bf9f7b80d49e9fa1c21a7d13db68ba",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 1041
+      },
+      "point_file": {
+        "name": "NEWTAIPEI_tr_feeder.csv",
+        "sha256": "a8284a10246509fc5a026d6a3e06de11862805c6b1b09e570aea89e059192250",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:50:52",
+        "row_count": 38759
+      }
+    },
+    "PINGTUNG": {
+      "capacity_file": {
+        "name": "PINGTUNG_capacity.csv",
+        "sha256": "c060639e68295240839669290a97ce4c1bc21b64c0f326b45c31398798e6fa3c",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 362
+      },
+      "point_file": {
+        "name": "PINGTUNG_tr_feeder.csv",
+        "sha256": "e0aeb9c48287dddffe17fa1912dfb9d218bba8673153e3bf9b2d0f0068f01e15",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:51:14",
+        "row_count": 31323
+      }
+    },
+    "TAICHUNG": {
+      "capacity_file": {
+        "name": "TAICHUNG_capacity.csv",
+        "sha256": "331ae489e1a2c28948a199974e68acdca6cb16034cfcc1e5d719e8505aaf185b",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:28",
+        "row_count": 1112
+      },
+      "point_file": {
+        "name": "TAICHUNG_tr_feeder.csv",
+        "sha256": "05ee0d10647342e6fa3fe1b7324cef26693dd642229b575f4eb4df2fc39166de",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:51:52",
+        "row_count": 49410
+      }
+    },
+    "TAINAN": {
+      "capacity_file": {
+        "name": "TAINAN_capacity.csv",
+        "sha256": "485472c927c5f9c54fa1f1fdf587f1e3762f5dbea06a412ebc260397be8da181",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 687
+      },
+      "point_file": {
+        "name": "TAINAN_tr_feeder.csv",
+        "sha256": "47bacfc3822062ab3442b1b90b34980b04aa4a4449a7d2071c86ecd62cdcd7d8",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:52:10",
+        "row_count": 58113
+      }
+    },
+    "TAIPEI": {
+      "capacity_file": {
+        "name": "TAIPEI_capacity.csv",
+        "sha256": "a3a48a01cac8007133dc66052cafaa485ae2dec2d0aa026a44fdee94ab496d0f",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 808
+      },
+      "point_file": {
+        "name": "TAIPEI_tr_feeder.csv",
+        "sha256": "fc43cb5902e983304b0902846d4fb1870fa78605a007819e6e22c538df60d131",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:52:32",
+        "row_count": 15533
+      }
+    },
+    "TAITUNG": {
+      "capacity_file": {
+        "name": "TAITUNG_capacity.csv",
+        "sha256": "e017523a6c830b2b9cff14c22cdaafcd43d534e4eac83d6c8eacad2c8340d990",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 89
+      },
+      "point_file": {
+        "name": "TAITUNG_tr_feeder.csv",
+        "sha256": "95f8c4061d75e9113e195526ed8b4051b578b8f059f398d6ca576924da7433ac",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:52:52",
+        "row_count": 11159
+      }
+    },
+    "TAOYUAN": {
+      "capacity_file": {
+        "name": "TAOYUAN_capacity.csv",
+        "sha256": "cc3c6947c58d6f80083104586035968bfc6a52ea728ff4c7d4dfd2461ad115bf",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:26",
+        "row_count": 843
+      },
+      "point_file": {
+        "name": "TAOYUAN_tr_feeder.csv",
+        "sha256": "58b214506d4f0cfd39b153bb20271276a7d417d7f0236fbd8396f7964d178918",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:53:16",
+        "row_count": 40121
+      }
+    },
+    "YILAN": {
+      "capacity_file": {
+        "name": "YILAN_capacity.csv",
+        "sha256": "1fa06113a46f0058da18e4afc674fcd5e49124a48a7c93ad4ee2990a9683d5d7",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:30",
+        "row_count": 182
+      },
+      "point_file": {
+        "name": "YILAN_tr_feeder.csv",
+        "sha256": "886dbbd4df5fc79dbffb6a0a79bcdf83a7d71e60ebbcb57e8072ecc4b921fa71",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:53:42",
+        "row_count": 16757
+      }
+    },
+    "YUNLIN": {
+      "capacity_file": {
+        "name": "YUNLIN_capacity.csv",
+        "sha256": "7f5dd295d56cb2585d9eafba737d1d1471b61d39fa01ebaedb07c9f662c99576",
+        "zip_modified_at_local_unspecified": "2026-04-14T18:41:28",
+        "row_count": 343
+      },
+      "point_file": {
+        "name": "YUNLIN_tr_feeder.csv",
+        "sha256": "59f765f518f821806f4081c4834dae480fd034a0c09bda11d50f03c0c77ef7d0",
+        "zip_modified_at_local_unspecified": "2026-04-27T14:54:04",
+        "row_count": 36148
+      }
+    }
+  },
+  "statistics": {
+    "source_area_count": 17,
+    "capacity_table_row_count": 9049,
+    "feature_count": 505795,
+    "valid_geometry_count": 505791,
+    "invalid_geometry_count": 4,
+    "capacity_matched_count": 452048,
+    "capacity_missing_count": 53747,
+    "capacity_missing_unique_feeder_count": 1246,
+    "source_coordinate_bounds_all_rows": {
+      "min_x": 0.0,
+      "min_y": 0.0,
+      "max_x": 2252335.654,
+      "max_y": 3501881.202
+    },
+    "source_coordinate_bounds_valid_rows": {
+      "min_x": 150417.861,
+      "min_y": 2422640.26,
+      "max_x": 350606.717,
+      "max_y": 2799015.282
+    },
+    "wgs84_bounds_valid_rows": {
+      "min_longitude": 120.03597946977212,
+      "min_latitude": 21.899442332703256,
+      "max_longitude": 122.00498077895,
+      "max_latitude": 25.29726214407627
+    },
+    "invalid_coordinate_examples": [
+      {
+        "area": "MIAOLI",
+        "rownum": 773,
+        "feeder": "UB21",
+        "source_x": 2252335.654,
+        "source_y": 3501881.202
+      },
+      {
+        "area": "PINGTUNG",
+        "rownum": 1076,
+        "feeder": "NA18",
+        "source_x": 2240451.849,
+        "source_y": 2529441.149
+      },
+      {
+        "area": "TAIPEI",
+        "rownum": 3003,
+        "feeder": "SU78",
+        "source_x": 0.0,
+        "source_y": 0.0
+      },
+      {
+        "area": "TAIPEI",
+        "rownum": 15524,
+        "feeder": "無",
+        "source_x": 0.0,
+        "source_y": 0.0
+      }
+    ],
+    "areas": {
+      "CHANGHUA": {
+        "feature_count": 42056,
+        "valid_geometry_count": 42056,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 38046,
+        "capacity_missing_count": 4010,
+        "capacity_missing_unique_feeder_count": 55
+      },
+      "CHIAYI": {
+        "feature_count": 32192,
+        "valid_geometry_count": 32192,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 30030,
+        "capacity_missing_count": 2162,
+        "capacity_missing_unique_feeder_count": 32
+      },
+      "HSINCHU": {
+        "feature_count": 23903,
+        "valid_geometry_count": 23903,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 23348,
+        "capacity_missing_count": 555,
+        "capacity_missing_unique_feeder_count": 53
+      },
+      "HUALIEN": {
+        "feature_count": 13965,
+        "valid_geometry_count": 13965,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 13832,
+        "capacity_missing_count": 133,
+        "capacity_missing_unique_feeder_count": 7
+      },
+      "KAOHSIUNG": {
+        "feature_count": 46115,
+        "valid_geometry_count": 46115,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 43649,
+        "capacity_missing_count": 2466,
+        "capacity_missing_unique_feeder_count": 70
+      },
+      "KEELUNG": {
+        "feature_count": 3279,
+        "valid_geometry_count": 3279,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 3277,
+        "capacity_missing_count": 2,
+        "capacity_missing_unique_feeder_count": 1
+      },
+      "MIAOLI": {
+        "feature_count": 22356,
+        "valid_geometry_count": 22355,
+        "invalid_geometry_count": 1,
+        "capacity_matched_count": 21561,
+        "capacity_missing_count": 795,
+        "capacity_missing_unique_feeder_count": 22
+      },
+      "NANTOU": {
+        "feature_count": 24606,
+        "valid_geometry_count": 24606,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 23927,
+        "capacity_missing_count": 679,
+        "capacity_missing_unique_feeder_count": 15
+      },
+      "NEWTAIPEI": {
+        "feature_count": 38759,
+        "valid_geometry_count": 38759,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 28521,
+        "capacity_missing_count": 10238,
+        "capacity_missing_unique_feeder_count": 256
+      },
+      "PINGTUNG": {
+        "feature_count": 31323,
+        "valid_geometry_count": 31322,
+        "invalid_geometry_count": 1,
+        "capacity_matched_count": 30073,
+        "capacity_missing_count": 1250,
+        "capacity_missing_unique_feeder_count": 18
+      },
+      "TAICHUNG": {
+        "feature_count": 49410,
+        "valid_geometry_count": 49410,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 42749,
+        "capacity_missing_count": 6661,
+        "capacity_missing_unique_feeder_count": 174
+      },
+      "TAINAN": {
+        "feature_count": 58113,
+        "valid_geometry_count": 58113,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 43110,
+        "capacity_missing_count": 15003,
+        "capacity_missing_unique_feeder_count": 149
+      },
+      "TAIPEI": {
+        "feature_count": 15533,
+        "valid_geometry_count": 15531,
+        "invalid_geometry_count": 2,
+        "capacity_matched_count": 14302,
+        "capacity_missing_count": 1231,
+        "capacity_missing_unique_feeder_count": 69
+      },
+      "TAITUNG": {
+        "feature_count": 11159,
+        "valid_geometry_count": 11159,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 9842,
+        "capacity_missing_count": 1317,
+        "capacity_missing_unique_feeder_count": 20
+      },
+      "TAOYUAN": {
+        "feature_count": 40121,
+        "valid_geometry_count": 40121,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 34563,
+        "capacity_missing_count": 5558,
+        "capacity_missing_unique_feeder_count": 277
+      },
+      "YILAN": {
+        "feature_count": 16757,
+        "valid_geometry_count": 16757,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 16523,
+        "capacity_missing_count": 234,
+        "capacity_missing_unique_feeder_count": 7
+      },
+      "YUNLIN": {
+        "feature_count": 36148,
+        "valid_geometry_count": 36148,
+        "invalid_geometry_count": 0,
+        "capacity_matched_count": 34695,
+        "capacity_missing_count": 1453,
+        "capacity_missing_unique_feeder_count": 21
+      }
+    }
+  },
+  "aggregation": {
+    "method": "fixed-global-0.02-degree-grid-centroid",
+    "grid_size_degrees": 0.02,
+    "grid_alignment": "Global longitude/latitude multiples of 0.02 degrees; feature geometry is the geometric center of each occupied cell.",
+    "input_source_row_count": 505795,
+    "input_valid_geometry_count": 505791,
+    "invalid_geometry_count_metadata_only": 4,
+    "aggregated_point_count": 505791,
+    "output_cell_count": 5570,
+    "feeder_count_method": "Unique non-placeholder FEEDER string per cell; empty and 無 are excluded. The same FEEDER repeated at many transformer points counts once per occupied cell.",
+    "capacity_method": "CAPACITY_REPORTED_COUNT, MIN, MAX and MEAN use one reported CAPACITY value per unique FEEDER per cell. Transformer-point duplicates are never summed or used as repeated mean weights.",
+    "placeholder_feeder_values_excluded": [
+      "",
+      "無"
+    ],
+    "placeholder_point_count": 927,
+    "feeder_cell_membership_count": 27147,
+    "capacity_reported_feeder_cell_membership_count": 24190,
+    "cells_without_reported_capacity": 421,
+    "cells_without_nonplaceholder_feeder": 3,
+    "maximum_points_in_one_cell": 809,
+    "centroid_bounds": {
+      "min_longitude": 120.03,
+      "min_latitude": 21.89,
+      "max_longitude": 122.01,
+      "max_latitude": 25.29
+    }
+  },
+  "processing": {
+    "script": "scripts/grid-atlas/build-taiwan-hosting.py",
+    "steps": [
+      "Download or open the official d077009 ZIP.",
+      "Validate each regional capacity and transformer CSV schema.",
+      "Join CAPACITY to transformer points by source area and FEEDER.",
+      "Retain unmatched feeders with a null capacity.",
+      "Validate TWD67 coordinates against EPSG:3828 area bounds.",
+      "Retain invalid coordinates as features with null geometry.",
+      "Transform valid coordinates to WGS84-compatible longitude/latitude.",
+      "Assign each valid point to a globally aligned 0.02-degree grid and write one display feature at each occupied cell centroid.",
+      "Calculate display capacity statistics once per unique feeder in each cell, never by summing repeated point values."
+    ]
+  },
+  "output": {
+    "path": "data/grid-atlas/taiwan-hosting-capacity.geojson",
+    "format": "RFC 7946 GeoJSON FeatureCollection",
+    "size_bytes": 88644464,
+    "sha256": "590325afdf5e60219f4911da4a1b9c440891da9d2834c9e65773b5e6f6253c52",
+    "direct_browser_loading_note": "The complete point layer is intentionally large. Generate vector tiles or PMTiles before production browser use.",
+    "repository_status": "Reproducible audit artifact, hash-recorded here but intentionally not deployed; the display output represents every valid point."
+  },
+  "display_output": {
+    "path": "data/grid-atlas/taiwan-hosting-capacity-display.geojson",
+    "format": "RFC 7946 GeoJSON FeatureCollection",
+    "feature_count": 5570,
+    "source_row_count": 505795,
+    "aggregated_valid_point_count": 505791,
+    "invalid_geometry_excluded_count": 4,
+    "size_bytes": 3097533,
+    "sha256": "a8152ecbc5e3262522f0eac9835e5e80fff740d591fc19d6e8e8dacc5f858800"
+  }
+}

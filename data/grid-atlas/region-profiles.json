@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-07-26",
+  "regions": {
+    "europa": {
+      "title": "Geometría oficial multifuente sin falsa precisión",
+      "summary": "Francia incorpora IGN BD TOPO; Gran Bretaña añade 3.414 geometrías de transmisión OS OpenMap Local y Países Bajos 496 geometrías de alta tensión Kadaster BRT TOP10NL, ambas a 1:10.000, sin simplificación y sin atribuir tensión, circuitos u operador no publicados. Alemania añade BKG ≥110 kV y proyectos BNetzA, distinguiendo trazados y líneas rectas esquemáticas. Noruega conserva NVE y Suiza ofrece el WMS SFOE >36 kV. RTE sigue documentado aunque su edición de junio de 2026 retiró sus propias coordenadas.",
+      "metrics": [
+        { "value": "14.497", "label": "líneas oficiales IGN · Francia" },
+        { "value": "4.129", "label": "sitios transformadores IGN" },
+        { "value": "3.414", "label": "líneas OS · Gran Bretaña" },
+        { "value": "496", "label": "líneas TOP10NL · Países Bajos" },
+        { "value": "12.986", "label": "líneas BKG ≥110 kV · Alemania" },
+        { "value": "184", "label": "objetos de proyecto BNetzA" },
+        { "value": "390", "label": "tramos de transmisión NVE" }
+      ],
+      "sources": [
+        {
+          "label": "IGN BD TOPO · Licence Ouverte 2.0",
+          "url": "https://www.data.gouv.fr/datasets/bd-topo-r"
+        },
+        {
+          "label": "OS OpenMap Local · OGL 3.0",
+          "url": "https://docs.os.uk/os-downloads/products/maps-and-imagery-portfolio/os-openmap-local/os-openmap-local-technical-specification/feature-types/electricitytransmissionline"
+        },
+        {
+          "label": "Kadaster BRT TOP10NL · CC BY 4.0",
+          "url": "https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-brt-topnl"
+        },
+        {
+          "label": "BKG DLM250 · dl-de/by-2-0",
+          "url": "https://gdz.bkg.bund.de/index.php/default/digitales-landschaftsmodell-1-250-000-kompakt-dlm250-kompakt.html"
+        },
+        {
+          "label": "Bundesnetzagentur · BBPlG / EnLAG",
+          "url": "https://www.netzausbau.de/"
+        },
+        {
+          "label": "Swiss Federal Office of Energy · >36 kV",
+          "url": "https://opendata.swiss/en/dataset/elektrische-anlagen-mit-einer-nennspannung-von-uber-36-kv"
+        },
+        {
+          "label": "RTE ODRÉ · Licence Ouverte 2.0",
+          "url": "https://odre.opendatasoft.com/explore/dataset/lignes-aeriennes-rte-nv/"
+        },
+        {
+          "label": "NVE Nettanlegg · NLOD",
+          "url": "https://www.nve.no/energi/energisystem/nett/kraftsystemdata/nettkart/"
+        },
+        {
+          "label": "ENTSO-E Grid Map 2024 · contraste",
+          "url": "https://eepublicdownloads.entsoe.eu/clean-documents/Publications/maps/2024/ENTSOE_Grid_Map_Continental_Europe.pdf"
+        }
+      ]
+    },
+    "estados-unidos": {
+      "title": "Red oficial y todas las centrales EIA del continente",
+      "summary": "HIFLD aporta geometría nacional de transmisión, CEC actualiza California y BPA añade 705 líneas oficiales del noroeste. EIA-860M de junio de 2026 incorpora 15.764 centrales continentales obtenidas de todas las filas Operating y Planned, conservando coordenadas, unidades, estado, tecnología y capacidad por Plant ID.",
+      "metrics": [
+        { "value": "53.094", "label": "tramos HIFLD ≥100 kV" },
+        { "value": "705", "label": "líneas oficiales BPA" },
+        { "value": "15.764", "label": "centrales continentales EIA" },
+        { "value": "27.427", "label": "filas Operating EIA integradas" },
+        { "value": "2.267", "label": "filas Planned EIA integradas" }
+      ],
+      "sources": [
+        {
+          "label": "HIFLD / U.S. Government · archivo 2024",
+          "url": "https://catalog.data.gov/dataset/electric-power-transmission-lines"
+        },
+        {
+          "label": "California Energy Commission · CC BY",
+          "url": "https://catalog.data.gov/dataset/california-electric-transmission-lines"
+        },
+        {
+          "label": "Bonneville Power Administration · 2026-07",
+          "url": "https://services3.arcgis.com/Iz3chmSt4P7oOoZy/arcgis/rest/services/BPA_TransmissionLines_View/FeatureServer/0"
+        },
+        {
+          "label": "EIA-860M junio 2026 · dominio público",
+          "url": "https://www.eia.gov/electricity/data/eia860m/"
+        }
+      ]
+    },
+    "china": {
+      "title": "51 sistemas oficiales consultables, sin rutas inventadas",
+      "summary": "Los 51 sistemas HVDC del inventario NEA 2024 están normalizados y se pueden buscar localmente por nombre, tipo, tensión, capacidad, longitud, grupo de red, fechas y terminales verificados. Son atributos oficiales reportados, pero el informe no publica coordenadas ni trazados: este inventario no dibuja rutas. La geometría visible sigue separada y cualquier recta de proyecto se marca como esquema.",
+      "metrics": [
+        { "value": "51", "label": "sistemas HVDC en 2024" },
+        { "value": "233.574 MW", "label": "capacidad HVDC nominal" },
+        { "value": "52.949 km", "label": "longitud HVDC total" },
+        { "value": "35", "label": "proyectos UHV SGCC a fin de 2024" }
+      ],
+      "sources": [
+        {
+          "label": "NEA · 51 sistemas HVDC · inventario local",
+          "url": "https://prpq.nea.gov.cn/zxdt/12012.html"
+        },
+        {
+          "label": "SGCC · estado de la red UHV",
+          "url": "https://www.nc.sgcc.com.cn/zxzx/zbdt/2024/12/468382.shtml"
+        },
+        {
+          "label": "CSG · proyecto Tíbet-Gran Bahía ±800 kV",
+          "url": "https://www.bidding.csg.cn/zbgg/1200417914.jhtml"
+        }
+      ]
+    },
+    "japon": {
+      "title": "Geometría oficial GSI y capacidad direccional OCCTO",
+      "summary": "Las teselas vectoriales oficiales GSI incorporan la forma real cartografiada de líneas de transmisión a z14–16 y centrales a z13–16. OCCTO documenta capacidad por sentido y periodo; sus siete relaciones entre áreas permanecen como esquema opcional separado.",
+      "metrics": [
+        { "value": "z14–16", "label": "líneas oficiales GSI" },
+        { "value": "z13–16", "label": "centrales oficiales GSI" },
+        { "value": "7", "label": "corredores OCCTO modelados" },
+        { "value": "900 / 700 MW", "label": "Hokkaidō-Honshū, ago. 2026" }
+      ],
+      "sources": [
+        {
+          "label": "GSI · teselas vectoriales oficiales",
+          "url": "https://maps.gsi.go.jp/development/vt.html"
+        },
+        {
+          "label": "OCCTO · capacidad 2026-2035",
+          "url": "https://www.occto.or.jp/assets/renkeisenriyou/oshirase/2025/files/oshirase_20260311_1_2026-2035_unyouyouryou.pdf"
+        },
+        {
+          "label": "OCCTO · sistema de información de red",
+          "url": "https://www.occto.or.jp/institution/keitoujouhou/"
+        },
+        {
+          "label": "METI · mapas de capacidad de conexión",
+          "url": "https://www.enecho.meti.go.jp/category/saving_and_new/saiene/grid/07_map.html"
+        }
+      ]
+    },
+    "corea-del-sur": {
+      "title": "848 proyectos oficiales consultables, sin falsa precisión",
+      "summary": "En la captura del 26 de julio de 2026, el panel KEPCO reportó 849 proyectos (444 / 189 / 202 / 14), mientras sus cuatro listas numeradas expusieron 848 registros (443 / 189 / 202 / 14). Los 848 se pueden buscar localmente por proyecto, instalación, sede, oficina, etapa y tensión explícita del título; no se inventa el registro faltante ni se derivan coordenadas o rutas. El trazado visible procede de OSM, y los modelos KPG 193 y GIST 2217 se mantienen separados de los activos reales.",
+      "metrics": [
+        { "value": "35.856 c-km", "label": "red de transmisión KEPCO · 2024" },
+        { "value": "925", "label": "subestaciones KEPCO · 2024" },
+        { "value": "14,9 %", "label": "red de transmisión subterránea" },
+        { "value": "2.217", "label": "barras del contraste GIST" }
+      ],
+      "sources": [
+        {
+          "label": "KEPCO · inventario de transmisión 2024",
+          "url": "https://www.kepco.co.kr/home/business/transbus.do"
+        },
+        {
+          "label": "KEPCO · 848 registros numerados · panel 849",
+          "url": "https://www.kepco.co.kr/home/disclosure/transdisclosure/transstatus/transinfo.do"
+        },
+        {
+          "label": "KPG 193 v2.0 · ODbL 1.0",
+          "url": "https://github.com/agm-center/kpg-testgrid/tree/5c9580b9effdd388bcc2433c8b66dea85c159617/kpg193_v2_0"
+        },
+        {
+          "label": "GIST 2217-bus · artículo y metodología",
+          "url": "https://arxiv.org/abs/2606.12791"
+        },
+        {
+          "label": "KPX · estadísticas del sistema",
+          "url": "https://epsis.kpx.or.kr/"
+        }
+      ]
+    },
+    "taiwan": {
+      "title": "Todos los puntos oficiales de capacidad, agregados para visualización",
+      "summary": "Taipower publica puntos de transformador o feeder con capacidad de acogida y coordenadas TWD67. El atlas transforma las 505.791 coordenadas válidas a WGS84 y las representa íntegramente en 5.570 celdas de 0,02°; no es una muestra ni una red de conectividad. OSM conserva el trazado de líneas.",
+      "metrics": [
+        { "value": "505.795", "label": "filas oficiales de origen" },
+        { "value": "505.791", "label": "puntos con geometría válida" },
+        { "value": "5.570", "label": "celdas de visualización de 0,02°" },
+        { "value": "2026-04-27", "label": "fecha de la fuente Taipower" }
+      ],
+      "sources": [
+        {
+          "label": "Taipower · capacidad de acogida",
+          "url": "https://data.gov.tw/dataset/161874"
+        },
+        {
+          "label": "Taipower · subestaciones EHV y primarias",
+          "url": "https://data.gov.tw/dataset/16874"
+        },
+        {
+          "label": "Taipower · generación en tiempo real",
+          "url": "https://data.gov.tw/dataset/8931"
+        }
+      ]
+    }
+  }
+}

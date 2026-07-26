@@ -1,0 +1,3244 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cn-nea-reliability-2024-hvdc-systems",
+  "title": "China HVDC systems in NEA reliability management, 2024",
+  "source": {
+    "id": "cn-nea-reliability-2024",
+    "source_class": "official",
+    "evidence_level": "reported",
+    "publisher": "国家能源局电力可靠性管理和工程质量监督中心 (National Energy Administration of China)",
+    "report_title_zh": "2024年全国电力可靠性年度报告",
+    "reporting_period": "2024",
+    "published_on": "2025-03-31",
+    "landing_url": "https://prpq.nea.gov.cn/zxdt/12012.html",
+    "alternate_landing_url": "https://prpq.nea.gov.cn/kkxgl/12011.html",
+    "pdf_url": "https://prpq.nea.gov.cn/uploads/file1/20250331/67ea4fb889529.pdf",
+    "pdf_sha256": "af0c088a6c25511ec9fa9f758af374c5a22d0002e2c507a9450f2d64c85e5e95",
+    "primary_table": "4-1",
+    "primary_table_title_zh": "2024年纳入可靠性管理的直流输电系统基本情况",
+    "primary_table_physical_pdf_pages": [
+      117,
+      118,
+      119,
+      120
+    ],
+    "primary_table_printed_report_pages": [
+      111,
+      112,
+      113,
+      114
+    ],
+    "licence": "Official publication terms; factual transcription"
+  },
+  "supplemental_sources": [
+    {
+      "id": "cn-nrec-yangzhen-hvdc-2024",
+      "source_class": "first_party_project_company",
+      "evidence_level": "reported",
+      "publisher": "南京南瑞继保电气有限公司 (NR Electric)",
+      "title_zh": "南瑞继保助力国内首个“交改直”直流输电工程—扬镇直流竣工投运",
+      "published_on": "2024-04-29",
+      "url": "https://www.nrec.com/cn/index.php/news/info/1634/5"
+    }
+  ],
+  "summary": {
+    "by_system_type": {
+      "point_to_point_ehvdc": {
+        "system_count": 18,
+        "rated_transfer_capacity_mw": 45464,
+        "line_length_km": 15279
+      },
+      "point_to_point_uhvdc": {
+        "system_count": 19,
+        "rated_transfer_capacity_mw": 150600,
+        "line_length_km": 33795
+      },
+      "back_to_back": {
+        "system_count": 9,
+        "rated_transfer_capacity_mw": 20860,
+        "line_length_km": 0
+      },
+      "multi_terminal": {
+        "system_count": 5,
+        "rated_transfer_capacity_mw": 16650,
+        "line_length_km": 3875
+      }
+    },
+    "total": {
+      "system_count": 51,
+      "rated_transfer_capacity_mw": 233574,
+      "line_length_km": 52949
+    }
+  },
+  "systems": [
+    {
+      "nea_sequence": 1,
+      "system_name_zh": "葛南直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 1164,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1106,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "1989-09-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "1990-08-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "葛洲坝",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "南桥",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 2,
+      "system_name_zh": "天广直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 1800,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 963,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2000-12-26"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2001-06-26"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "天生桥",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "广州",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 3,
+      "system_name_zh": "龙政直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 860,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2003-06-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2003-06-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "龙泉",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "政平",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 4,
+      "system_name_zh": "江城直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 941,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2004-06-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2004-06-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "江陵",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "鹅城",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 5,
+      "system_name_zh": "宜华直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1060,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2006-12-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2006-12-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "宜都",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "华新",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 6,
+      "system_name_zh": "兴安直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1194,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2007-12-03"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2007-06-21"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "兴仁",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "宝安",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 7,
+      "system_name_zh": "德宝直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 534,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2010-04-21"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2010-04-21"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "德阳",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "宝鸡",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 8,
+      "system_name_zh": "伊穆直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 913,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2010-09-30"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2010-09-30"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "伊敏",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "穆家",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 9,
+      "system_name_zh": "银东直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 4000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1335,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2011-03-25"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2011-03-25"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±660",
+        "magnitude_kv": 660
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 117,
+        "printed_report_page": 111
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "银川东",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "胶东",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 10,
+      "system_name_zh": "林枫直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 978,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2011-05-02"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2011-05-02"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "团林",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "枫泾",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 11,
+      "system_name_zh": "柴拉直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 600,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1034,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2012-06-10"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2012-06-10"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±400",
+        "magnitude_kv": 400
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "柴达木",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "拉萨",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 12,
+      "system_name_zh": "牛从甲直流输电系统（溪洛渡-广东）",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3200,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1225,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2014-04-11"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2013-10-12"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "从西",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "牛寨",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 13,
+      "system_name_zh": "牛从乙直流输电系统（溪洛渡-广东）",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3200,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1225,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2014-06-29"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2014-06-29"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "从西",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "牛寨",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 14,
+      "system_name_zh": "金中直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3200,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1105,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2016-06-18"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2016-06-18"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "金官",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "桂中",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 15,
+      "system_name_zh": "永富直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 577,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2016-06-30"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2016-06-30"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "永仁",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "富宁",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 16,
+      "system_name_zh": "厦门柔性直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 2000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 11,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2015-12-17"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2015-12-17"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±320",
+        "magnitude_kv": 320
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "浦园",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "鹭岛",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 17,
+      "system_name_zh": "如东柔性直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 1100,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 108,
+      "grid_groups": [
+        "中国三峡"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2021-10-19"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2021-10-19"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±400",
+        "magnitude_kv": 400
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "绿谷",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "黄沙洋",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-5",
+            "physical_pdf_pages": [
+              124,
+              125
+            ],
+            "printed_report_pages": [
+              118,
+              119
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 18,
+      "system_name_zh": "游圌直流输电系统",
+      "system_type": "point_to_point_ehvdc",
+      "system_type_zh": "点对点超高压直流输电系统",
+      "rated_transfer_capacity_mw": 1200,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 110,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "对称单极",
+          "commissioned_on": "2024-04-28"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±200",
+        "magnitude_kv": 200
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "少游",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nrec-yangzhen-hvdc-2024",
+            "published_on": "2024-04-29",
+            "url": "https://www.nrec.com/cn/index.php/news/info/1634/5"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "圌山",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nrec-yangzhen-hvdc-2024",
+            "published_on": "2024-04-29",
+            "url": "https://www.nrec.com/cn/index.php/news/info/1634/5"
+          }
+        }
+      ],
+      "terminal_coverage": "first_party_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 19,
+      "system_name_zh": "楚穗直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 5000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1374,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2010-06-18"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2009-12-28"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "楚雄",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "穗东",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 20,
+      "system_name_zh": "复奉直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 6400,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1907,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2010-07-26"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2010-07-26"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "复龙",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "奉贤",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 21,
+      "system_name_zh": "锦苏直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 7200,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 2078,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2012-12-06"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2012-12-06"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "锦屏",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "苏州",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 22,
+      "system_name_zh": "天中直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 2192,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2014-01-25"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2014-01-25"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "天山",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "中州",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 23,
+      "system_name_zh": "宾金直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1653,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2014-07-03"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2014-07-03"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "宜宾",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "金华",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 24,
+      "system_name_zh": "普侨直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 5000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1412,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2015-05-30"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2014-01-29"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "普洱",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "侨乡",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 25,
+      "system_name_zh": "灵绍直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1720,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2016-08-24"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2016-08-24"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 118,
+        "printed_report_page": 112
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "灵州",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "绍兴",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 26,
+      "system_name_zh": "祁韶直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 2383,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2017-06-23"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2017-06-23"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "祁连",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "韶山",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 27,
+      "system_name_zh": "雁淮直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1119,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2017-06-30"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2017-06-30"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "雁门关",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "淮安",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 28,
+      "system_name_zh": "鲁固直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 10000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1234,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2018-01-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2018-01-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "扎鲁特",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "广固",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 29,
+      "system_name_zh": "锡泰直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 10000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1620,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2018-01-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2018-01-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "锡盟",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "泰州",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 30,
+      "system_name_zh": "新东直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 5000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1958,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2018-05-28"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2018-05-28"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "新松",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "东方",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 31,
+      "system_name_zh": "昭沂直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 10000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1238,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2019-01-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2019-01-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "伊克昭",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "沂南",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 32,
+      "system_name_zh": "吉泉直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 12000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 3284,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2019-07-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2019-07-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±1100",
+        "magnitude_kv": 1100
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "昌吉",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "古泉",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 33,
+      "system_name_zh": "青豫直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1563,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2019-12-30"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2019-12-30"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "青南",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "豫南",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 34,
+      "system_name_zh": "雅湖直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1696,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2021-06-21"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2021-06-21"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "雅砻江",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "鄱阳湖",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 35,
+      "system_name_zh": "陕武直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1137,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2021-12-21"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2022-09-30"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "陕北",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "武汉",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 36,
+      "system_name_zh": "建苏直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 2087,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2022-12-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2022-12-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "建昌",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "姑苏",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 37,
+      "system_name_zh": "金塘直流输电系统",
+      "system_type": "point_to_point_uhvdc",
+      "system_type_zh": "点对点特高压直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 2140,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ",
+          "commissioned_on": "2023-06-01"
+        },
+        {
+          "label_zh": "极Ⅱ",
+          "commissioned_on": "2023-06-01"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [
+        {
+          "terminal_index": 1,
+          "station_name_zh": "金沙江",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        },
+        {
+          "terminal_index": 2,
+          "station_name_zh": "钱塘江",
+          "station_type_zh": "换流站",
+          "source_ref": {
+            "source_id": "cn-nea-reliability-2024",
+            "table": "4-8",
+            "physical_pdf_pages": [
+              128,
+              129
+            ],
+            "printed_report_pages": [
+              122,
+              123
+            ],
+            "mapping_note": "station names paired in the system order used by Table 4-1"
+          }
+        }
+      ],
+      "terminal_coverage": "official_station_names_no_coordinates"
+    },
+    {
+      "nea_sequence": 38,
+      "system_name_zh": "灵宝背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 1110,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2005-07-01",
+          "rated_voltage": {
+            "notation": "±120",
+            "magnitude_kv": 120
+          },
+          "rated_transfer_capacity_mw": 360
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2009-12-15",
+          "rated_voltage": {
+            "notation": "±167",
+            "magnitude_kv": 167
+          },
+          "rated_transfer_capacity_mw": 750
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 39,
+      "system_name_zh": "高岭背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2008-11-01",
+          "rated_voltage": {
+            "notation": "±125",
+            "magnitude_kv": 125
+          },
+          "rated_transfer_capacity_mw": 750
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2008-11-01",
+          "rated_voltage": {
+            "notation": "±125",
+            "magnitude_kv": 125
+          },
+          "rated_transfer_capacity_mw": 750
+        },
+        {
+          "label_zh": "单元Ⅲ",
+          "commissioned_on": "2012-11-13",
+          "rated_voltage": {
+            "notation": "±125",
+            "magnitude_kv": 125
+          },
+          "rated_transfer_capacity_mw": 750
+        },
+        {
+          "label_zh": "单元Ⅳ",
+          "commissioned_on": "2012-11-13",
+          "rated_voltage": {
+            "notation": "±125",
+            "magnitude_kv": 125
+          },
+          "rated_transfer_capacity_mw": 750
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 40,
+      "system_name_zh": "黑河背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 750,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2012-01-07",
+          "rated_voltage": {
+            "notation": "±125",
+            "magnitude_kv": 125
+          },
+          "rated_transfer_capacity_mw": 750
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 119,
+        "printed_report_page": 113
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 41,
+      "system_name_zh": "鲁西背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2016-06-30",
+          "rated_voltage": {
+            "notation": "±160",
+            "magnitude_kv": 160
+          },
+          "rated_transfer_capacity_mw": 1000
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2016-08-29",
+          "rated_voltage": {
+            "notation": "±350",
+            "magnitude_kv": 350
+          },
+          "rated_transfer_capacity_mw": 1000
+        },
+        {
+          "label_zh": "单元Ⅲ",
+          "commissioned_on": "2017-06-30",
+          "rated_voltage": {
+            "notation": "±160",
+            "magnitude_kv": 160
+          },
+          "rated_transfer_capacity_mw": 1000
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 42,
+      "system_name_zh": "宜昌柔性直流背靠背（渝鄂直流北通道）",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 2500,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2019-06-01",
+          "rated_voltage": {
+            "notation": "±420",
+            "magnitude_kv": 420
+          },
+          "rated_transfer_capacity_mw": 1250
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2019-06-01",
+          "rated_voltage": {
+            "notation": "±420",
+            "magnitude_kv": 420
+          },
+          "rated_transfer_capacity_mw": 1250
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 43,
+      "system_name_zh": "施州柔性直流背靠背环流站（渝鄂直流南通道）",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 2500,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2019-06-01",
+          "rated_voltage": {
+            "notation": "±420",
+            "magnitude_kv": 420
+          },
+          "rated_transfer_capacity_mw": 1250
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2019-06-01",
+          "rated_voltage": {
+            "notation": "±420",
+            "magnitude_kv": 420
+          },
+          "rated_transfer_capacity_mw": 1250
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 44,
+      "system_name_zh": "云霄背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 2000,
+      "capacity_basis": "sum_of_reported_unit_ratings",
+      "line_length_km": 0,
+      "grid_groups": [
+        "国家电网",
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2022-10-01",
+          "rated_voltage": {
+            "notation": "±100",
+            "magnitude_kv": 100
+          },
+          "rated_transfer_capacity_mw": 1000
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2022-10-01",
+          "rated_voltage": {
+            "notation": "±100",
+            "magnitude_kv": 100
+          },
+          "rated_transfer_capacity_mw": 1000
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 45,
+      "system_name_zh": "南粤背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 0,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2022-05-25"
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2022-05-25"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±300",
+        "magnitude_kv": 300
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 46,
+      "system_name_zh": "粤中背靠背",
+      "system_type": "back_to_back",
+      "system_type_zh": "背靠背直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 0,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单元Ⅰ",
+          "commissioned_on": "2022-03-29"
+        },
+        {
+          "label_zh": "单元Ⅱ",
+          "commissioned_on": "2022-03-29"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±300",
+        "magnitude_kv": 300
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 47,
+      "system_name_zh": "禄高肇直流输电系统",
+      "system_type": "multi_terminal",
+      "system_type_zh": "多端直流输电系统",
+      "rated_transfer_capacity_mw": 3000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1277,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ"
+        },
+        {
+          "label_zh": "极Ⅱ"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±500",
+        "magnitude_kv": 500
+      },
+      "commissioning_events": [
+        {
+          "commissioned_on": "2004-09-24",
+          "scope_zh": "高肇极Ⅰ"
+        },
+        {
+          "commissioned_on": "2004-05-31",
+          "scope_zh": "高肇极Ⅱ"
+        },
+        {
+          "commissioned_on": "2020-06-11",
+          "scope_zh": "禄高"
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 48,
+      "system_name_zh": "昆柳龙直流输电系统",
+      "system_type": "multi_terminal",
+      "system_type_zh": "多端直流输电系统",
+      "rated_transfer_capacity_mw": 8000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 1489,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "极Ⅰ"
+        },
+        {
+          "label_zh": "极Ⅱ"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±800",
+        "magnitude_kv": 800
+      },
+      "commissioning_events": [
+        {
+          "commissioned_on": "2020-07-31",
+          "scope_zh": "昆龙两端低端"
+        },
+        {
+          "commissioned_on": "2020-12-27",
+          "scope_zh": "三端"
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 49,
+      "system_name_zh": "张北柔性直流输电系统",
+      "system_type": "multi_terminal",
+      "system_type_zh": "多端直流输电系统",
+      "rated_transfer_capacity_mw": 4500,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 766,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "正极",
+          "commissioned_on": "2022-01-04",
+          "rated_voltage": {
+            "notation": "±500",
+            "magnitude_kv": 500
+          }
+        },
+        {
+          "label_zh": "负极",
+          "commissioned_on": "2022-01-04",
+          "rated_voltage": {
+            "notation": "±500",
+            "magnitude_kv": 500
+          }
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 50,
+      "system_name_zh": "舟山柔性直流输电系统",
+      "system_type": "multi_terminal",
+      "system_type_zh": "多端直流输电系统",
+      "rated_transfer_capacity_mw": 1000,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 281,
+      "grid_groups": [
+        "国家电网"
+      ],
+      "units": [
+        {
+          "label_zh": "正极",
+          "commissioned_on": "2014-07-04",
+          "rated_voltage": {
+            "notation": "±200",
+            "magnitude_kv": 200
+          }
+        },
+        {
+          "label_zh": "负极",
+          "commissioned_on": "2014-07-04",
+          "rated_voltage": {
+            "notation": "±200",
+            "magnitude_kv": 200
+          }
+        }
+      ],
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    },
+    {
+      "nea_sequence": 51,
+      "system_name_zh": "南澳柔性直流输电系统",
+      "system_type": "multi_terminal",
+      "system_type_zh": "多端直流输电系统",
+      "rated_transfer_capacity_mw": 150,
+      "capacity_basis": "reported_system_total",
+      "line_length_km": 62,
+      "grid_groups": [
+        "南方电网"
+      ],
+      "units": [
+        {
+          "label_zh": "单极",
+          "commissioned_on": "2013-12-25",
+          "source_note_zh": "三端"
+        }
+      ],
+      "rated_voltage": {
+        "notation": "±160",
+        "magnitude_kv": 160
+      },
+      "source_ref": {
+        "source_id": "cn-nea-reliability-2024",
+        "table": "4-1",
+        "physical_pdf_page": 120,
+        "printed_report_page": 114
+      },
+      "terminals": [],
+      "terminal_coverage": "not_enumerated_in_selected_sources_no_coordinates_inferred"
+    }
+  ]
+}

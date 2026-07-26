@@ -222,7 +222,7 @@ html {
 .grid-atlas-voltage-filter small {
   display: block;
   margin-top: 9px;
-  color: #77736d;
+  color: #8b8780;
   font-size: 10px;
   line-height: 1.45;
 }
@@ -249,6 +249,16 @@ html {
   width: 24px;
   height: 3px;
   background: linear-gradient(90deg, #55b555, #c73030, #00c1cf);
+}
+
+.grid-atlas-status-line.status-official {
+  height: 5px;
+  background: #36babc;
+  box-shadow: 0 0 0 1px rgba(184, 231, 232, .5);
+}
+
+.grid-atlas-status-line.status-modelled {
+  background: repeating-linear-gradient(90deg, #e7b54a 0 6px, transparent 6px 10px);
 }
 
 .grid-atlas-status-line.status-construction {
@@ -280,6 +290,306 @@ html {
   font-size: 13px;
   font-weight: 700;
   line-height: 1.4;
+}
+
+.grid-atlas-evidence {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.15fr) minmax(380px, 1.5fr) minmax(230px, .8fr);
+  gap: 24px;
+  align-items: center;
+  padding: 17px 0;
+  border-bottom: 1px solid #282828;
+}
+
+.grid-atlas-evidence-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.grid-atlas-evidence-copy > span {
+  color: #36babc;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.grid-atlas-evidence-copy strong {
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.grid-atlas-evidence-copy p {
+  margin: 0;
+  color: #97938c;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.grid-atlas-evidence-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: #292929;
+}
+
+.grid-atlas-evidence-metrics div {
+  min-width: 0;
+  padding: 10px 11px;
+  background: #101010;
+}
+
+.grid-atlas-evidence-metrics dt {
+  color: #f2efe9;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.grid-atlas-evidence-metrics dd {
+  margin: 5px 0 0;
+  color: #85817b;
+  font-size: 9px;
+  line-height: 1.3;
+}
+
+.grid-atlas-evidence-links {
+  display: grid;
+  gap: 6px;
+}
+
+.grid-atlas-evidence-links a {
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  color: #b8e7e8;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-underline-offset: 2px;
+}
+
+.grid-atlas-evidence-links a:hover,
+.grid-atlas-evidence-links a:focus-visible {
+  color: #fff;
+}
+
+.grid-atlas-inventory {
+  padding: 18px 0;
+  border-bottom: 1px solid #282828;
+}
+
+.grid-atlas-inventory-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 320px);
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+.grid-atlas-inventory-head > div {
+  display: grid;
+  gap: 5px;
+}
+
+.grid-atlas-inventory-head > div > span,
+.grid-atlas-inventory-head label > span {
+  color: #36babc;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.grid-atlas-inventory-head h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+}
+
+.grid-atlas-inventory-head p,
+.grid-atlas-inventory-note {
+  margin: 0;
+  color: #97938c;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.grid-atlas-inventory-head label {
+  display: grid;
+  gap: 6px;
+}
+
+.grid-atlas-inventory-head input {
+  min-height: 38px;
+  border: 1px solid #353535;
+  border-radius: 0;
+  padding: 8px 10px;
+  color: #fff;
+  background: #0d0d0d;
+  font: inherit;
+  font-size: 12px;
+}
+
+.grid-atlas-inventory-head input:focus-visible {
+  outline: 2px solid #36babc;
+  outline-offset: 2px;
+}
+
+.grid-atlas-inventory-body {
+  display: grid;
+  grid-template-columns: minmax(280px, .9fr) minmax(0, 1.25fr);
+  align-items: start;
+  gap: 1px;
+  background: #292929;
+}
+
+.grid-atlas-inventory-list {
+  display: grid;
+  align-content: start;
+  gap: 1px;
+  background: #292929;
+}
+
+.grid-atlas-inventory-list button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 9px;
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  padding: 9px 11px;
+  color: #e7e3dc;
+  background: #101010;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grid-atlas-inventory-list button span {
+  overflow-wrap: anywhere;
+}
+
+.grid-atlas-inventory-list button small {
+  color: #85817b;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.grid-atlas-inventory-list button:hover,
+.grid-atlas-inventory-list button[aria-current="true"] {
+  color: #fff;
+  background: #173031;
+}
+
+.grid-atlas-inventory-list button:focus-visible {
+  color: #fff;
+  background: #173031;
+  outline: 2px solid #36babc;
+  outline-offset: -2px;
+}
+
+.grid-atlas-inventory-detail {
+  min-height: 190px;
+  padding: 14px 16px;
+  color: #d8d4cc;
+  background: #0c0c0c;
+}
+
+.grid-atlas-inventory-detail h4 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.grid-atlas-inventory-detail dl {
+  display: grid;
+  grid-template-columns: minmax(110px, .42fr) minmax(0, 1fr);
+  gap: 1px;
+  margin: 0;
+  background: #292929;
+}
+
+.grid-atlas-inventory-detail dt,
+.grid-atlas-inventory-detail dd {
+  margin: 0;
+  padding: 7px 9px;
+  background: #111;
+  font-size: 10px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.grid-atlas-inventory-detail dt {
+  color: #85817b;
+}
+
+.grid-atlas-inventory-detail a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #b8e7e8;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.grid-atlas-inventory-note {
+  margin: 0;
+}
+
+.grid-atlas-inventory-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 18px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.grid-atlas-inventory-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grid-atlas-inventory-pagination button {
+  min-height: 36px;
+  border: 1px solid #353535;
+  padding: 7px 10px;
+  color: #d8d4cc;
+  background: #111;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.grid-atlas-inventory-pagination button:hover,
+.grid-atlas-inventory-pagination button:focus-visible {
+  border-color: #36babc;
+  color: #fff;
+}
+
+.grid-atlas-inventory-pagination button:focus-visible {
+  outline: 2px solid #36babc;
+  outline-offset: 2px;
+}
+
+.grid-atlas-inventory-pagination button:disabled {
+  color: #67645f;
+  cursor: default;
+  opacity: .65;
+}
+
+.grid-atlas-inventory-pagination span {
+  min-width: 92px;
+  color: #97938c;
+  font-size: 9px;
+  text-align: center;
 }
 
 .grid-atlas-scope-grid {
@@ -621,13 +931,17 @@ html {
 }
 
 .grid-atlas-credit {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 18px;
   padding: 11px 4px 0;
-  color: #77736d;
+  color: #8b8780;
   font-size: 10px;
   line-height: 1.4;
+}
+
+.grid-atlas-credit span:nth-child(even) {
+  text-align: right;
 }
 
 .grid-atlas-credit a {
@@ -669,7 +983,7 @@ html {
 
   .grid-atlas-status-key {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     align-items: center;
   }
 
@@ -679,6 +993,19 @@ html {
 
   .grid-atlas-scope-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-atlas-evidence {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  }
+
+  .grid-atlas-evidence-links {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-atlas-inventory-body {
+    grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr);
   }
 
   .grid-atlas-scope-grid div:not(:nth-child(4n + 1)) {
@@ -746,7 +1073,8 @@ html {
   }
 
   .grid-atlas-layers-grid,
-  .grid-atlas-scope-grid {
+  .grid-atlas-scope-grid,
+  .grid-atlas-evidence {
     grid-template-columns: 1fr;
     gap: 0;
   }
@@ -768,6 +1096,50 @@ html {
   .grid-atlas-status-key {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .grid-atlas-evidence {
+    gap: 14px;
+    align-items: start;
+  }
+
+  .grid-atlas-evidence-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-atlas-evidence-links {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .grid-atlas-evidence-links a {
+    min-height: 44px;
+  }
+
+  .grid-atlas-inventory-head,
+  .grid-atlas-inventory-body {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-atlas-inventory-body {
+    background: transparent;
+  }
+
+  .grid-atlas-inventory-list button {
+    min-height: 44px;
+  }
+
+  .grid-atlas-inventory-foot {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .grid-atlas-inventory-pagination {
+    justify-content: space-between;
+  }
+
+  .grid-atlas-inventory-pagination button {
+    min-height: 44px;
   }
 
   .grid-atlas-scope-grid div,
@@ -824,8 +1196,13 @@ html {
 
   .grid-atlas-credit {
     display: grid;
+    grid-template-columns: 1fr;
     gap: 3px;
     padding-inline: 12px;
+  }
+
+  .grid-atlas-credit span:nth-child(even) {
+    text-align: left;
   }
 
   .grid-atlas-legend {

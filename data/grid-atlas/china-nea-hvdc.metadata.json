@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cn-nea-reliability-2024-hvdc-systems",
+  "build_verified_on": "2026-07-26",
+  "builder": "scripts/grid-atlas/build-china-nea-hvdc.py",
+  "output": {
+    "path": "data/grid-atlas/china-nea-hvdc-systems.json",
+    "sha256": "a2aefc50119f35facfec4094ff7c6cbd9d9b314bc5c31cd78bc357d13ca0b7f2"
+  },
+  "source": {
+    "id": "cn-nea-reliability-2024",
+    "source_class": "official",
+    "evidence_level": "reported",
+    "publisher": "国家能源局电力可靠性管理和工程质量监督中心 (National Energy Administration of China)",
+    "report_title_zh": "2024年全国电力可靠性年度报告",
+    "reporting_period": "2024",
+    "published_on": "2025-03-31",
+    "landing_url": "https://prpq.nea.gov.cn/zxdt/12012.html",
+    "alternate_landing_url": "https://prpq.nea.gov.cn/kkxgl/12011.html",
+    "pdf_url": "https://prpq.nea.gov.cn/uploads/file1/20250331/67ea4fb889529.pdf",
+    "pdf_sha256": "af0c088a6c25511ec9fa9f758af374c5a22d0002e2c507a9450f2d64c85e5e95",
+    "primary_table": "4-1",
+    "primary_table_title_zh": "2024年纳入可靠性管理的直流输电系统基本情况",
+    "primary_table_physical_pdf_pages": [
+      117,
+      118,
+      119,
+      120
+    ],
+    "primary_table_printed_report_pages": [
+      111,
+      112,
+      113,
+      114
+    ],
+    "licence": "Official publication terms; factual transcription"
+  },
+  "supplemental_sources": [
+    {
+      "id": "cn-nrec-yangzhen-hvdc-2024",
+      "source_class": "first_party_project_company",
+      "evidence_level": "reported",
+      "publisher": "南京南瑞继保电气有限公司 (NR Electric)",
+      "title_zh": "南瑞继保助力国内首个“交改直”直流输电工程—扬镇直流竣工投运",
+      "published_on": "2024-04-29",
+      "url": "https://www.nrec.com/cn/index.php/news/info/1634/5"
+    }
+  ],
+  "coverage": {
+    "system_count": 51,
+    "rated_transfer_capacity_mw": 233574,
+    "line_length_km": 52949,
+    "by_system_type": {
+      "point_to_point_ehvdc": {
+        "system_count": 18,
+        "rated_transfer_capacity_mw": 45464,
+        "line_length_km": 15279
+      },
+      "point_to_point_uhvdc": {
+        "system_count": 19,
+        "rated_transfer_capacity_mw": 150600,
+        "line_length_km": 33795
+      },
+      "back_to_back": {
+        "system_count": 9,
+        "rated_transfer_capacity_mw": 20860,
+        "line_length_km": 0
+      },
+      "multi_terminal": {
+        "system_count": 5,
+        "rated_transfer_capacity_mw": 16650,
+        "line_length_km": 3875
+      }
+    },
+    "systems_with_verified_terminal_names": 37,
+    "verified_terminal_names": 74,
+    "systems_without_inferred_geometry": 51
+  },
+  "transformation": [
+    "Table 4-1 rows were manually transcribed with original Chinese system and unit labels, ISO commissioning dates, rated voltage, rated transfer capacity, line length and grid group.",
+    "Back-to-back system totals for sequences 38-44 are sums of the unit ratings printed in Table 4-1; sequences 45-46 retain the table's system-level rating without assigning it to units.",
+    "Table 4-5 and Table 4-8 station names were paired in Table 4-1 system order. Sequence 18 terminal names come from the first-party NR Electric project publication.",
+    "No converter-station coordinates, line paths or schematic geometry were inferred."
+  ],
+  "field_scope_notes": {
+    "rated_voltage": "Stored at system level only when the source cell applies to the whole system; otherwise retained on the individual unit.",
+    "rated_transfer_capacity_mw": "A nameplate transfer rating, not observed flow, available capacity, congestion, thermal headroom or real-time dispatch.",
+    "line_length_km": "Reported system line length. Zero is retained for back-to-back systems and does not mean the converter facility has no footprint.",
+    "terminals": "Names only. Terminal order is an index, not a claim about sending/receiving direction."
+  },
+  "validation": {
+    "expected_summary": {
+      "by_system_type": {
+        "point_to_point_ehvdc": {
+          "system_count": 18,
+          "rated_transfer_capacity_mw": 45464,
+          "line_length_km": 15279
+        },
+        "point_to_point_uhvdc": {
+          "system_count": 19,
+          "rated_transfer_capacity_mw": 150600,
+          "line_length_km": 33795
+        },
+        "back_to_back": {
+          "system_count": 9,
+          "rated_transfer_capacity_mw": 20860,
+          "line_length_km": 0
+        },
+        "multi_terminal": {
+          "system_count": 5,
+          "rated_transfer_capacity_mw": 16650,
+          "line_length_km": 3875
+        }
+      },
+      "total": {
+        "system_count": 51,
+        "rated_transfer_capacity_mw": 233574,
+        "line_length_km": 52949
+      }
+    },
+    "checks": [
+      "sequences_are_exactly_1_through_51",
+      "type_subtotals_match_report",
+      "grand_totals_match_report",
+      "summed_back_to_back_unit_ratings_match_system_totals",
+      "commissioning_dates_use_iso_format",
+      "no_geometry_or_coordinate_fields"
+    ]
+  },
+  "limitations": [
+    "This is the NEA's 2024 reliability-management snapshot, published 2025-03-31; it is not a live or exhaustive 2026 grid inventory.",
+    "Table 4-1 supplies system facts but no reusable station coordinates or surveyed route geometry. This dataset therefore cannot draw the 51 systems as map lines by itself.",
+    "Verified terminal names cover the 37 point-to-point systems. The selected sources do not enumerate terminal rosters for the nine back-to-back and five multi-terminal systems, so those names are not inferred.",
+    "Operational reliability, energy-transfer and utilisation metrics are intentionally excluded: they belong to other report tables and contain scope/denominator issues that require a separate audited dataset.",
+    "The source report is not redistributed. This repository stores a factual transcription, source URLs, page references and the verified PDF SHA-256 digest."
+  ]
+}

@@ -1,0 +1,1327 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-26T03:13:13.931284+00:00",
+  "source": {
+    "id": "nl-kadaster-top10nl-high-voltage-2026-06",
+    "publisher": "Kadaster (Basisregistratie Topografie)",
+    "title": "BRT TOP10NL",
+    "catalogue_url": "https://www.pdok.nl/introductie/-/article/basisregistratie-topografie-brt-topnl",
+    "api_root": "https://api.pdok.nl/kadaster/brt-top10nl/ogc/v1",
+    "collection_id": "inrichtingselement_lijn",
+    "collection_url": "https://api.pdok.nl/kadaster/brt-top10nl/ogc/v1/collections/inrichtingselement_lijn",
+    "collection_updated": "2026-06-01T16:15:49Z",
+    "declared_source_date": "2026-06-01",
+    "update_frequency": "annual",
+    "source_scale": "1:10,000",
+    "source_collection_extent": {
+      "spatial": {
+        "bbox": [
+          [
+            -1.657292,
+            48.040502,
+            12.431727,
+            56.11059
+          ]
+        ],
+        "crs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+      }
+    },
+    "source_storage_crs": "http://www.opengis.net/def/crs/EPSG/0/28992",
+    "output_crs": "OGC:CRS84",
+    "source_subset_sha256": "500d1c17dbd76ab73e3daf816c48444cde649021cb7c3f5b4e6240fa052c7d4b",
+    "partition_page_digest_manifest_sha256": "3910de1d89c0f0f3828d6ad99f4ec4b0c7e7f9ccc92b3b24073987312f1e3eae",
+    "api_timestamp_min": "2026-07-26T02:35:57Z",
+    "api_timestamp_max": "2026-07-26T03:13:12Z",
+    "transport": "curl",
+    "urllib_fallback_error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1028)>"
+  },
+  "licence": {
+    "name": "Creative Commons Attribution 4.0 International",
+    "short_name": "CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "attribution_required": true,
+    "commercial_use_permitted": true,
+    "modification_permitted": true,
+    "redistribution_permitted": true,
+    "suggested_attribution": "Kadaster, Basisregistratie Topografie (BRT) TOP10NL, 2026-06-01, CC BY 4.0."
+  },
+  "selection": {
+    "collection": "inrichtingselement_lijn",
+    "property": "typeinrichtingselement",
+    "exact_value": "hoogspanningsleiding",
+    "server_side_attribute_filter": false,
+    "server_filter_note": "The collection OpenAPI exposes bbox, cursor, limit, CRS and lokaal_id only. The builder covers the complete declared collection extent with a gap-free bbox grid, exhausts every partition cursor, deduplicates boundary intersections by stable feature ID, and applies the exact official type value locally.",
+    "page_limit": 1000,
+    "api_maximum_page_limit": 1000,
+    "page_count": 844,
+    "cursor_exhausted": true,
+    "spatial_partitioning": {
+      "enabled": true,
+      "declared_collection_bbox_crs84": [
+        -1.657292,
+        48.040502,
+        12.431727,
+        56.11059
+      ],
+      "columns": 8,
+      "rows": 8,
+      "worker_count": 8,
+      "partition_count": 64,
+      "partitions": [
+        {
+          "key": "r01c01",
+          "bbox": [
+            -1.657292,
+            48.040502,
+            0.10383537500000006,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "0eb44b88b8ca798977c83ea6c44d2e63089dd522fc2eb3ec1424ace22686841c",
+          "row": 1,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c02",
+          "bbox": [
+            0.10383537500000006,
+            48.040502,
+            1.8649627500000001,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "f70a7a022d999bdeb0760fc7bd3dff5666ffaa4f8b22ecff4f2cbd128c7b2796",
+          "row": 1,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c03",
+          "bbox": [
+            1.8649627500000001,
+            48.040502,
+            3.626090125,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "d825572dd2009acd9abcb225da074b9b38d1c016ff88a3d72d79889dbfcafe4e",
+          "row": 1,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c04",
+          "bbox": [
+            3.626090125,
+            48.040502,
+            5.3872175,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "bbfe9afe79c82f8c55d4298bc8280a4c7c312dca7144eee7e3e8eb6011e36487",
+          "row": 1,
+          "column": 4,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c05",
+          "bbox": [
+            5.3872175,
+            48.040502,
+            7.148344875000001,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "7893a8a6e180fb6299306e829ec0330ad52e709ad21f281bdc3dc00c52f5f23f",
+          "row": 1,
+          "column": 5,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c06",
+          "bbox": [
+            7.148344875000001,
+            48.040502,
+            8.90947225,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "6d807ba60dc8c91e06adb6538e6793a0912f1176f772765c02218045ee8919a0",
+          "row": 1,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c07",
+          "bbox": [
+            8.90947225,
+            48.040502,
+            10.670599625,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "600515344490a03719a52692c2855592eb2c643398c36406150e9bd68e96bf14",
+          "row": 1,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r01c08",
+          "bbox": [
+            10.670599625,
+            48.040502,
+            12.431727,
+            49.049262999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "604ebbcfbb29350eee19d10144ebf115c8de740efbe36c44a6e33d7afc716d38",
+          "row": 1,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c01",
+          "bbox": [
+            -1.657292,
+            49.049262999999996,
+            0.10383537500000006,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "4702072f7219c916592274efa15f27144fcd503d21797440a1d881a6281da512",
+          "row": 2,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c02",
+          "bbox": [
+            0.10383537500000006,
+            49.049262999999996,
+            1.8649627500000001,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "0e06ce74a782adcc0d456960476c3a8809027725b578bfbb49c4ab06ce298895",
+          "row": 2,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c03",
+          "bbox": [
+            1.8649627500000001,
+            49.049262999999996,
+            3.626090125,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "c66da28616a39c77b41bf1c636b6a6e27a7bc2143d1f5dd35040672df0b10d7a",
+          "row": 2,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c04",
+          "bbox": [
+            3.626090125,
+            49.049262999999996,
+            5.3872175,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "aae90a19642a9f3752e04d0baa4d8f6c3a3274f8bd706fa432ce91c3e17bdbe9",
+          "row": 2,
+          "column": 4,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c05",
+          "bbox": [
+            5.3872175,
+            49.049262999999996,
+            7.148344875000001,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "3684bf60bdbdb3174979c54e629c1574ea761a81a87be0d3465cc32398f114b6",
+          "row": 2,
+          "column": 5,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c06",
+          "bbox": [
+            7.148344875000001,
+            49.049262999999996,
+            8.90947225,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "34dd3f6e10a9921cd9b3f3007ef4e6afd80705c4f3d2433152e0ded2eb992aff",
+          "row": 2,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c07",
+          "bbox": [
+            8.90947225,
+            49.049262999999996,
+            10.670599625,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "ff5f879758a47b371c5f0c5b80ada21cbe83a376853b93269d266431fff53b40",
+          "row": 2,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r02c08",
+          "bbox": [
+            10.670599625,
+            49.049262999999996,
+            12.431727,
+            50.058023999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "e54376566fc9fe9886eab9c8114228833a6b27be0a56289bbf6fecdefad4b40d",
+          "row": 2,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c01",
+          "bbox": [
+            -1.657292,
+            50.058023999999996,
+            0.10383537500000006,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "45e8c55da8686ea5a7f12ee745751bf1daf9013404bfb2602b05d127c521624e",
+          "row": 3,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c02",
+          "bbox": [
+            0.10383537500000006,
+            50.058023999999996,
+            1.8649627500000001,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "c5579d9bd96fe8946a218f0669a813f5ada8111deb36320137d1e56c9a72203b",
+          "row": 3,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c03",
+          "bbox": [
+            1.8649627500000001,
+            50.058023999999996,
+            3.626090125,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "c5579d9bd96fe8946a218f0669a813f5ada8111deb36320137d1e56c9a72203b",
+          "row": 3,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c04",
+          "bbox": [
+            3.626090125,
+            50.058023999999996,
+            5.3872175,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "f7e1a11e51f26231e8e5918e772e1ba7a71eac61245f619632b431c7b04fe4f0",
+          "row": 3,
+          "column": 4,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c05",
+          "bbox": [
+            5.3872175,
+            50.058023999999996,
+            7.148344875000001,
+            51.066784999999996
+          ],
+          "page_count": 13,
+          "page_response_digest_sha256": "251d5c384b1edcee859ed707798dd652d0808c909ce3a7fde08f2540c875e41a",
+          "row": 3,
+          "column": 5,
+          "scanned_response_record_count": 12355,
+          "target_response_record_count": 38,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c06",
+          "bbox": [
+            7.148344875000001,
+            50.058023999999996,
+            8.90947225,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "7cfc888a3e0feb3e4549c5dcdc1fb55fa731ac5a0ac70eb4e91206f959295fdf",
+          "row": 3,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c07",
+          "bbox": [
+            8.90947225,
+            50.058023999999996,
+            10.670599625,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "b0e3be4408c71d5728d223eaeb14c8f83d0607eb076c62bf0731687ae816b4b5",
+          "row": 3,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r03c08",
+          "bbox": [
+            10.670599625,
+            50.058023999999996,
+            12.431727,
+            51.066784999999996
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "219f86ac21ffa5f6fbbc7d503fada25941148f378722e50402c9b3f6da811f15",
+          "row": 3,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c01",
+          "bbox": [
+            -1.657292,
+            51.066784999999996,
+            0.10383537500000006,
+            52.075546
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "15e765d27dc90f2835c193a76c3cf0939b6745f3356de68c63fe42ba78a557d6",
+          "row": 4,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c02",
+          "bbox": [
+            0.10383537500000006,
+            51.066784999999996,
+            1.8649627500000001,
+            52.075546
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "65c52e407ff0c0e2f809c486cf080ffe9e1fd69561a6233d4faaac2e5d9ba49c",
+          "row": 4,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c03",
+          "bbox": [
+            1.8649627500000001,
+            51.066784999999996,
+            3.626090125,
+            52.075546
+          ],
+          "page_count": 8,
+          "page_response_digest_sha256": "27bda389f669caf6d2f3b483779228c2d795337488427c8ed93a4d40b0d95576",
+          "row": 4,
+          "column": 3,
+          "scanned_response_record_count": 7306,
+          "target_response_record_count": 3,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c04",
+          "bbox": [
+            3.626090125,
+            51.066784999999996,
+            5.3872175,
+            52.075546
+          ],
+          "page_count": 176,
+          "page_response_digest_sha256": "c3ef3226d7de53542a4669b16cf0ca0fad3c25472435427f5f92e7ce78797ec4",
+          "row": 4,
+          "column": 4,
+          "scanned_response_record_count": 175792,
+          "target_response_record_count": 127,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c05",
+          "bbox": [
+            5.3872175,
+            51.066784999999996,
+            7.148344875000001,
+            52.075546
+          ],
+          "page_count": 121,
+          "page_response_digest_sha256": "e74158ffa10fe540cd1f81601e1fda9f2eeb5c6aca38699ec5dc5a2c3047b289",
+          "row": 4,
+          "column": 5,
+          "scanned_response_record_count": 120895,
+          "target_response_record_count": 112,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c06",
+          "bbox": [
+            7.148344875000001,
+            51.066784999999996,
+            8.90947225,
+            52.075546
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "94a33f02aafb1455fd2fc0f6a445698ffdce2040caee221032954fe2c1009342",
+          "row": 4,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c07",
+          "bbox": [
+            8.90947225,
+            51.066784999999996,
+            10.670599625,
+            52.075546
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "0c4dce54a26b58625bec0d480b25c7d445b68ecea87d46a8efcf2ab0a2ee2277",
+          "row": 4,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r04c08",
+          "bbox": [
+            10.670599625,
+            51.066784999999996,
+            12.431727,
+            52.075546
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "8bc1e432b5633f753bb44ef850d7ee54aa131c9004fdf205d5a625e983ff69d2",
+          "row": 4,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c01",
+          "bbox": [
+            -1.657292,
+            52.075546,
+            0.10383537500000006,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "5ea7081f83ffd611ff2cf2c403fe4b8b2c1c1bb6209027ee313e4bc2e200c280",
+          "row": 5,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c02",
+          "bbox": [
+            0.10383537500000006,
+            52.075546,
+            1.8649627500000001,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "2de2b09b8b53aef11764c12d7f6b828a685ab96209eb5ea2a634e407ee099e31",
+          "row": 5,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c03",
+          "bbox": [
+            1.8649627500000001,
+            52.075546,
+            3.626090125,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "2de2b09b8b53aef11764c12d7f6b828a685ab96209eb5ea2a634e407ee099e31",
+          "row": 5,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c04",
+          "bbox": [
+            3.626090125,
+            52.075546,
+            5.3872175,
+            53.084307
+          ],
+          "page_count": 114,
+          "page_response_digest_sha256": "89008425b350366ea3d7ed0a84a54a31b841eac097aae5bdfc33ad2feb7789bb",
+          "row": 5,
+          "column": 4,
+          "scanned_response_record_count": 113279,
+          "target_response_record_count": 54,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c05",
+          "bbox": [
+            5.3872175,
+            52.075546,
+            7.148344875000001,
+            53.084307
+          ],
+          "page_count": 237,
+          "page_response_digest_sha256": "4b7141e741c87c065740e0ce2fa0d977c64e2dbd5ed21ec27af02723bf1110ab",
+          "row": 5,
+          "column": 5,
+          "scanned_response_record_count": 236261,
+          "target_response_record_count": 144,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c06",
+          "bbox": [
+            7.148344875000001,
+            52.075546,
+            8.90947225,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "cd48c92dd912329f0598dfd01c986e00ff2f84c0b13465f612031d0a7ff826e8",
+          "row": 5,
+          "column": 6,
+          "scanned_response_record_count": 872,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c07",
+          "bbox": [
+            8.90947225,
+            52.075546,
+            10.670599625,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "cb5a3693f2c15ae9bcb2954c306e4bb5a43d8a83a73cd5fa5c30a897b75e9a0a",
+          "row": 5,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r05c08",
+          "bbox": [
+            10.670599625,
+            52.075546,
+            12.431727,
+            53.084307
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "b13af784a68b23a2799f274fe9179cbba30f723705b9ce6d75a4ffc67243e235",
+          "row": 5,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c01",
+          "bbox": [
+            -1.657292,
+            53.084307,
+            0.10383537500000006,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "95b124e58c64c7d09a4f52b20ff475f815ab44fbc14b5224a16775fdee472f2a",
+          "row": 6,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c02",
+          "bbox": [
+            0.10383537500000006,
+            53.084307,
+            1.8649627500000001,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "d7c644abb6aa8b4deb74869cad0d7cfc1dc8a3fe7ea7bfc2cb78aef912c1914d",
+          "row": 6,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c03",
+          "bbox": [
+            1.8649627500000001,
+            53.084307,
+            3.626090125,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "1a7fcdf8912d0b91215a3b9d6bcccb00b18f707600cf1f1e778cd50bee659ce1",
+          "row": 6,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c04",
+          "bbox": [
+            3.626090125,
+            53.084307,
+            5.3872175,
+            54.093068
+          ],
+          "page_count": 2,
+          "page_response_digest_sha256": "113c0cd9f0a725257b5b293c9784dbea16c98b8caca019eefb05e0f0e80a2bb7",
+          "row": 6,
+          "column": 4,
+          "scanned_response_record_count": 1593,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c05",
+          "bbox": [
+            5.3872175,
+            53.084307,
+            7.148344875000001,
+            54.093068
+          ],
+          "page_count": 117,
+          "page_response_digest_sha256": "17ebc8a0a469b8f761d17f188ce19c6d2fce7aab20b3f3b9b786a0a0b540ab86",
+          "row": 6,
+          "column": 5,
+          "scanned_response_record_count": 116123,
+          "target_response_record_count": 52,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c06",
+          "bbox": [
+            7.148344875000001,
+            53.084307,
+            8.90947225,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "54425fe872f89ac5fd9974ff8585e5c40f29f18d365b2c7811f0953bb06f25dc",
+          "row": 6,
+          "column": 6,
+          "scanned_response_record_count": 792,
+          "target_response_record_count": 1,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c07",
+          "bbox": [
+            8.90947225,
+            53.084307,
+            10.670599625,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "00221b485e76ebf095b6d80aabec4ccd1e511ae28b24bb7c584400ab80fa9037",
+          "row": 6,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r06c08",
+          "bbox": [
+            10.670599625,
+            53.084307,
+            12.431727,
+            54.093068
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "18843ea3d70a74eff10df87fad436f960682cd70bc507eb5f19fa50feb596398",
+          "row": 6,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c01",
+          "bbox": [
+            -1.657292,
+            54.093068,
+            0.10383537500000006,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "dfa02a36365bd1ec21d6e071ea94bf09ae2de2d0759db9d82ec81e0c6eb030df",
+          "row": 7,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c02",
+          "bbox": [
+            0.10383537500000006,
+            54.093068,
+            1.8649627500000001,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "8c53424bbc381bbed8390bdc721766e9f4bf9002f09143cf1fc2ae1554e8d833",
+          "row": 7,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c03",
+          "bbox": [
+            1.8649627500000001,
+            54.093068,
+            3.626090125,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "4f754d20c100c1b7fc077fe63f15e0a735ef12f2c141714c2a82c89c2998fc3a",
+          "row": 7,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c04",
+          "bbox": [
+            3.626090125,
+            54.093068,
+            5.3872175,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "d43ec1372cf31ede3a9aa98ebeb3460ad937edaab7837108d1d4f10a4eb48cf3",
+          "row": 7,
+          "column": 4,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c05",
+          "bbox": [
+            5.3872175,
+            54.093068,
+            7.148344875000001,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "79a9c46a9c963740077faf38d9d8d364d1bcd4e62e72a0eb8c9416a9fc5738b7",
+          "row": 7,
+          "column": 5,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c06",
+          "bbox": [
+            7.148344875000001,
+            54.093068,
+            8.90947225,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "59afefa7bc5c49b9908e54c1f4049aebda73be83e1f467c2477e9a12a9459495",
+          "row": 7,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c07",
+          "bbox": [
+            8.90947225,
+            54.093068,
+            10.670599625,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "f754e2a544a8ca7ffe15353a6314e094117aa3a4ec46605a2063be430a8864f8",
+          "row": 7,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r07c08",
+          "bbox": [
+            10.670599625,
+            54.093068,
+            12.431727,
+            55.101829
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "51ba7c3ca26c3893f4cab7c1f5d7e1452b78f7f4b7c22534686727e6ec895210",
+          "row": 7,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c01",
+          "bbox": [
+            -1.657292,
+            55.101829,
+            0.10383537500000006,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "a2afe2f3cf82b3c0caaf05cde359cf846757f33508113241e36dd4eadec86adf",
+          "row": 8,
+          "column": 1,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c02",
+          "bbox": [
+            0.10383537500000006,
+            55.101829,
+            1.8649627500000001,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "c1f1f1e86215730c3a3225846828c706451d78beef99d75c769a9b2dc6fb54f5",
+          "row": 8,
+          "column": 2,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c03",
+          "bbox": [
+            1.8649627500000001,
+            55.101829,
+            3.626090125,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "701b8fcdeb69c449060ea80df7bed09278b8b756b5e7b39f112e511bcc29343a",
+          "row": 8,
+          "column": 3,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c04",
+          "bbox": [
+            3.626090125,
+            55.101829,
+            5.3872175,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "362b1b8b3d48b1abe0df619b577917b96642d73fc142f9d195cd4f63feafb6e2",
+          "row": 8,
+          "column": 4,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c05",
+          "bbox": [
+            5.3872175,
+            55.101829,
+            7.148344875000001,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "4db80adbbb9d03cd5033276d227be5adde535282aeeec8b68f8f0f90eeea855d",
+          "row": 8,
+          "column": 5,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c06",
+          "bbox": [
+            7.148344875000001,
+            55.101829,
+            8.90947225,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "2039d012bda4399f17ceebd50d27948ddb32708ae0d26138df208c991cedbeb5",
+          "row": 8,
+          "column": 6,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c07",
+          "bbox": [
+            8.90947225,
+            55.101829,
+            10.670599625,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "b522bcf7949bc4f258b8dc9ec206828065b9dd71f5b42ec4dfc3b71009fceacb",
+          "row": 8,
+          "column": 7,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        },
+        {
+          "key": "r08c08",
+          "bbox": [
+            10.670599625,
+            55.101829,
+            12.431727,
+            56.11059
+          ],
+          "page_count": 1,
+          "page_response_digest_sha256": "520df34c3f80b40aade171cf406483e4d88195b515c52973b95327699942acda",
+          "row": 8,
+          "column": 8,
+          "scanned_response_record_count": 0,
+          "target_response_record_count": 0,
+          "cursor_exhausted": true,
+          "transport": "curl"
+        }
+      ]
+    }
+  },
+  "transform": {
+    "unit_of_observation": "one official TOP10NL LineString feature",
+    "geometry": "Source CRS84 vertices rounded to six decimal places; no simplification, smoothing, merging or inferred connectivity.",
+    "coordinate_decimal_places": 6,
+    "voltage": "TOP10NL identifies high-voltage lines but publishes no numeric voltage; VOLTAGE_KV is intentionally null.",
+    "topology": "Cartographic line geometry only; no electrical connectivity or circuit topology is inferred."
+  },
+  "property_schema": {
+    "REGION_KEY": "Constant atlas region key: netherlands.",
+    "ASSET_KIND": "Constant: official_transmission_line.",
+    "SOURCE_ID": "Stable builder source identifier: nl-kadaster-top10nl-high-voltage-2026-06.",
+    "ORIGINAL_ID": "Original stable OGC API feature UUID.",
+    "LOCAL_ID": "Original TOP10NL lokaal_id.",
+    "NAMESPACE": "Original TOP10NL namespace.",
+    "TOP10NL_TYPE": "Original typeinrichtingselement.",
+    "TOP10NL_CODE": "Original tdncode.",
+    "VISUALISATION_CODE": "Original visualisatiecode.",
+    "NAME": "Original optional name.",
+    "NUMBER": "Original optional number.",
+    "HEIGHT_LEVEL": "Original hoogteniveau.",
+    "SOURCE_FEATURE_DATE": "Original bronactualiteit date.",
+    "OBJECT_BEGIN_DATE": "Original objectbegintijd date.",
+    "REGISTRATION_DATE": "Original tijdstipregistratie date.",
+    "MUTATION_TYPE": "Original optional mutatietype.",
+    "SOURCE_METHOD": "Original brontype.",
+    "SOURCE_ACCURACY_M": "Original bronnauwkeurigheid in metres.",
+    "VOLTAGE_KV": "Always null because TOP10NL does not publish voltage.",
+    "SOURCE_DATE": "Dataset snapshot date: 2026-06-01.",
+    "SOURCE_URL": "Official TOP10NL OGC API root.",
+    "SOURCE_LICENSE": "Short reuse label: CC BY 4.0.",
+    "EVIDENCE": "Constant evidence class: official.",
+    "GEOMETRY_CONFIDENCE": "Official cartographic scale and output transform statement."
+  },
+  "statistics": {
+    "source_response_records_scanned": 785268,
+    "source_response_record_note": "Counts include bbox-boundary intersections returned in more than one partition; selected output IDs are deduplicated.",
+    "source_type_counts": {
+      "aanlegsteiger": 14971,
+      "bomenrij": 269345,
+      "calamiteitendoorgang": 232,
+      "geluidswering": 4752,
+      "heg, haag": 62596,
+      "hekwerk": 4981,
+      "hoogspanningsleiding": 531,
+      "kabelbaan": 2,
+      "koedam": 368095,
+      "muur": 6838,
+      "overig": 7,
+      "paalwerk": 2931,
+      "plaatsnaambord": 25460,
+      "schietbaan": 95,
+      "sluisdeur": 1231,
+      "stormvloedkering": 72,
+      "strekdam, krib, golfbreker": 885,
+      "stuw": 3031,
+      "tol": 7,
+      "verkeersgeleider": 6672,
+      "wegafsluiting": 12534
+    },
+    "selected_response_record_count": 531,
+    "selected_feature_count": 496,
+    "duplicate_selected_bbox_records": 35,
+    "geometry_type_counts": {
+      "LineString": 496
+    },
+    "source_feature_date_counts": {
+      "2013-01-01": 3,
+      "2014-01-01": 4,
+      "2016-01-01": 2,
+      "2017-01-01": 11,
+      "2018-01-01": 348,
+      "2019-01-01": 25,
+      "2020-01-01": 22,
+      "2021-01-01": 12,
+      "2022-01-01": 21,
+      "2023-01-01": 16,
+      "2024-01-01": 20,
+      "2025-01-01": 12
+    },
+    "registration_date_counts": {
+      "2014-03-29": 2,
+      "2014-05-29": 1,
+      "2015-03-28": 1,
+      "2015-08-30": 2,
+      "2015-11-01": 1,
+      "2017-04-01": 1,
+      "2017-11-01": 6,
+      "2018-02-01": 6,
+      "2019-02-01": 338,
+      "2019-04-01": 4,
+      "2019-06-01": 3,
+      "2019-09-01": 2,
+      "2019-11-01": 1,
+      "2020-02-01": 4,
+      "2020-04-01": 3,
+      "2020-06-01": 13,
+      "2020-09-01": 1,
+      "2021-02-01": 9,
+      "2021-04-01": 7,
+      "2021-06-01": 2,
+      "2021-09-01": 4,
+      "2021-11-01": 4,
+      "2022-02-01": 3,
+      "2022-04-01": 1,
+      "2022-06-01": 8,
+      "2023-02-01": 7,
+      "2023-04-01": 2,
+      "2023-06-01": 1,
+      "2023-09-01": 1,
+      "2024-02-01": 9,
+      "2024-04-01": 7,
+      "2024-06-01": 2,
+      "2024-09-01": 4,
+      "2024-11-01": 1,
+      "2025-02-01": 6,
+      "2025-06-01": 7,
+      "2025-09-01": 7,
+      "2025-11-01": 3,
+      "2026-02-01": 8,
+      "2026-04-01": 3,
+      "2026-06-01": 1
+    },
+    "output_bounds_crs84": {
+      "west": 3.509947,
+      "south": 50.752564,
+      "east": 7.1933,
+      "north": 53.451302
+    }
+  },
+  "verification": {
+    "all_partition_cursors_terminated_without_next_link": true,
+    "declared_collection_extent_covered_by_gap_free_bbox_grid": true,
+    "bbox_duplicate_ids_byte_identical": true,
+    "output_json_reparsed": true,
+    "feature_ids_unique": true,
+    "feature_count_verified": 496,
+    "bounds_verified": {
+      "west": 3.509947,
+      "south": 50.752564,
+      "east": 7.1933,
+      "north": 53.451302
+    },
+    "output_below_10_mib": true
+  },
+  "output": {
+    "path": "data/grid-atlas/netherlands-official-grid.geojson",
+    "format": "RFC 7946 GeoJSON FeatureCollection",
+    "feature_count": 496,
+    "size_bytes": 794225,
+    "sha256": "6b7d8a860481ee5804be7af72f6e470d09c5ad3f0b72f2b0df23a22c8a7cae4c"
+  },
+  "processing": {
+    "script": "scripts/grid-atlas/build-netherlands-official-grid.py",
+    "steps": [
+      "Read and verify the OGC API landing-page CC BY 4.0 link.",
+      "Read collection metadata and its snapshot update timestamp.",
+      "Partition the complete declared extent into a gap-free bbox grid.",
+      "Exhaust every bbox cursor at the API maximum of 1,000 items.",
+      "Deduplicate bbox-boundary responses by stable original UUID.",
+      "Select exact typeinrichtingselement=hoogspanningsleiding.",
+      "Sort by original stable feature UUID for deterministic output.",
+      "Round CRS84 vertices to six decimals without simplification.",
+      "Write atomically and reparse to verify hash, count and bounds."
+    ]
+  }
+}
