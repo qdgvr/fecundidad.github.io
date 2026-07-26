@@ -3,3 +3,5 @@ worker/.env
 worker/.wrangler/
 node_modules/
 .DS_Store
+data/grid-atlas/osm-power/*.pmtiles
+scripts/grid-atlas/osm-self-hosted/.work/

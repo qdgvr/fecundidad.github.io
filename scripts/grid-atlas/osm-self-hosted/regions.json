@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "snapshot": "2026-07-25T20:21:51Z",
+  "tile_minzoom": 2,
+  "tile_maxzoom": 12,
+  "regions": {
+    "europa": {
+      "label": "Europe",
+      "source_url": "https://download.geofabrik.de/europe-latest.osm.pbf",
+      "raw_filename": "europe-latest.osm.pbf",
+      "output_filename": "europa.pmtiles",
+      "bounds": [-25, 34, 45, 72]
+    },
+    "estados-unidos": {
+      "label": "Continental United States",
+      "source_url": "https://download.geofabrik.de/north-america/us-latest.osm.pbf",
+      "raw_filename": "us-latest.osm.pbf",
+      "output_filename": "estados-unidos.pmtiles",
+      "bounds": [-125, 24, -66, 50],
+      "clip_bbox": [-125, 24, -66, 50]
+    },
+    "china": {
+      "label": "China",
+      "source_url": "https://download.geofabrik.de/asia/china-latest.osm.pbf",
+      "raw_filename": "china-latest.osm.pbf",
+      "output_filename": "china.pmtiles",
+      "bounds": [73, 18, 135, 54]
+    },
+    "japon": {
+      "label": "Japan",
+      "source_url": "https://download.geofabrik.de/asia/japan-latest.osm.pbf",
+      "raw_filename": "japan-latest.osm.pbf",
+      "output_filename": "japon.pmtiles",
+      "bounds": [128, 30, 146, 46]
+    },
+    "corea-del-sur": {
+      "label": "South Korea",
+      "source_url": "https://download.geofabrik.de/asia/south-korea-latest.osm.pbf",
+      "raw_filename": "south-korea-latest.osm.pbf",
+      "output_filename": "corea-del-sur.pmtiles",
+      "bounds": [125.5, 33, 130, 39.2]
+    },
+    "taiwan": {
+      "label": "Taiwan",
+      "source_url": "https://download.geofabrik.de/asia/taiwan-latest.osm.pbf",
+      "raw_filename": "taiwan-latest.osm.pbf",
+      "output_filename": "taiwan.pmtiles",
+      "bounds": [119.2, 21.7, 122.2, 25.5]
+    }
+  }
+}

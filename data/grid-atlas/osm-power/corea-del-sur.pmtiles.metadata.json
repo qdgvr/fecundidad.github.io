@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "region": "corea-del-sur",
+  "label": "South Korea",
+  "generated_at": "2026-07-26T08:49:56.301Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    125.5,
+    33,
+    130,
+    39.2
+  ],
+  "source": {
+    "url": "https://download.geofabrik.de/asia/south-korea-latest.osm.pbf",
+    "filename": "south-korea-latest.osm.pbf",
+    "bytes": 283840851,
+    "sha256": "b7d2c363db39e099f49edab1f16e2299fdd39aa2a200057c4591c7deab6b1929",
+    "md5": "296ecb022aea0a204de51d90a95a517b",
+    "official_md5": "296ecb022aea0a204de51d90a95a517b",
+    "official_md5_file": "south-korea-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "export_provenance": {
+    "filename": "corea-del-sur-export-provenance.json",
+    "bytes": 1946,
+    "sha256": "518f8527c63211e9c353225e9f279abf6f56a2193401666f874a52de0e363416",
+    "md5": "5e381255ba624754cae1a1b370a19308"
+  },
+  "filtered": {
+    "filename": "corea-del-sur-power-filtered.osm.pbf",
+    "bytes": 1180338,
+    "sha256": "01a68d2ac49416ec450f0899a594eb5cca143a2946ab13cfe698d4adb9ffc0dc",
+    "md5": "f3b61d769da72afdfe2f79090e25fc7a"
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "corea-del-sur.pmtiles",
+    "bytes": 3369126,
+    "sha256": "8bb6521ab75a2b93fdcc9d9160855aec7c6e8287497924f91da85cb0235b242b",
+    "md5": "3207dd262d9555629729d997af40c0a4",
+    "path": "data/grid-atlas/osm-power/corea-del-sur.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 12,
+    "bounds": [
+      125.124202,
+      33.115523,
+      131.869355,
+      38.460101
+    ],
+    "center": [
+      126.870117,
+      35.209714,
+      12
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "region": "corea-del-sur",
+    "generated_at": "2026-07-26T08:49:54.395Z",
+    "inputs": [
+      "corea-del-sur-linear.geojsonseq",
+      "corea-del-sur-points.geojsonseq"
+    ],
+    "records": 31608,
+    "emitted": 31580,
+    "source_objects": 19182,
+    "centroid_duplicates": 12398,
+    "skipped": 12426,
+    "skip_reasons": {
+      "duplicate_area_representation": 12412,
+      "unsupported_geometry": 14
+    },
+    "layers": {
+      "power_line": 4507,
+      "power_plant": 4115,
+      "power_generator_area": 7156,
+      "power_substation": 1127,
+      "power_plant_point": 4119,
+      "power_generator": 8778,
+      "power_substation_point": 1190,
+      "power_transformer": 254,
+      "power_switch": 310,
+      "power_compensator": 24
+    },
+    "statuses": {
+      "active": 19174,
+      "construction": 7,
+      "disused": 1
+    },
+    "geometry_promotions": 0,
+    "geometry_reductions": 85,
+    "units": {
+      "voltage": "kV",
+      "frequency": "Hz",
+      "output": "MW"
+    }
+  },
+  "vector_layers": [
+    {
+      "description": "",
+      "fields": {
+        "cables": "String",
+        "circuits": "String",
+        "frequency": "Number",
+        "line": "String",
+        "location": "String",
+        "name": "String",
+        "name:en": "String",
+        "operator": "String",
+        "osm_type": "String",
+        "source": "String",
+        "tunnel": "Boolean",
+        "type": "String",
+        "voltage": "Number",
+        "voltage_2": "Number",
+        "voltage_3": "Number",
+        "wikidata": "String",
+        "wires": "String"
+      },
+      "id": "power_line",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "disused": "Boolean",
+        "frequency": "Number",
+        "location": "String",
+        "method": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:fr": "String",
+        "name:ja": "String",
+        "name:ko": "String",
+        "name:ru": "String",
+        "name:tr": "String",
+        "operator": "String",
+        "operator:en": "String",
+        "operator:ko": "String",
+        "operator:type": "String",
+        "operator:wikidata": "String",
+        "operator:wikipedia": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "output": "Number",
+        "plant:type": "String",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "status": "String",
+        "substation": "String",
+        "type": "String",
+        "voltage": "Number",
+        "website": "String",
+        "wikidata": "String",
+        "wikipedia": "String"
+      },
+      "id": "power_plant",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "generator:type": "String",
+        "location": "String",
+        "method": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:ko": "String",
+        "operator": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "output": "Number",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "type": "String"
+      },
+      "id": "power_generator_area",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "cables": "String",
+        "circuits": "String",
+        "construction": "Boolean",
+        "frequency": "Number",
+        "gas_insulated": "Boolean",
+        "location": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:ja": "String",
+        "name:ko": "String",
+        "name:ko-Latn": "String",
+        "name:zh": "String",
+        "operator": "String",
+        "operator:en": "String",
+        "operator:ko": "String",
+        "operator:short": "String",
+        "operator:type": "String",
+        "operator:wikidata": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "status": "String",
+        "substation": "String",
+        "type": "String",
+        "voltage": "Number",
+        "voltage_2": "Number",
+        "voltage_3": "Number"
+      },
+      "id": "power_substation",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "disused": "Boolean",
+        "frequency": "Number",
+        "location": "String",
+        "method": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:fr": "String",
+        "name:ja": "String",
+        "name:ko": "String",
+        "name:ru": "String",
+        "name:tr": "String",
+        "operator": "String",
+        "operator:en": "String",
+        "operator:ko": "String",
+        "operator:type": "String",
+        "operator:wikidata": "String",
+        "operator:wikipedia": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "output": "Number",
+        "plant:type": "String",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "status": "String",
+        "substation": "String",
+        "type": "String",
+        "voltage": "Number",
+        "website": "String",
+        "wikidata": "String",
+        "wikipedia": "String"
+      },
+      "id": "power_plant_point",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "construction": "Boolean",
+        "generator:type": "String",
+        "location": "String",
+        "method": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:ko": "String",
+        "network": "String",
+        "operator": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "output": "Number",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "status": "String",
+        "type": "String",
+        "website": "String"
+      },
+      "id": "power_generator",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "cables": "String",
+        "circuits": "String",
+        "construction": "Boolean",
+        "frequency": "Number",
+        "gas_insulated": "Boolean",
+        "location": "String",
+        "name": "String",
+        "name:en": "String",
+        "name:ja": "String",
+        "name:ko": "String",
+        "name:ko-Latn": "String",
+        "name:zh": "String",
+        "operator": "String",
+        "operator:en": "String",
+        "operator:ko": "String",
+        "operator:short": "String",
+        "operator:type": "String",
+        "operator:wikidata": "String",
+        "osm_id": "Number",
+        "osm_type": "String",
+        "ref": "String",
+        "source": "String",
+        "start_date": "String",
+        "status": "String",
+        "substation": "String",
+        "type": "String",
+        "voltage": "Number",
+        "voltage_2": "Number",
+        "voltage_3": "Number"
+      },
+      "id": "power_substation_point",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "frequency": "Number",
+        "location": "String",
+        "name": "String",
+        "operator": "String",
+        "osm_type": "String",
+        "transformer": "String",
+        "transformer_type": "String",
+        "type": "String",
+        "voltage": "Number",
+        "voltage:primary": "String",
+        "voltage:secondary": "String",
+        "voltage_2": "Number",
+        "voltage_primary": "Number",
+        "voltage_secondary": "Number"
+      },
+      "id": "power_transformer",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "osm_type": "String",
+        "ref": "String",
+        "type": "String"
+      },
+      "id": "power_switch",
+      "maxzoom": 12,
+      "minzoom": 2
+    },
+    {
+      "description": "",
+      "fields": {
+        "osm_type": "String",
+        "type": "String"
+      },
+      "id": "power_compensator",
+      "maxzoom": 12,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

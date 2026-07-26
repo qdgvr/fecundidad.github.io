@@ -1,0 +1,16 @@
+nwr/power=line,minor_line,cable,minor_cable,line_section,plant,generator,substation,transformer,switch,compensator
+nwr/power=construction,planned,proposed,disused,abandoned,decommissioned,demolished,removed,razed,destroyed
+nwr/construction:power
+nwr/planned:power
+nwr/proposed:power
+nwr/disused:power
+nwr/abandoned:power
+nwr/decommissioned:power
+nwr/demolished:power
+nwr/removed:power
+nwr/razed:power
+nwr/destroyed:power
+nwr/construction=power
+r/type=power
+r/power=circuit
+r/route=power

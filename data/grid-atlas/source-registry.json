@@ -23,19 +23,23 @@
   },
   "sources": [
     {
-      "id": "openinframap-osm-power",
+      "id": "osm-self-hosted-power-2026-07-25",
       "regions": ["europa", "estados-unidos", "china", "japon", "corea-del-sur", "taiwan"],
       "source_class": "open-community",
       "evidence_level": "reported",
-      "publisher": "OpenStreetMap contributors / OpenInfraMap",
-      "title": "OpenStreetMap power infrastructure rendered by OpenInfraMap",
+      "publisher": "OpenStreetMap contributors; regional extracts distributed by Geofabrik GmbH",
+      "title": "Project-built OpenStreetMap power infrastructure snapshots",
       "coverage": ["line_geometry", "substations", "plants", "generators", "equipment", "voltage_tags", "lifecycle_tags"],
-      "date": "continuously updated",
-      "licence": "ODbL 1.0 for OpenStreetMap data; CC BY 4.0 for OpenInfraMap visualisation",
-      "url": "https://openinframap.org/",
-      "endpoint": "https://openinframap.org/map/power/{z}/{x}/{y}.pbf",
+      "date": "2026-07-25T20:21:51Z",
+      "licence": "Open Database License 1.0; attribution to OpenStreetMap contributors is required",
+      "licence_url": "https://www.openstreetmap.org/copyright",
+      "url": "https://download.geofabrik.de/",
+      "endpoint": "https://qdgvr.github.io/fecundidad.github.io/data/grid-atlas/osm-power/{region}.pmtiles",
+      "manifest": "data/grid-atlas/osm-power-manifest.json",
       "integration_status": "active",
-      "redistribution": "live vector tiles with required attribution"
+      "redistribution": "self-hosted PMTiles derived from dated Geofabrik OSM PBF extracts; source and output hashes, tool versions, feature counts and bounds are recorded in the manifest",
+      "pipeline": "osmium tags-filter/export → project schema normalization → tippecanoe MVT → PMTiles",
+      "limitations": ["community-mapped snapshot rather than live telemetry", "missing tags remain unknown and are never inferred", "continental-U.S. coverage is clipped to the declared atlas bounds"]
     },
     {
       "id": "gem-gipt-2026-03",

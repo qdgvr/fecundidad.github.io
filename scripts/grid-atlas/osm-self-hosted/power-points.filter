@@ -1,0 +1,13 @@
+n/power=plant,generator,substation,transformer,switch,compensator
+n/power=construction,planned,proposed,disused,abandoned,decommissioned,demolished,removed,razed,destroyed
+n/construction:power
+n/planned:power
+n/proposed:power
+n/disused:power
+n/abandoned:power
+n/decommissioned:power
+n/demolished:power
+n/removed:power
+n/razed:power
+n/destroyed:power
+n/construction=power

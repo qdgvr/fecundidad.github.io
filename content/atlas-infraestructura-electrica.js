@@ -20,17 +20,17 @@ window.COMUNICACION_POST = {
       <section class="grid-atlas" data-grid-atlas aria-label="Atlas interactivo de infraestructura eléctrica">
         <div class="grid-atlas-toolbar">
           <div class="grid-atlas-regions" role="group" aria-label="Cambiar región">
-            <button type="button" data-region-button data-region-key="europa" data-region="Europa" data-map-url="https://openinframap.org/#3.5/51/10/A,B,L,P" data-bounds="-25,34,45,72" data-max-zoom="4.5" aria-pressed="true">Europa</button>
-            <button type="button" data-region-button data-region-key="estados-unidos" data-region="Estados Unidos continentales" data-map-url="https://openinframap.org/#3.4/39/-98/A,B,L,P" data-bounds="-125,24,-66,50" data-max-zoom="4.5" aria-pressed="false">Estados Unidos cont.</button>
-            <button type="button" data-region-button data-region-key="china" data-region="China" data-map-url="https://openinframap.org/#3.5/35/104/A,B,L,P" data-bounds="73,18,135,54" data-max-zoom="4.5" aria-pressed="false">China</button>
-            <button type="button" data-region-button data-region-key="japon" data-region="Japón" data-map-url="https://openinframap.org/#5/36.5/138/A,B,L,P" data-bounds="128,30,146,46" data-max-zoom="6" aria-pressed="false">Japón</button>
-            <button type="button" data-region-button data-region-key="corea-del-sur" data-region="Corea del Sur" data-map-url="https://openinframap.org/#6/36/128/A,B,L,P" data-bounds="125.5,33,130,39.2" data-max-zoom="7" aria-pressed="false">Corea del Sur</button>
-            <button type="button" data-region-button data-region-key="taiwan" data-region="Taiwán" data-map-url="https://openinframap.org/#6.5/23.7/121/A,B,L,P" data-bounds="119.2,21.7,122.2,25.5" data-max-zoom="8" aria-pressed="false">Taiwán</button>
+            <button type="button" data-region-button data-region-key="europa" data-region="Europa" data-map-url="atlas-infraestructura-electrica.html#europa" data-bounds="-25,34,45,72" data-max-zoom="4.5" aria-pressed="true">Europa</button>
+            <button type="button" data-region-button data-region-key="estados-unidos" data-region="Estados Unidos continentales" data-map-url="atlas-infraestructura-electrica.html#estados-unidos" data-bounds="-125,24,-66,50" data-max-zoom="4.5" aria-pressed="false">Estados Unidos cont.</button>
+            <button type="button" data-region-button data-region-key="china" data-region="China" data-map-url="atlas-infraestructura-electrica.html#china" data-bounds="73,18,135,54" data-max-zoom="4.5" aria-pressed="false">China</button>
+            <button type="button" data-region-button data-region-key="japon" data-region="Japón" data-map-url="atlas-infraestructura-electrica.html#japon" data-bounds="128,30,146,46" data-max-zoom="6" aria-pressed="false">Japón</button>
+            <button type="button" data-region-button data-region-key="corea-del-sur" data-region="Corea del Sur" data-map-url="atlas-infraestructura-electrica.html#corea-del-sur" data-bounds="125.5,33,130,39.2" data-max-zoom="7" aria-pressed="false">Corea del Sur</button>
+            <button type="button" data-region-button data-region-key="taiwan" data-region="Taiwán" data-map-url="atlas-infraestructura-electrica.html#taiwan" data-bounds="119.2,21.7,122.2,25.5" data-max-zoom="8" aria-pressed="false">Taiwán</button>
           </div>
           <div class="grid-atlas-actions">
             <button type="button" data-layers-button aria-controls="grid-atlas-layers" aria-expanded="false">Capas</button>
             <button type="button" data-scope-button aria-controls="grid-atlas-scope" aria-expanded="false">Fuentes</button>
-            <a data-open-map href="https://openinframap.org/#3.5/51/10/A,B,L,P" target="_blank" rel="noopener noreferrer">Abrir mapa <span aria-hidden="true">↗</span></a>
+            <a data-open-map href="atlas-infraestructura-electrica.html#europa" target="_blank" rel="noopener noreferrer">Abrir vista <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
@@ -54,7 +54,7 @@ window.COMUNICACION_POST = {
                 <label><input type="checkbox" data-layer-toggle="substations" checked><span>Subestaciones y convertidores · OSM</span></label>
                 <label><input type="checkbox" data-layer-toggle="plants"><span>Centrales adicionales · OSM</span></label>
                 <label><input type="checkbox" data-layer-toggle="generators"><span>Generadores adicionales · OSM</span></label>
-                <label><input type="checkbox" data-layer-toggle="equipment"><span>Equipos OSM · parcial · z14+</span></label>
+                <label><input type="checkbox" data-layer-toggle="equipment"><span>Equipos OSM · parcial · z12+</span></label>
                 <label><input type="checkbox" data-layer-toggle="construction" checked><span>Líneas en construcción</span></label>
                 <label><input type="checkbox" data-layer-toggle="disused" checked><span>Líneas fuera de uso</span></label>
               </fieldset>
@@ -135,7 +135,7 @@ window.COMUNICACION_POST = {
             <div class="grid-atlas-scope-grid">
               <div>
                 <strong>Base geográfica mundial</strong>
-                <span><a href="https://openinframap.org/" target="_blank" rel="noopener noreferrer">OpenInfraMap / OpenStreetMap ↗</a>: trazados, cables, subestaciones y equipos etiquetados. Cada objeto conserva su enlace OSM.</span>
+                <span><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors · ODbL ↗</a>: el proyecto extrae, normaliza y sirve sus propios mosaicos PMTiles de trazados, cables, subestaciones y equipos. Cada objeto conserva su enlace OSM.</span>
               </div>
               <div>
                 <strong>Centrales · seis regiones</strong>
@@ -214,7 +214,7 @@ window.COMUNICACION_POST = {
 
         <div class="grid-atlas-credit">
           <span>Datos © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · ODbL</span>
-          <span>Visualización © <a href="https://openinframap.org/copyright" target="_blank" rel="noopener noreferrer">OpenInfraMap</a> · CC BY 4.0</span>
+          <span>Teselas y estilo propios · instantánea OSM 25-07-2026</span>
           <span>Centrales © <a href="https://globalenergymonitor.org/" target="_blank" rel="noopener noreferrer">Global Energy Monitor</a> · CC BY 4.0</span>
           <span data-official-credit hidden>Capas oficiales regionales · consulte Fuentes</span>
         </div>

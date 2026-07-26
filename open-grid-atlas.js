@@ -99,6 +99,24 @@
       searchPlaceholder: 'Proyecto, etapa, tensión, oficina…'
     }
   });
+  const osmPowerSnapshot = '2026-07-25T20:21:51Z';
+  const osmPowerArchiveVersion = 'osm-power-2026-07-25-schema1';
+  const osmPowerArchives = Object.freeze({
+    europa: 'data/grid-atlas/osm-power/europa.pmtiles',
+    'estados-unidos': 'data/grid-atlas/osm-power/estados-unidos.pmtiles',
+    china: 'data/grid-atlas/osm-power/china.pmtiles',
+    japon: 'data/grid-atlas/osm-power/japon.pmtiles',
+    'corea-del-sur': 'data/grid-atlas/osm-power/corea-del-sur.pmtiles',
+    taiwan: 'data/grid-atlas/osm-power/taiwan.pmtiles'
+  });
+  const osmPowerArchiveUrl = regionKey => {
+    const archive = osmPowerArchives[regionKey];
+    if (!archive) return '';
+    const url = new URL(archive, window.location.href);
+    url.searchParams.set('v', osmPowerArchiveVersion);
+    return `pmtiles://${url.href}`;
+  };
+  let activePowerRegion = '';
 
   const emptyFeatureCollection = () => ({
     type: 'FeatureCollection',
@@ -211,6 +229,7 @@
     'all',
     [
       'any',
+      ['==', frequency, 0],
       ['>', voltage, 199],
       ['all', ['>', voltage, 99], ['>=', zoom, 4]],
       ['all', ['>', voltage, 49], ['>=', zoom, 5]],
@@ -341,17 +360,24 @@
 
   const style = {
     version: 8,
-    name: 'Comunicación · OpenInfraMap',
+    name: 'Comunicación · mosaicos OSM propios',
     sources: {
       basemap: {
-        type: 'vector',
-        tiles: ['https://openinframap.org/20250311/{z}/{x}/{y}.mvt'],
-        maxzoom: 15
+        type: 'geojson',
+        data: 'data/world-countries.geojson?v=1'
       },
       power: {
         type: 'vector',
-        tiles: ['https://openinframap.org/map/power/{z}/{x}/{y}.pbf'],
-        maxzoom: 17
+        url: osmPowerArchiveUrl('europa'),
+        minzoom: 2,
+        maxzoom: 12,
+        attribution: `© OpenStreetMap contributors · ODbL 1.0 · snapshot ${osmPowerSnapshot}`
+      },
+      'power-centroids': {
+        type: 'vector',
+        url: osmPowerArchiveUrl('europa'),
+        minzoom: 2,
+        maxzoom: 11
       },
       gem: {
         type: 'vector',
@@ -418,83 +444,15 @@
         id: 'atlas-landcover',
         type: 'fill',
         source: 'basemap',
-        'source-layer': 'landcover',
         paint: {
-          'fill-color': [
-            'match',
-            ['get', 'kind'],
-            'forest', '#101d19',
-            'grass', '#142019',
-            'scrub', '#161d18',
-            '#151a1d'
-          ],
-          'fill-opacity': 0.78
-        }
-      },
-      {
-        id: 'atlas-landuse',
-        type: 'fill',
-        source: 'basemap',
-        'source-layer': 'landuse',
-        paint: {
-          'fill-color': [
-            'match',
-            ['get', 'kind'],
-            'residential', '#1b2024',
-            'commercial', '#211d20',
-            'industrial', '#24201b',
-            '#171d20'
-          ],
-          'fill-opacity': 0.54
-        }
-      },
-      {
-        id: 'atlas-water',
-        type: 'fill',
-        source: 'basemap',
-        'source-layer': 'water',
-        paint: { 'fill-color': '#071a23' }
-      },
-      {
-        id: 'atlas-buildings',
-        type: 'fill',
-        source: 'basemap',
-        'source-layer': 'buildings',
-        minzoom: 9,
-        paint: {
-          'fill-color': '#252b2e',
-          'fill-opacity': 0.72
-        }
-      },
-      {
-        id: 'atlas-roads',
-        type: 'line',
-        source: 'basemap',
-        'source-layer': 'roads',
-        minzoom: 5,
-        paint: {
-          'line-color': '#4a5155',
-          'line-opacity': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5, 0.15,
-            11, 0.42
-          ],
-          'line-width': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            5, 0.25,
-            12, 1.1
-          ]
+          'fill-color': '#151a1d',
+          'fill-opacity': 0.96
         }
       },
       {
         id: 'atlas-boundaries',
         type: 'line',
         source: 'basemap',
-        'source-layer': 'boundaries',
         paint: {
           'line-color': '#7f8b91',
           'line-opacity': [
@@ -531,7 +489,7 @@
         type: 'fill',
         source: 'power',
         'source-layer': 'power_generator_area',
-        minzoom: 13,
+        minzoom: 12,
         paint: {
           'fill-color': sourceColor,
           'fill-opacity': 0.22,
@@ -544,7 +502,7 @@
         source: 'power',
         'source-layer': 'power_substation',
         filter: substationVisible,
-        minzoom: 13,
+        minzoom: 12,
         paint: {
           'fill-color': voltageColor,
           'fill-opacity': 0.15,
@@ -1269,13 +1227,13 @@
         type: 'circle',
         source: 'power',
         'source-layer': 'power_transformer',
-        minzoom: 14,
+        minzoom: 12,
         paint: {
           'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            14, 3,
+            12, 3,
             16, 5
           ],
           'circle-color': '#36babc',
@@ -1289,13 +1247,13 @@
         type: 'circle',
         source: 'power',
         'source-layer': 'power_switch',
-        minzoom: 14,
+        minzoom: 12,
         paint: {
           'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            14, 2.4,
+            12, 2.4,
             16, 4.2
           ],
           'circle-color': '#e4a451',
@@ -1309,13 +1267,13 @@
         type: 'circle',
         source: 'power',
         'source-layer': 'power_compensator',
-        minzoom: 14,
+        minzoom: 12,
         paint: {
           'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            14, 2.6,
+            12, 2.6,
             16, 4.5
           ],
           'circle-color': '#728de5',
@@ -1442,6 +1400,45 @@
       }
     ]
   };
+
+  const centroidTransitionLayerIds = [
+    'power-plant-points',
+    'power-generator-points',
+    'power-substation-points',
+    'power-converter-points'
+  ];
+  const centroidOverzoomLayerId = layerId => `${layerId}-overzoom`;
+  centroidTransitionLayerIds.forEach(layerId => {
+    const layerIndex = style.layers.findIndex(layer => layer.id === layerId);
+    if (layerIndex < 0) return;
+    const primaryLayer = style.layers[layerIndex];
+    primaryLayer.maxzoom = 12;
+    const overzoomLayer = {
+      ...primaryLayer,
+      id: centroidOverzoomLayerId(layerId),
+      source: 'power-centroids',
+      minzoom: 12
+    };
+    delete overzoomLayer.maxzoom;
+    style.layers.splice(layerIndex + 1, 0, overzoomLayer);
+  });
+  for (const groupName of ['substations', 'plants', 'generators']) {
+    layerGroups[groupName] = layerGroups[groupName].flatMap(layerId => (
+      centroidTransitionLayerIds.includes(layerId)
+        ? [layerId, centroidOverzoomLayerId(layerId)]
+        : [layerId]
+    ));
+  }
+  centroidTransitionLayerIds.forEach(layerId => {
+    const layerIndex = interactiveLayers.indexOf(layerId);
+    if (layerIndex >= 0) {
+      interactiveLayers.splice(
+        layerIndex + 1,
+        0,
+        centroidOverzoomLayerId(layerId)
+      );
+    }
+  });
 
   const getLayerState = key => {
     const input = layerToggleInputs.find(item => item.dataset.layerToggle === key);
@@ -1603,7 +1600,7 @@
     window.clearTimeout(loadingTimer);
     root.dataset.mapError = 'true';
     root.dataset.mapReady = 'false';
-    status.textContent = 'No se pudo cargar el mapa. Usa «Abrir mapa».';
+    status.textContent = 'No se pudo cargar el mapa. Recarga la página para volver a intentarlo.';
     status.hidden = false;
   };
 
@@ -1741,7 +1738,9 @@
     map.setFilter('power-line-disused', lineFilter('either', 'disused'));
     map.setFilter('power-substation-areas', substationAreaFilter());
     map.setFilter('power-substation-points', substationFilter(false));
+    map.setFilter('power-substation-points-overzoom', substationFilter(false));
     map.setFilter('power-converter-points', substationFilter(true));
+    map.setFilter('power-converter-points-overzoom', substationFilter(true));
     map.setFilter('official-us-line-halo', officialStatusFilter('all'));
     map.setFilter('official-us-line-reported', officialStatusFilter('reported'));
     map.setFilter('official-us-line-other', officialStatusFilter('other'));
@@ -2989,6 +2988,22 @@
     }, 280);
   };
 
+  const setPowerRegion = (regionKey, options = {}) => {
+    const { force = false } = options;
+    const archive = osmPowerArchives[regionKey];
+    if (!archive || (!force && activePowerRegion === regionKey)) return;
+    const archiveUrl = osmPowerArchiveUrl(regionKey);
+    activePowerRegion = regionKey;
+    root.dataset.osmPowerRegion = regionKey;
+    delete root.dataset.osmPowerReady;
+    const sourceIds = ['power', 'power-centroids'];
+    for (const sourceId of sourceIds) {
+      const source = map?.getSource(sourceId);
+      if (source && typeof source.setUrl === 'function') source.setUrl(archiveUrl);
+      else style.sources[sourceId].url = archiveUrl;
+    }
+  };
+
   const setRegion = (button, options = {}) => {
     const { animate = !reducedMotion, updateHash = true } = options;
     const region = button.dataset.region;
@@ -3010,6 +3025,7 @@
     regionLabel.textContent = region;
     openMap.href = url;
     root.dataset.activeRegion = regionKey;
+    setPowerRegion(regionKey);
     updateRegionProfile(regionKey);
     loadOfficialInventory(regionKey);
     updateMapControls(false);
@@ -3225,6 +3241,10 @@
     if (!/^-?\d+$/.test(rawId)) return '';
     const numericId = Number(rawId);
     if (!Number.isSafeInteger(numericId) || numericId === 0) return '';
+    const explicitType = propertyValue(properties, ['osm_type']).toLowerCase();
+    if (['node', 'way', 'relation'].includes(explicitType)) {
+      return `https://www.openstreetmap.org/${explicitType}/${Math.abs(numericId)}`;
+    }
     if (numericId < 0) return `https://www.openstreetmap.org/relation/${Math.abs(numericId)}`;
     const objectType = trueProperty(properties.is_node) ? 'node' : 'way';
     return `https://www.openstreetmap.org/${objectType}/${numericId}`;
@@ -3916,11 +3936,11 @@
         addPopupRow(content, 'Devanados', propertyValue(properties, ['windings']) || 'Sin etiqueta');
         addPopupRow(content, 'Fases', propertyValue(properties, ['phases']) || 'Sin etiqueta');
       } else if (isSwitch) {
-        addPopupRow(content, 'Tipo', propertyValue(properties, ['type']) || 'Sin etiqueta');
+        addPopupRow(content, 'Tipo', propertyValue(properties, ['switch_type', 'type']) || 'Sin etiqueta');
         addPopupRow(content, 'Aislamiento', trueProperty(properties.gas_insulated) ? 'Gas aislado · etiqueta OSM' : 'Sin etiqueta');
         addPopupRow(content, 'Cables', propertyValue(properties, ['cables']) || 'Sin etiqueta');
       } else {
-        addPopupRow(content, 'Tipo', propertyValue(properties, ['type']) || 'Sin etiqueta');
+        addPopupRow(content, 'Tipo', propertyValue(properties, ['compensator_type', 'type']) || 'Sin etiqueta');
         const compensatorVoltage = propertyValue(properties, ['voltage']);
         addPopupRow(content, 'Tensión', compensatorVoltage ? `${formatTaggedNumber(compensatorVoltage)} kV` : 'Sin etiqueta');
         addPopupRow(content, 'Rating etiquetado', propertyValue(properties, ['rating']) || 'Sin etiqueta');
@@ -4115,7 +4135,7 @@
   setRegion(initialButton, { animate: false, updateHash: Boolean(hashRegion) });
 
   try {
-    if (!window.maplibregl) {
+    if (!window.maplibregl || !window.pmtiles) {
       showMapError();
       return;
     }
@@ -4125,6 +4145,9 @@
       showMapError();
       return;
     }
+
+    const pmtilesProtocol = new window.pmtiles.Protocol();
+    window.maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
 
     map = new window.maplibregl.Map({
       container: mapContainer,
@@ -4163,6 +4186,7 @@
       canvas.setAttribute('aria-describedby', 'grid-atlas-map-help');
       canvas.setAttribute('aria-label', `Mapa de infraestructura eléctrica cartografiada en ${currentButton.dataset.region}`);
       mapContainer.removeAttribute('tabindex');
+      setPowerRegion(currentButton.dataset.regionKey, { force: true });
       updateMapControls(false);
       setRegion(currentButton, { animate: false, updateHash: false });
     });
@@ -4171,6 +4195,7 @@
     map.on('moveend', scheduleOfficialDataLoad);
     map.on('sourcedata', event => {
       if (!event.isSourceLoaded) return;
+      if (event.sourceId === 'power') root.dataset.osmPowerReady = 'true';
       refreshDeferredSourceStates(event.sourceId);
     });
 
@@ -4203,6 +4228,13 @@
       const errorStatus = Number(event.error?.status || event.error?.statusCode || 0);
       const errorSource = String(event.sourceId || event.source?.id || '');
       if (/abort|cancel/i.test(errorMessage)) return;
+
+      if (['power', 'power-centroids'].includes(errorSource)) {
+        console.warn('No se pudo cargar la instantánea OSM propia.', event.error);
+        mapWarning.textContent = 'La tesela OSM propia de esta región no respondió; las capas oficiales disponibles siguen activas.';
+        mapWarning.hidden = false;
+        return;
+      }
 
       if (errorStatus === 404 || /\b404\b/.test(errorMessage)) {
         if (['official-taiwan', 'official-us-eia-plants', 'model-corridors', 'kpg193-model'].includes(errorSource)) {

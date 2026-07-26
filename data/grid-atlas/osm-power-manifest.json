@@ -1,0 +1,600 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-power",
+  "release_tag": "osm-power-2026-07-25-schema1",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "complete": true,
+  "expected_archive_count": 6,
+  "archive_count": 6,
+  "region_order": [
+    "europa",
+    "estados-unidos",
+    "china",
+    "japon",
+    "corea-del-sur",
+    "taiwan"
+  ],
+  "missing_regions": [],
+  "archive_root": "data/grid-atlas/osm-power",
+  "pipeline": {
+    "schema_version": 1,
+    "format": "PMTiles",
+    "content": "Mapbox Vector Tile",
+    "source_database": "OpenStreetMap",
+    "extract_provider": "Geofabrik GmbH",
+    "minzoom": 2,
+    "maxzoom": 12,
+    "vector_layers": [
+      "power_line",
+      "power_plant",
+      "power_generator_area",
+      "power_substation",
+      "power_plant_point",
+      "power_generator",
+      "power_substation_point",
+      "power_transformer",
+      "power_switch",
+      "power_compensator"
+    ],
+    "regions_config": "scripts/grid-atlas/osm-self-hosted/regions.json",
+    "build_script": "scripts/grid-atlas/osm-self-hosted/build-region.mjs",
+    "normalizer": "scripts/grid-atlas/osm-self-hosted/normalize-osm-power.mjs",
+    "validator": "scripts/grid-atlas/osm-self-hosted/validate-osm-power.mjs"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  },
+  "totals": {
+    "bytes": 739883873,
+    "features": 12348194
+  },
+  "archives": [
+    {
+      "region": "europa",
+      "label": "Europe",
+      "asset": "europa.pmtiles",
+      "path": "data/grid-atlas/osm-power/europa.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/europa.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:49:26.057Z",
+      "bytes": 430770981,
+      "sha256": "9ff7d63e60817cabcac676019cb1b4e1a20fefc7ffde208eaa67815cb647d307",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        -25,
+        34,
+        45,
+        72
+      ],
+      "bounds": [
+        -31.262811,
+        32.634413,
+        47.225279,
+        78.924117
+      ],
+      "center": [
+        9.008789,
+        39.198197,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 5616312,
+        "emitted": 5616312,
+        "records": 5656204,
+        "source_objects": 4143373,
+        "centroid_duplicates": 1472939,
+        "skipped": 1512831,
+        "geometry_promotions": 0,
+        "geometry_reductions": 8139,
+        "skip_reasons": {
+          "duplicate_area_representation": 1465090,
+          "excluded_support": 46124,
+          "unclassified": 56,
+          "unsupported_geometry": 1561
+        },
+        "statuses": {
+          "abandoned": 3072,
+          "active": 4122911,
+          "construction": 3800,
+          "demolished": 1131,
+          "destroyed": 12,
+          "disused": 4082,
+          "planned": 138,
+          "proposed": 1426,
+          "razed": 1924,
+          "removed": 4877
+        },
+        "layers": {
+          "power_line": 1472483,
+          "power_plant": 59587,
+          "power_generator_area": 947421,
+          "power_substation": 465931,
+          "power_plant_point": 59875,
+          "power_generator": 1802157,
+          "power_substation_point": 618670,
+          "power_transformer": 128845,
+          "power_switch": 59158,
+          "power_compensator": 2185
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 1,
+        "ways_in_relations_missing": 112,
+        "relations_in_relations_missing": 17
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/europe-latest.osm.pbf",
+        "filename": "europe-latest.osm.pbf",
+        "bytes": 34697140126,
+        "sha256": "e8bd6be815fc81459c2e54d6f6b0ba66b7996b93ac0cb2531b01dd717b7a2745",
+        "md5": "1e6ead6012da28b9d618669805592ec8",
+        "official_md5": "1e6ead6012da28b9d618669805592ec8",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    },
+    {
+      "region": "estados-unidos",
+      "label": "Continental United States",
+      "asset": "estados-unidos.pmtiles",
+      "path": "data/grid-atlas/osm-power/estados-unidos.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/estados-unidos.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:52:51.971Z",
+      "bytes": 183651860,
+      "sha256": "17340b98b82ea94926f258b938edfe41daa38048c0ee16c9d457e259d38f41ce",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        -125,
+        24,
+        -66,
+        50
+      ],
+      "bounds": [
+        -124.611729,
+        24.547576,
+        -66.424072,
+        49.988232
+      ],
+      "center": [
+        -118.344727,
+        34.849867,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 4652143,
+        "emitted": 4652143,
+        "records": 4655599,
+        "source_objects": 2798120,
+        "centroid_duplicates": 1854023,
+        "skipped": 1857479,
+        "geometry_promotions": 0,
+        "geometry_reductions": 202,
+        "skip_reasons": {
+          "duplicate_area_representation": 1850097,
+          "excluded_support": 5840,
+          "unclassified": 4,
+          "unsupported_geometry": 1538
+        },
+        "statuses": {
+          "abandoned": 429,
+          "active": 2794845,
+          "construction": 363,
+          "demolished": 1097,
+          "destroyed": 1,
+          "disused": 1242,
+          "planned": 1,
+          "proposed": 35,
+          "razed": 5,
+          "removed": 102
+        },
+        "layers": {
+          "power_line": 651402,
+          "power_plant": 15213,
+          "power_generator_area": 1766427,
+          "power_substation": 72383,
+          "power_plant_point": 15244,
+          "power_generator": 1907203,
+          "power_substation_point": 73076,
+          "power_transformer": 66945,
+          "power_switch": 78731,
+          "power_compensator": 5519
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 154,
+        "ways_in_relations_missing": 35,
+        "relations_in_relations_missing": 1
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/north-america/us-latest.osm.pbf",
+        "filename": "us-latest.osm.pbf",
+        "bytes": 12043445491,
+        "sha256": "fb398e4ea4bdaf066052c2a94d2a943f38a31bfe7000474687f8c9de4fa15499",
+        "md5": "ad1ca35742eaba26957ab0d8eaa2fdcd",
+        "official_md5": "ad1ca35742eaba26957ab0d8eaa2fdcd",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    },
+    {
+      "region": "china",
+      "label": "China",
+      "asset": "china.pmtiles",
+      "path": "data/grid-atlas/osm-power/china.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/china.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:51:19.177Z",
+      "bytes": 100027575,
+      "sha256": "4453a2b0c92c468b384029abab839a709aaae9f424d11884356789e7f50be50f",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        73,
+        18,
+        135,
+        54
+      ],
+      "bounds": [
+        73.2581529,
+        16.446779,
+        135.112781,
+        53.965489
+      ],
+      "center": [
+        100.5908199,
+        36.208815,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 1663224,
+        "emitted": 1663224,
+        "records": 1664149,
+        "source_objects": 1048405,
+        "centroid_duplicates": 614819,
+        "skipped": 615744,
+        "geometry_promotions": 0,
+        "geometry_reductions": 76,
+        "skip_reasons": {
+          "duplicate_area_representation": 614273,
+          "excluded_support": 201,
+          "unclassified": 2,
+          "unsupported_geometry": 1268
+        },
+        "statuses": {
+          "abandoned": 87,
+          "active": 1047788,
+          "construction": 348,
+          "demolished": 6,
+          "disused": 100,
+          "planned": 4,
+          "proposed": 65,
+          "removed": 7
+        },
+        "layers": {
+          "power_line": 219338,
+          "power_plant": 16336,
+          "power_generator_area": 560867,
+          "power_substation": 37616,
+          "power_plant_point": 16383,
+          "power_generator": 756666,
+          "power_substation_point": 37865,
+          "power_transformer": 15564,
+          "power_switch": 1580,
+          "power_compensator": 1009
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 0,
+        "ways_in_relations_missing": 2,
+        "relations_in_relations_missing": 1
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/asia/china-latest.osm.pbf",
+        "filename": "china-latest.osm.pbf",
+        "bytes": 1566405589,
+        "sha256": "64a7c024211fd6d22b239172db500618f4912895ca9c670b4c35a4eb99d82d88",
+        "md5": "228d4a1389adb2d5bff0ec8d8705ec87",
+        "official_md5": "228d4a1389adb2d5bff0ec8d8705ec87",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    },
+    {
+      "region": "japon",
+      "label": "Japan",
+      "asset": "japon.pmtiles",
+      "path": "data/grid-atlas/osm-power/japon.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/japon.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:50:12.504Z",
+      "bytes": 20855021,
+      "sha256": "74f4713f6ee09f66eb43dc0543b269cdbb978faafac595d2dafbb2c45893f855",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        128,
+        30,
+        146,
+        46
+      ],
+      "bounds": [
+        123.007583,
+        24.061636,
+        145.804541,
+        45.478038
+      ],
+      "center": [
+        144.536133,
+        43.036767,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 377025,
+        "emitted": 377025,
+        "records": 376478,
+        "source_objects": 213497,
+        "centroid_duplicates": 163528,
+        "skipped": 162981,
+        "geometry_promotions": 0,
+        "geometry_reductions": 73,
+        "skip_reasons": {
+          "duplicate_area_representation": 162857,
+          "excluded_support": 84,
+          "unsupported_geometry": 40
+        },
+        "statuses": {
+          "abandoned": 2,
+          "active": 213408,
+          "construction": 9,
+          "demolished": 15,
+          "disused": 50,
+          "proposed": 10,
+          "removed": 3
+        },
+        "layers": {
+          "power_line": 36600,
+          "power_plant": 19080,
+          "power_generator_area": 138375,
+          "power_substation": 6073,
+          "power_plant_point": 19100,
+          "power_generator": 147097,
+          "power_substation_point": 6206,
+          "power_transformer": 2694,
+          "power_switch": 1744,
+          "power_compensator": 56
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 0,
+        "ways_in_relations_missing": 0,
+        "relations_in_relations_missing": 0
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/asia/japan-latest.osm.pbf",
+        "filename": "japan-latest.osm.pbf",
+        "bytes": 2473590924,
+        "sha256": "9fc92447cc6138a1125bb5b6e16a92fe985540c140d784dab5afbe3beecec71b",
+        "md5": "bc8a4413c486db8f5deb5dfc3088a6df",
+        "official_md5": "bc8a4413c486db8f5deb5dfc3088a6df",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    },
+    {
+      "region": "corea-del-sur",
+      "label": "South Korea",
+      "asset": "corea-del-sur.pmtiles",
+      "path": "data/grid-atlas/osm-power/corea-del-sur.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/corea-del-sur.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:49:56.301Z",
+      "bytes": 3369126,
+      "sha256": "8bb6521ab75a2b93fdcc9d9160855aec7c6e8287497924f91da85cb0235b242b",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        125.5,
+        33,
+        130,
+        39.2
+      ],
+      "bounds": [
+        125.124202,
+        33.115523,
+        131.869355,
+        38.460101
+      ],
+      "center": [
+        126.870117,
+        35.209714,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 31580,
+        "emitted": 31580,
+        "records": 31608,
+        "source_objects": 19182,
+        "centroid_duplicates": 12398,
+        "skipped": 12426,
+        "geometry_promotions": 0,
+        "geometry_reductions": 85,
+        "skip_reasons": {
+          "duplicate_area_representation": 12412,
+          "unsupported_geometry": 14
+        },
+        "statuses": {
+          "active": 19174,
+          "construction": 7,
+          "disused": 1
+        },
+        "layers": {
+          "power_line": 4507,
+          "power_plant": 4115,
+          "power_generator_area": 7156,
+          "power_substation": 1127,
+          "power_plant_point": 4119,
+          "power_generator": 8778,
+          "power_substation_point": 1190,
+          "power_transformer": 254,
+          "power_switch": 310,
+          "power_compensator": 24
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 0,
+        "ways_in_relations_missing": 0,
+        "relations_in_relations_missing": 0
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/asia/south-korea-latest.osm.pbf",
+        "filename": "south-korea-latest.osm.pbf",
+        "bytes": 283840851,
+        "sha256": "b7d2c363db39e099f49edab1f16e2299fdd39aa2a200057c4591c7deab6b1929",
+        "md5": "296ecb022aea0a204de51d90a95a517b",
+        "official_md5": "296ecb022aea0a204de51d90a95a517b",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    },
+    {
+      "region": "taiwan",
+      "label": "Taiwan",
+      "asset": "taiwan.pmtiles",
+      "path": "data/grid-atlas/osm-power/taiwan.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-power/taiwan.pmtiles.metadata.json",
+      "built_at": "2026-07-26T08:49:55.323Z",
+      "bytes": 1209310,
+      "sha256": "f0cda7b1c783e6ed639a949247bb8f2b664fc0d4c2797e375548bed3aa30eda5",
+      "minzoom": 2,
+      "maxzoom": 12,
+      "display_bounds": [
+        119.2,
+        21.7,
+        122.2,
+        25.5
+      ],
+      "bounds": [
+        118.173667,
+        21.9474969,
+        121.930997,
+        26.37001
+      ],
+      "center": [
+        121.508789,
+        25.045786,
+        12
+      ],
+      "tile_type": "mvt",
+      "tile_compression": "gzip",
+      "features": {
+        "total": 7910,
+        "emitted": 7910,
+        "records": 8084,
+        "source_objects": 5853,
+        "centroid_duplicates": 2057,
+        "skipped": 2231,
+        "geometry_promotions": 0,
+        "geometry_reductions": 4,
+        "skip_reasons": {
+          "duplicate_area_representation": 1967,
+          "excluded_support": 262,
+          "unsupported_geometry": 2
+        },
+        "statuses": {
+          "abandoned": 1,
+          "active": 5793,
+          "construction": 11,
+          "demolished": 43,
+          "disused": 2,
+          "proposed": 2,
+          "removed": 1
+        },
+        "layers": {
+          "power_line": 2529,
+          "power_plant": 535,
+          "power_generator_area": 728,
+          "power_substation": 794,
+          "power_plant_point": 535,
+          "power_generator": 1796,
+          "power_substation_point": 795,
+          "power_transformer": 110,
+          "power_switch": 88,
+          "power_compensator": 0
+        }
+      },
+      "reference_integrity": {
+        "nodes_in_ways_missing": 0,
+        "nodes_in_relations_missing": 0,
+        "ways_in_relations_missing": 0,
+        "relations_in_relations_missing": 0
+      },
+      "source": {
+        "provider": "Geofabrik GmbH",
+        "database": "OpenStreetMap",
+        "url": "https://download.geofabrik.de/asia/taiwan-latest.osm.pbf",
+        "filename": "taiwan-latest.osm.pbf",
+        "bytes": 325312625,
+        "sha256": "abd727ff38fbd6feb616e3585a6379f081f57bd17bbefcb38383d513b5eb594a",
+        "md5": "6ecf1c4ac6ff4719fc7e95e56779abc6",
+        "official_md5": "6ecf1c4ac6ff4719fc7e95e56779abc6",
+        "official_md5_verified": true
+      },
+      "tools": {
+        "node": "v24.15.0",
+        "osmium": "osmium version 1.19.1",
+        "tippecanoe": "tippecanoe v2.79.0",
+        "pmtiles": "pmtiles dev, commit none, built at unknown"
+      }
+    }
+  ]
+}
