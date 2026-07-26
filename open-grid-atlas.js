@@ -139,6 +139,77 @@
   let activeBasemapRegion = '';
   let osmBasemapWorldReady = false;
   let osmBasemapRegionReady = false;
+  const pmtilesRetryLimit = 2;
+  const pmtilesRetryDelay = 900;
+  const pmtilesByteServingError = /no content-length header|content-length exceeding request|http byte serving|failed to fetch/i;
+  const pmtilesRetryState = {
+    world: { attempt: 0, timer: 0, generation: 0 },
+    region: { attempt: 0, timer: 0, generation: 0 },
+    power: { attempt: 0, timer: 0, generation: 0 },
+    centroids: { attempt: 0, timer: 0, generation: 0 }
+  };
+
+  const resetPmtilesRetry = key => {
+    const retry = pmtilesRetryState[key];
+    if (!retry) return;
+    if (retry.timer) window.clearTimeout(retry.timer);
+    retry.attempt = 0;
+    retry.timer = 0;
+    retry.generation += 1;
+    if (root.dataset.pmtilesRetry?.startsWith(`${key}:`)) {
+      delete root.dataset.pmtilesRetry;
+    }
+  };
+
+  const warmPmtilesArchive = async archiveUrl => {
+    const fetchUrl = archiveUrl.replace(/^pmtiles:\/\//, '');
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    try {
+      await window.fetch(fetchUrl, {
+        method: 'HEAD',
+        credentials: 'same-origin',
+        signal: controller.signal
+      });
+    } catch {
+      // The following vector-source retry remains the authoritative check.
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  };
+
+  const schedulePmtilesRetry = (key, sourceIds, archiveUrl, isCurrent = () => true) => {
+    const retry = pmtilesRetryState[key];
+    if (!retry || !archiveUrl) return false;
+    if (retry.timer) return true;
+    if (retry.attempt >= pmtilesRetryLimit) return false;
+    retry.attempt += 1;
+    const attempt = retry.attempt;
+    const generation = retry.generation;
+    root.dataset.pmtilesRetry = `${key}:${attempt}`;
+    const timer = window.setTimeout(async () => {
+      await warmPmtilesArchive(archiveUrl);
+      if (retry.generation === generation && isCurrent()) {
+        for (const sourceId of sourceIds) {
+          const source = map?.getSource(sourceId);
+          if (source && typeof source.setUrl === 'function') source.setUrl(archiveUrl);
+        }
+      }
+      if (retry.generation === generation && retry.timer === timer) {
+        retry.timer = 0;
+        if (root.dataset.pmtilesRetry === `${key}:${attempt}`) {
+          delete root.dataset.pmtilesRetry;
+        }
+      }
+    }, pmtilesRetryDelay * retry.attempt);
+    retry.timer = timer;
+    return true;
+  };
+
+  const isRetryablePmtilesError = (message, statusCode) => (
+    pmtilesByteServingError.test(message) ||
+    [408, 425, 429, 500, 502, 503, 504].includes(statusCode)
+  );
 
   const emptyFeatureCollection = () => ({
     type: 'FeatureCollection',
@@ -1941,7 +2012,7 @@
     status.hidden = false;
     loadingTimer = window.setTimeout(() => {
       if (requestToken === regionRequest && root.dataset.mapReady !== 'true') showMapError();
-    }, 15000);
+    }, 30000);
   };
 
   const finishLoading = requestToken => {
@@ -3319,6 +3390,8 @@
     const archive = osmPowerArchives[regionKey];
     if (!archive || (!force && activePowerRegion === regionKey)) return;
     const archiveUrl = osmPowerArchiveUrl(regionKey);
+    resetPmtilesRetry('power');
+    resetPmtilesRetry('centroids');
     activePowerRegion = regionKey;
     root.dataset.osmPowerRegion = regionKey;
     delete root.dataset.osmPowerReady;
@@ -3341,6 +3414,7 @@
     const archive = osmBasemapRegionalArchives[regionKey];
     if (!archive || (!force && activeBasemapRegion === regionKey)) return;
     const archiveUrl = osmBasemapRegionalArchiveUrl(regionKey);
+    resetPmtilesRetry('region');
     activeBasemapRegion = regionKey;
     osmBasemapRegionReady = false;
     root.dataset.osmBasemapRegion = regionKey;
@@ -4544,7 +4618,9 @@
     map.on('moveend', scheduleOfficialDataLoad);
     map.on('sourcedata', event => {
       if (!event.isSourceLoaded) return;
-      if (event.sourceId === 'power') root.dataset.osmPowerReady = 'true';
+      if (event.sourceId === 'power') {
+        root.dataset.osmPowerReady = 'true';
+      }
       if (event.sourceId === 'base-world') {
         osmBasemapWorldReady = true;
         updateOsmBasemapReadiness();
@@ -4587,6 +4663,17 @@
       if (/abort|cancel/i.test(errorMessage)) return;
 
       if (errorSource === 'base-world') {
+        if (
+          isRetryablePmtilesError(errorMessage, errorStatus) &&
+          schedulePmtilesRetry(
+            'world',
+            ['base-world'],
+            osmBasemapArchiveUrl(osmBasemapWorldArchive)
+          )
+        ) {
+          console.info('Reintentando el contexto global propio tras una respuesta transitoria del servidor.');
+          return;
+        }
         osmBasemapWorldReady = false;
         root.dataset.osmBasemapError = 'world';
         updateOsmBasemapReadiness();
@@ -4597,6 +4684,19 @@
       }
 
       if (errorSource === 'base-region') {
+        const failedRegion = activeBasemapRegion;
+        if (
+          isRetryablePmtilesError(errorMessage, errorStatus) &&
+          schedulePmtilesRetry(
+            'region',
+            ['base-region'],
+            osmBasemapRegionalArchiveUrl(failedRegion),
+            () => activeBasemapRegion === failedRegion
+          )
+        ) {
+          console.info('Reintentando el contexto regional propio tras una respuesta transitoria del servidor.');
+          return;
+        }
         osmBasemapRegionReady = false;
         root.dataset.osmBasemapError = 'region';
         updateOsmBasemapReadiness();
@@ -4607,6 +4707,20 @@
       }
 
       if (['power', 'power-centroids'].includes(errorSource)) {
+        const failedRegion = activePowerRegion;
+        const retryKey = errorSource === 'power' ? 'power' : 'centroids';
+        if (
+          isRetryablePmtilesError(errorMessage, errorStatus) &&
+          schedulePmtilesRetry(
+            retryKey,
+            [errorSource],
+            osmPowerArchiveUrl(failedRegion),
+            () => activePowerRegion === failedRegion
+          )
+        ) {
+          console.info('Reintentando la infraestructura eléctrica propia tras una respuesta transitoria del servidor.');
+          return;
+        }
         console.warn('No se pudo cargar la instantánea eléctrica OSM propia.', event.error);
         mapWarning.textContent = 'La tesela propia de infraestructura eléctrica OSM no respondió; el mapa de contexto y las capas oficiales disponibles siguen activos.';
         mapWarning.hidden = false;
