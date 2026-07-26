@@ -137,6 +137,7 @@
   );
   let activePowerRegion = '';
   let activeBasemapRegion = '';
+  let osmBasemapFallbackReady = false;
   let osmBasemapWorldReady = false;
   let osmBasemapRegionReady = false;
   const pmtilesRetryLimit = 6;
@@ -525,6 +526,11 @@
     version: 8,
     name: 'Comunicación · contexto OSM y Natural Earth propio',
     sources: {
+      'base-fallback': {
+        type: 'geojson',
+        data: 'data/world-countries.geojson?v=1',
+        attribution: 'Made with Natural Earth · public domain · fallback geography'
+      },
       'base-world': {
         type: 'vector',
         url: osmBasemapArchiveUrl(osmBasemapWorldArchive),
@@ -612,6 +618,31 @@
         id: 'atlas-background',
         type: 'background',
         paint: { 'background-color': '#07131a' }
+      },
+      {
+        id: 'atlas-fallback-land',
+        type: 'fill',
+        source: 'base-fallback',
+        paint: {
+          'fill-color': '#172229',
+          'fill-opacity': 1
+        }
+      },
+      {
+        id: 'atlas-fallback-boundaries',
+        type: 'line',
+        source: 'base-fallback',
+        paint: {
+          'line-color': '#65737a',
+          'line-opacity': 0.48,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            2, 0.55,
+            8, 0.95
+          ]
+        }
       },
       {
         id: 'atlas-land',
@@ -2086,7 +2117,11 @@
   };
 
   const finishLoading = requestToken => {
-    if (requestToken !== regionRequest || root.dataset.mapError === 'true') return;
+    if (
+      requestToken !== regionRequest ||
+      root.dataset.mapError === 'true' ||
+      root.dataset.osmBasemapReady !== 'true'
+    ) return;
     window.clearTimeout(loadingTimer);
     delete root.dataset.mapError;
     status.hidden = true;
@@ -3474,8 +3509,10 @@
   };
 
   const updateOsmBasemapReadiness = () => {
-    const ready = osmBasemapWorldReady && osmBasemapRegionReady;
+    const enhancedReady = osmBasemapWorldReady && osmBasemapRegionReady;
+    const ready = osmBasemapFallbackReady || enhancedReady;
     root.dataset.osmBasemapReady = String(ready);
+    root.dataset.osmBasemapEnhancedReady = String(enhancedReady);
     if (ready && root.dataset.mapReady !== 'true') {
       delete root.dataset.mapError;
       finishLoading(regionRequest);
@@ -3525,6 +3562,7 @@
     loadOfficialInventory(regionKey);
     updateMapControls(false);
     setLoading(`Cargando ${region}…`, requestToken);
+    updateOsmBasemapReadiness();
     closeDrawers();
     if (activePopup) activePopup.remove();
     button.scrollIntoView({
@@ -4691,6 +4729,10 @@
     map.on('moveend', scheduleOfficialDataLoad);
     map.on('sourcedata', event => {
       if (!event.isSourceLoaded) return;
+      if (event.sourceId === 'base-fallback') {
+        osmBasemapFallbackReady = true;
+        updateOsmBasemapReadiness();
+      }
       if (event.sourceId === 'power') {
         const loadedRegion = activePowerRegion;
         void confirmPmtilesReady(
@@ -4758,6 +4800,15 @@
       const errorSource = String(event.sourceId || event.source?.id || '');
       if (/abort|cancel/i.test(errorMessage)) return;
 
+      if (errorSource === 'base-fallback') {
+        osmBasemapFallbackReady = false;
+        updateOsmBasemapReadiness();
+        console.warn('No se pudo cargar la geografía mínima de respaldo.', event.error);
+        mapWarning.textContent = 'La geografía mínima de respaldo no respondió; las capas PMTiles propias siguen intentando completar el mapa.';
+        mapWarning.hidden = false;
+        return;
+      }
+
       if (errorSource === 'base-world') {
         invalidatePmtilesConfirmation('world');
         osmBasemapWorldReady = false;
@@ -4780,7 +4831,7 @@
         }
         root.dataset.osmBasemapError = 'world';
         console.warn('No se pudo cargar el contexto global propio de Natural Earth.', event.error);
-        mapWarning.textContent = 'La base global propia (tierra, agua y límites de Natural Earth) no respondió; el contexto regional OSM y las capas eléctricas siguen activos.';
+        mapWarning.textContent = 'El detalle global propio de Natural Earth no respondió; la geografía mínima de respaldo, el contexto regional OSM y las capas eléctricas siguen activos.';
         mapWarning.hidden = false;
         return;
       }
