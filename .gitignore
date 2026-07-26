@@ -4,4 +4,5 @@ worker/.wrangler/
 node_modules/
 .DS_Store
 data/grid-atlas/osm-power/*.pmtiles
+data/grid-atlas/osm-basemap/*.pmtiles
 scripts/grid-atlas/osm-self-hosted/.work/

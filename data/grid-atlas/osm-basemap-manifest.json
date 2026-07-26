@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-self-hosted-basemap",
+  "release_tag": "osm-basemap-2026-07-25-schema1",
+  "generated_at": "2026-07-26T10:43:10.959Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "archive_root": "data/grid-atlas/osm-basemap",
+  "complete": true,
+  "expected_archive_count": 7,
+  "archive_count": 7,
+  "archive_order": [
+    "world",
+    "europa",
+    "estados-unidos",
+    "china",
+    "japon",
+    "corea-del-sur",
+    "taiwan"
+  ],
+  "maximum_total_bytes": 190000000,
+  "total_bytes": 175770554,
+  "contracts": {
+    "world": {
+      "source_database": "Natural Earth",
+      "minzoom": 0,
+      "maxzoom": 8,
+      "vector_layers": [
+        "base_land",
+        "base_boundary",
+        "base_water",
+        "base_waterway",
+        "base_urban"
+      ]
+    },
+    "region": {
+      "source_database": "OpenStreetMap",
+      "extract_provider": "Geofabrik GmbH",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    }
+  },
+  "licences": [
+    {
+      "dataset": "Natural Earth",
+      "name": "Public domain",
+      "attribution": "Made with Natural Earth",
+      "url": "https://www.naturalearthdata.com/about/terms-of-use/"
+    },
+    {
+      "dataset": "OpenStreetMap",
+      "name": "Open Database License 1.0",
+      "attribution": "© OpenStreetMap contributors",
+      "url": "https://www.openstreetmap.org/copyright"
+    }
+  ],
+  "archives": [
+    {
+      "key": "world",
+      "kind": "world",
+      "label": "World geographic context",
+      "asset": "world.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/world.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/world.pmtiles.metadata.json",
+      "bytes": 16866183,
+      "sha256": "f3c59eb975fea06a2a00300066808c58fdc7e8bd5aa027182f7654f757a412d0",
+      "metadata_bytes": 7999,
+      "metadata_sha256": "4b66c1b56e89cb7c4128367ed919bcc8f8422d0a32aef6c4b1a048ed7fd37cbf",
+      "minzoom": 0,
+      "maxzoom": 8,
+      "bounds": [
+        -180,
+        -85.051129,
+        180,
+        83.634101
+      ],
+      "center": [
+        21.796875,
+        41.506436,
+        8
+      ],
+      "vector_layers": [
+        "base_land",
+        "base_boundary",
+        "base_water",
+        "base_waterway",
+        "base_urban"
+      ]
+    },
+    {
+      "key": "europa",
+      "kind": "region",
+      "label": "Europe",
+      "asset": "europa.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/europa.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/europa.pmtiles.metadata.json",
+      "bytes": 67868867,
+      "sha256": "5f8b331da9df3373ee0e95453b1fac1ecad86b1aa53d7b60dfe23513c63a3dc4",
+      "metadata_bytes": 4841,
+      "metadata_sha256": "8ecfa3560add83c08faa32a5f3e7b1f7a91e6ac13611dbb8a0b9365b37506c97",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        -31.177093,
+        32.644095,
+        46.342809,
+        78.223156
+      ],
+      "center": [
+        -0.351563,
+        51.39868,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    },
+    {
+      "key": "estados-unidos",
+      "kind": "region",
+      "label": "Continental United States",
+      "asset": "estados-unidos.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/estados-unidos.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/estados-unidos.pmtiles.metadata.json",
+      "bytes": 38127957,
+      "sha256": "ceee7a3867393c960a8a42e0fe22a2f2923d48c63b5e9d5961bac9059a84dcae",
+      "metadata_bytes": 5201,
+      "metadata_sha256": "5d55729524169fa6c1ad0c331360b819ef54b0497d0eb06a15fd1b5eb8a94c11",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        -124.615534,
+        24.550407,
+        -66.983501,
+        49.288153
+      ],
+      "center": [
+        -118.476563,
+        34.015742,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    },
+    {
+      "key": "china",
+      "kind": "region",
+      "label": "China",
+      "asset": "china.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/china.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/china.pmtiles.metadata.json",
+      "bytes": 39761150,
+      "sha256": "b7dcc13a9d435b392bc60260f6fa23a1c63a96039e73efc3189d3ff53993e930",
+      "metadata_bytes": 4867,
+      "metadata_sha256": "f9a7c31f41f33e2578c3f9f4743fb21180c34679ac275562ef169e932822eef8",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        73.449526,
+        16.465064,
+        134.725515,
+        53.480248
+      ],
+      "center": [
+        113.554688,
+        22.9175359,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    },
+    {
+      "key": "japon",
+      "kind": "region",
+      "label": "Japan",
+      "asset": "japon.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/japon.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/japon.pmtiles.metadata.json",
+      "bytes": 8873216,
+      "sha256": "3f34e5d0a8969f59987b8b2884f5ee47d3e46494070a22c3eb77dd64a21531e9",
+      "metadata_bytes": 4829,
+      "metadata_sha256": "643bf97fef756482026dd88e3b791728dfa6125b6b7bdb06d7dcebcd617458d4",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        123.004441,
+        24.329896,
+        145.811832,
+        45.522284
+      ],
+      "center": [
+        139.570313,
+        35.746001,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    },
+    {
+      "key": "corea-del-sur",
+      "kind": "region",
+      "label": "South Korea",
+      "asset": "corea-del-sur.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/corea-del-sur.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/corea-del-sur.pmtiles.metadata.json",
+      "bytes": 3438291,
+      "sha256": "a3062920d9486d26e36fa61067b414ba1dffe030bb4c22da5c66042d9aac346a",
+      "metadata_bytes": 4902,
+      "metadata_sha256": "6ed93b123329d8aec436a64ec27ecf04551b69685633a11b9fc37143fd79dad5",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        124.679809,
+        33.233025,
+        130.903648,
+        38.629178
+      ],
+      "center": [
+        126.914063,
+        37.439453,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    },
+    {
+      "key": "taiwan",
+      "kind": "region",
+      "label": "Taiwan",
+      "asset": "taiwan.pmtiles",
+      "path": "data/grid-atlas/osm-basemap/taiwan.pmtiles",
+      "metadata_path": "data/grid-atlas/osm-basemap/taiwan.pmtiles.metadata.json",
+      "bytes": 834890,
+      "sha256": "11b23c763426b22acc52a707a95016ee8ec3915c287a2848efd0e435eed68dd2",
+      "metadata_bytes": 4836,
+      "metadata_sha256": "b5c4890d39b8ca4b902a66803268b7091accab4bc6345d8331fdc04b35ee2609",
+      "minzoom": 2,
+      "maxzoom": 9,
+      "bounds": [
+        118.244648,
+        21.903443,
+        122.003498,
+        26.366822
+      ],
+      "center": [
+        121.289063,
+        24.846154,
+        9
+      ],
+      "vector_layers": [
+        "base_road",
+        "base_place"
+      ]
+    }
+  ]
+}

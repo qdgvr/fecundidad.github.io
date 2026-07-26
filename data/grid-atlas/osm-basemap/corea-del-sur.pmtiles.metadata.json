@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "corea-del-sur",
+  "label": "South Korea",
+  "generated_at": "2026-07-26T10:36:19.970Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    125.5,
+    33,
+    130,
+    39.2
+  ],
+  "clip_bbox": null,
+  "source": {
+    "url": "https://download.geofabrik.de/asia/south-korea-latest.osm.pbf",
+    "filename": "south-korea-latest.osm.pbf",
+    "bytes": 283840851,
+    "sha256": "b7d2c363db39e099f49edab1f16e2299fdd39aa2a200057c4591c7deab6b1929",
+    "md5": "296ecb022aea0a204de51d90a95a517b",
+    "official_md5": "296ecb022aea0a204de51d90a95a517b",
+    "official_md5_file": "south-korea-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "corea-del-sur-context-filtered.osm.pbf",
+      "bytes": 9718761,
+      "sha256": "4af0db0a0fc6cbd2f2e7171751ffd851163110778e80ca1463b7bcd6ef0f5212",
+      "md5": "13fcbd35d3e3aaac0ef47ec32b56c950"
+    },
+    "clipped": null,
+    "geojsonseq": {
+      "filename": "corea-del-sur-context.geojsonseq",
+      "bytes": 74279103,
+      "sha256": "a5a38e327d16000dbe2f8ba0c0d5b462f8ae4dbce187322538fa3b71bd53e0b8",
+      "md5": "5cd34b2569029f743b47fe2afa0f4763"
+    },
+    "stats": {
+      "filename": "corea-del-sur-context-counts.json",
+      "bytes": 236,
+      "sha256": "51cd4f12f0e27d58a5cafd46806f9f6201ea63dfc13b838cffc08e4fcf244b62",
+      "md5": "71091de4507f4b76460691e2553094a5"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "corea-del-sur.pmtiles",
+    "bytes": 3438291,
+    "sha256": "a3062920d9486d26e36fa61067b414ba1dffe030bb4c22da5c66042d9aac346a",
+    "md5": "75a27bac4a3a007a55111a6d563ea3e9",
+    "path": "data/grid-atlas/osm-basemap/corea-del-sur.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      124.679809,
+      33.233025,
+      130.903648,
+      38.629178
+    ],
+    "center": [
+      126.914063,
+      37.439453,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 120839,
+    "emitted_features": 120839,
+    "skipped_records": 0,
+    "layers": {
+      "base_road": 119332,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 1507
+    },
+    "skipped": {}
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 119332,
+      "base_place": 1507
+    },
+    "total": 120839,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

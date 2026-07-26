@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-natural-earth-context",
+  "generated_at": "2026-07-26T00:00:00.000Z",
+  "snapshot": "natural-earth-vector-master-sha256-2026-07-26",
+  "source_manifest": {
+    "filename": "natural-earth-sources.json",
+    "bytes": 3001,
+    "sha256": "5ada2e6cf35d09662dad7f4d1555de6da07bda9f5f4aef1f4f4d19e7a01197d8"
+  },
+  "pipeline_files": {
+    "builder": {
+      "filename": "build-world-context.mjs",
+      "bytes": 14571,
+      "sha256": "917d014beddab538c7e963b0d7787280ecd3f249169678a10a1f88b81027f7f1"
+    },
+    "normalizer": {
+      "filename": "normalize-natural-earth-context.mjs",
+      "bytes": 12034,
+      "sha256": "7c3d8a02a45019c0b4e93f36e2cc96fb86a90361124d8dbee3c1207af17b683e"
+    },
+    "validator": {
+      "filename": "validate-natural-earth-context.mjs",
+      "bytes": 9067,
+      "sha256": "7e38f0704c9fe48a41efc16443bceec54963c04a7c5cd11beb3afd37bd7dd8aa"
+    }
+  },
+  "sources": [
+    {
+      "layer": "base_land",
+      "filename": "ne_10m_admin_0_countries_lakes.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries_lakes.geojson",
+      "bytes": 13581824,
+      "sha256": "4caf607838c3cfd211a52edda259e315513390a717a11067c5eb280f766cfb78",
+      "feature_count": 258,
+      "emitted_count": 258,
+      "skipped_count": 0
+    },
+    {
+      "layer": "base_boundary",
+      "filename": "ne_10m_admin_1_states_provinces_lines.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces_lines.geojson",
+      "bytes": 21092537,
+      "sha256": "1a1f30ccaaf4cc9c4bde34266f0b8cbb955d3a4cf254b756912255f2ec7c75b6",
+      "feature_count": 10179,
+      "emitted_count": 10178,
+      "skipped_count": 1
+    },
+    {
+      "layer": "base_water",
+      "filename": "ne_10m_lakes.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_lakes.geojson",
+      "bytes": 5043554,
+      "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
+      "feature_count": 1355,
+      "emitted_count": 1355,
+      "skipped_count": 0
+    },
+    {
+      "layer": "base_waterway",
+      "filename": "ne_10m_rivers_lake_centerlines_scale_rank.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_rivers_lake_centerlines_scale_rank.geojson",
+      "bytes": 9993096,
+      "sha256": "65dca1bd1729a347dda0837f41b5d152252e33abd2d7ff3370a0539c33bdf89b",
+      "feature_count": 4224,
+      "emitted_count": 4224,
+      "skipped_count": 0
+    },
+    {
+      "layer": "base_urban",
+      "filename": "ne_10m_urban_areas.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_urban_areas.geojson",
+      "bytes": 27943663,
+      "sha256": "5136ffd816a9b28c0f295e6797b4c03eaa421be80d78b90f542db4a932dd4497",
+      "feature_count": 11878,
+      "emitted_count": 11878,
+      "skipped_count": 0
+    }
+  ],
+  "output": {
+    "filename": "world.pmtiles",
+    "bytes": 16866183,
+    "sha256": "f3c59eb975fea06a2a00300066808c58fdc7e8bd5aa027182f7654f757a412d0",
+    "path": "data/grid-atlas/osm-basemap/world.pmtiles",
+    "minzoom": 0,
+    "maxzoom": 8,
+    "bounds": [
+      -180,
+      -85.051129,
+      180,
+      83.634101
+    ],
+    "center": [
+      21.796875,
+      41.506436,
+      8
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "dataset": "fecundidad-natural-earth-context",
+    "snapshot": "natural-earth-vector-master-sha256-2026-07-26",
+    "input_records": 27894,
+    "emitted_features": 27893,
+    "skipped_records": 1,
+    "layers": {
+      "base_land": {
+        "source_filename": "ne_10m_admin_0_countries_lakes.geojson",
+        "input_records": 258,
+        "emitted_features": 258,
+        "skipped_records": 0,
+        "skipped": {},
+        "minzoom_counts": {
+          "0": 244,
+          "4": 1,
+          "5": 4,
+          "6": 1,
+          "7": 8
+        }
+      },
+      "base_boundary": {
+        "source_filename": "ne_10m_admin_1_states_provinces_lines.geojson",
+        "input_records": 10179,
+        "emitted_features": 10178,
+        "skipped_records": 1,
+        "skipped": {
+          "null_geometry": 1
+        },
+        "minzoom_counts": {
+          "2": 199,
+          "3": 61,
+          "5": 478,
+          "6": 413,
+          "7": 2438,
+          "8": 6589
+        }
+      },
+      "base_water": {
+        "source_filename": "ne_10m_lakes.geojson",
+        "input_records": 1355,
+        "emitted_features": 1355,
+        "skipped_records": 0,
+        "skipped": {},
+        "minzoom_counts": {
+          "1": 19,
+          "2": 27,
+          "3": 42,
+          "4": 95,
+          "5": 251,
+          "6": 450,
+          "7": 471
+        }
+      },
+      "base_waterway": {
+        "source_filename": "ne_10m_rivers_lake_centerlines_scale_rank.geojson",
+        "input_records": 4224,
+        "emitted_features": 4224,
+        "skipped_records": 0,
+        "skipped": {},
+        "minzoom_counts": {
+          "2": 107,
+          "3": 395,
+          "4": 269,
+          "5": 921,
+          "6": 955,
+          "7": 1001,
+          "8": 576
+        }
+      },
+      "base_urban": {
+        "source_filename": "ne_10m_urban_areas.geojson",
+        "input_records": 11878,
+        "emitted_features": 11878,
+        "skipped_records": 0,
+        "skipped": {},
+        "minzoom_counts": {
+          "4": 943,
+          "5": 1140,
+          "6": 368,
+          "7": 1700,
+          "8": 7727
+        }
+      }
+    }
+  },
+  "vector_layers": [
+    {
+      "description": "Natural Earth 1:10m country land polygons.",
+      "fields": {
+        "class": "String",
+        "iso_a2": "String",
+        "iso_a3": "String",
+        "name": "String",
+        "name_es": "String",
+        "rank": "Number"
+      },
+      "id": "base_land",
+      "maxzoom": 8,
+      "minzoom": 0
+    },
+    {
+      "description": "Natural Earth 1:10m first-order administrative boundaries.",
+      "fields": {
+        "class": "String",
+        "country": "String",
+        "rank": "Number"
+      },
+      "id": "base_boundary",
+      "maxzoom": 8,
+      "minzoom": 2
+    },
+    {
+      "description": "Natural Earth 1:10m lake polygons.",
+      "fields": {
+        "class": "String",
+        "name": "String",
+        "rank": "Number"
+      },
+      "id": "base_water",
+      "maxzoom": 8,
+      "minzoom": 1
+    },
+    {
+      "description": "Natural Earth 1:10m river and lake-centre lines.",
+      "fields": {
+        "class": "String",
+        "name": "String",
+        "rank": "Number",
+        "weight": "Number"
+      },
+      "id": "base_waterway",
+      "maxzoom": 8,
+      "minzoom": 2
+    },
+    {
+      "description": "Natural Earth 1:10m urban-area polygons.",
+      "fields": {
+        "class": "String",
+        "rank": "Number"
+      },
+      "id": "base_urban",
+      "maxzoom": 8,
+      "minzoom": 3
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "name": "Public domain",
+    "attribution": "Made with Natural Earth",
+    "url": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "build_contract": {
+    "schema_version": 1,
+    "format": "PMTiles",
+    "content": "Mapbox Vector Tile",
+    "source_dataset": "Natural Earth 1:10m",
+    "vector_layers": [
+      "base_land",
+      "base_boundary",
+      "base_water",
+      "base_waterway",
+      "base_urban"
+    ],
+    "minzoom": 0,
+    "maxzoom": 8,
+    "simplification": 2,
+    "maximum_tile_bytes": 300000,
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true,
+    "preserve_input_order": true,
+    "archive_metadata_is_path_independent": true,
+    "reproducibility_timestamp_source": "natural-earth-sources.json#pinned_at"
+  }
+}

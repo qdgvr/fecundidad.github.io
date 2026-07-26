@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-natural-earth-context",
+  "snapshot": "natural-earth-vector-master-sha256-2026-07-26",
+  "pinned_at": "2026-07-26T00:00:00.000Z",
+  "tile_minzoom": 0,
+  "tile_maxzoom": 8,
+  "vector_layers": [
+    "base_land",
+    "base_boundary",
+    "base_water",
+    "base_waterway",
+    "base_urban"
+  ],
+  "upstream": {
+    "name": "Natural Earth",
+    "scale": "1:10m",
+    "repository": "https://github.com/nvkelso/natural-earth-vector",
+    "website": "https://www.naturalearthdata.com/",
+    "terms_url": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "licence": {
+    "name": "Public domain",
+    "attribution": "Made with Natural Earth",
+    "url": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "sources": [
+    {
+      "layer": "base_land",
+      "filename": "ne_10m_admin_0_countries_lakes.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries_lakes.geojson",
+      "bytes": 13581824,
+      "sha256": "4caf607838c3cfd211a52edda259e315513390a717a11067c5eb280f766cfb78",
+      "feature_count": 258,
+      "geometry_types": [
+        "Polygon",
+        "MultiPolygon"
+      ]
+    },
+    {
+      "layer": "base_boundary",
+      "filename": "ne_10m_admin_1_states_provinces_lines.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces_lines.geojson",
+      "bytes": 21092537,
+      "sha256": "1a1f30ccaaf4cc9c4bde34266f0b8cbb955d3a4cf254b756912255f2ec7c75b6",
+      "feature_count": 10179,
+      "geometry_types": [
+        "LineString",
+        "MultiLineString"
+      ]
+    },
+    {
+      "layer": "base_water",
+      "filename": "ne_10m_lakes.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_lakes.geojson",
+      "bytes": 5043554,
+      "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
+      "feature_count": 1355,
+      "geometry_types": [
+        "Polygon",
+        "MultiPolygon"
+      ]
+    },
+    {
+      "layer": "base_waterway",
+      "filename": "ne_10m_rivers_lake_centerlines_scale_rank.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_rivers_lake_centerlines_scale_rank.geojson",
+      "bytes": 9993096,
+      "sha256": "65dca1bd1729a347dda0837f41b5d152252e33abd2d7ff3370a0539c33bdf89b",
+      "feature_count": 4224,
+      "geometry_types": [
+        "LineString",
+        "MultiLineString"
+      ]
+    },
+    {
+      "layer": "base_urban",
+      "filename": "ne_10m_urban_areas.geojson",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_urban_areas.geojson",
+      "bytes": 27943663,
+      "sha256": "5136ffd816a9b28c0f295e6797b4c03eaa421be80d78b90f542db4a932dd4497",
+      "feature_count": 11878,
+      "geometry_types": [
+        "Polygon"
+      ]
+    }
+  ]
+}

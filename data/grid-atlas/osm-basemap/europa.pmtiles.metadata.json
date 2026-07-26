@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "europa",
+  "label": "Europe",
+  "generated_at": "2026-07-26T10:42:23.408Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    -25,
+    34,
+    45,
+    72
+  ],
+  "clip_bbox": null,
+  "source": {
+    "url": "https://download.geofabrik.de/europe-latest.osm.pbf",
+    "filename": "europe-latest.osm.pbf",
+    "bytes": 34697140126,
+    "sha256": "e8bd6be815fc81459c2e54d6f6b0ba66b7996b93ac0cb2531b01dd717b7a2745",
+    "md5": "1e6ead6012da28b9d618669805592ec8",
+    "official_md5": "1e6ead6012da28b9d618669805592ec8",
+    "official_md5_file": "europe-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "europa-context-filtered.osm.pbf",
+      "bytes": 345187641,
+      "sha256": "ce2c9f474efdfd9870e4df51735029f092bf1ac6cf9125e6118e7e1f5145c248",
+      "md5": "455d43e4a6b15f23395e99e80052777c"
+    },
+    "clipped": null,
+    "geojsonseq": {
+      "filename": "europa-context.geojsonseq",
+      "bytes": 1774028350,
+      "sha256": "f31c42c8738479ff2aa5c3f1c1dc0c371656821346c7c33022a4d4a2757bad9e",
+      "md5": "054a00ac03c689c4225f2cb9d951aeaa"
+    },
+    "stats": {
+      "filename": "europa-context-counts.json",
+      "bytes": 240,
+      "sha256": "933927ae8c4d2560b734b90ce6510ec38f22139a3907e9b9bf15e0592e1963df",
+      "md5": "7461d2528cd6f26704894d4140a5d044"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "europa.pmtiles",
+    "bytes": 67868867,
+    "sha256": "5f8b331da9df3373ee0e95453b1fac1ecad86b1aa53d7b60dfe23513c63a3dc4",
+    "md5": "852bc11b6e6213e863c0602b3f842741",
+    "path": "data/grid-atlas/osm-basemap/europa.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      -31.177093,
+      32.644095,
+      46.342809,
+      78.223156
+    ],
+    "center": [
+      -0.351563,
+      51.39868,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 3084263,
+    "emitted_features": 3084263,
+    "skipped_records": 0,
+    "layers": {
+      "base_road": 3065069,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 19194
+    },
+    "skipped": {}
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 3065069,
+      "base_place": 19194
+    },
+    "total": 3084263,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

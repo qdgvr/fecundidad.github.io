@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "china",
+  "label": "China",
+  "generated_at": "2026-07-26T10:37:40.590Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    73,
+    18,
+    135,
+    54
+  ],
+  "clip_bbox": null,
+  "source": {
+    "url": "https://download.geofabrik.de/asia/china-latest.osm.pbf",
+    "filename": "china-latest.osm.pbf",
+    "bytes": 1566405589,
+    "sha256": "64a7c024211fd6d22b239172db500618f4912895ca9c670b4c35a4eb99d82d88",
+    "md5": "228d4a1389adb2d5bff0ec8d8705ec87",
+    "official_md5": "228d4a1389adb2d5bff0ec8d8705ec87",
+    "official_md5_file": "china-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "china-context-filtered.osm.pbf",
+      "bytes": 134522884,
+      "sha256": "563b8c9c06c64fbfa767ece6acc7f46e4c5f64eaeff9e2773e86f207ca0acafb",
+      "md5": "416061fcb75526a2eabaafdc158a696c"
+    },
+    "clipped": null,
+    "geojsonseq": {
+      "filename": "china-context.geojsonseq",
+      "bytes": 804712769,
+      "sha256": "f125dc628161099dfd138e86f601f86e35d37525043aba965fc7e38bd8cf3234",
+      "md5": "05754230b2eb414a36dd32faf0a091b5"
+    },
+    "stats": {
+      "filename": "china-context-counts.json",
+      "bytes": 266,
+      "sha256": "c9bf991bf09b00e915e6a844d2401d533a7384e2d67b5899b6efa8249b46635f",
+      "md5": "ea84c701dbff2e0a20a2949c280d5d7a"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "china.pmtiles",
+    "bytes": 39761150,
+    "sha256": "b7dcc13a9d435b392bc60260f6fa23a1c63a96039e73efc3189d3ff53993e930",
+    "md5": "e470de0e8fe106ab25b175ed6c471e3e",
+    "path": "data/grid-atlas/osm-basemap/china.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      73.449526,
+      16.465064,
+      134.725515,
+      53.480248
+    ],
+    "center": [
+      113.554688,
+      22.9175359,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 1419010,
+    "emitted_features": 1419007,
+    "skipped_records": 3,
+    "layers": {
+      "base_road": 1383035,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 35972
+    },
+    "skipped": {
+      "unnamed_place": 3
+    }
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 1383035,
+      "base_place": 35972
+    },
+    "total": 1419007,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

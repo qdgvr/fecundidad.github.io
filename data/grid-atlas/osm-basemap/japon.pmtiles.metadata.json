@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "japon",
+  "label": "Japan",
+  "generated_at": "2026-07-26T10:36:45.991Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    128,
+    30,
+    146,
+    46
+  ],
+  "clip_bbox": null,
+  "source": {
+    "url": "https://download.geofabrik.de/asia/japan-latest.osm.pbf",
+    "filename": "japan-latest.osm.pbf",
+    "bytes": 2473590924,
+    "sha256": "9fc92447cc6138a1125bb5b6e16a92fe985540c140d784dab5afbe3beecec71b",
+    "md5": "bc8a4413c486db8f5deb5dfc3088a6df",
+    "official_md5": "bc8a4413c486db8f5deb5dfc3088a6df",
+    "official_md5_file": "japan-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "japon-context-filtered.osm.pbf",
+      "bytes": 52695774,
+      "sha256": "ccca904bceda41fbf439fe86793c8f81406f1f3701f5c19c39f8e2f81283ca13",
+      "md5": "13ea61850a105fd3201675610514a569"
+    },
+    "clipped": null,
+    "geojsonseq": {
+      "filename": "japon-context.geojsonseq",
+      "bytes": 265609210,
+      "sha256": "6869c2b7a4a3fbe5e32c91b61f03436295446d0af218803cd0efc916cdc16328",
+      "md5": "1b54c50acd46528e9581cb4bc06b0536"
+    },
+    "stats": {
+      "filename": "japon-context-counts.json",
+      "bytes": 236,
+      "sha256": "1e26ec263b7d4d5a3e8eb1691bcc2f937fea9de75fbdc93b2e9b09308cf99307",
+      "md5": "e91e830ceb473d84449022a3a3235a58"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "japon.pmtiles",
+    "bytes": 8873216,
+    "sha256": "3f34e5d0a8969f59987b8b2884f5ee47d3e46494070a22c3eb77dd64a21531e9",
+    "md5": "9e6a4682ea67c8ca3cfc1acfcfa896b2",
+    "path": "data/grid-atlas/osm-basemap/japon.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      123.004441,
+      24.329896,
+      145.811832,
+      45.522284
+    ],
+    "center": [
+      139.570313,
+      35.746001,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 360374,
+    "emitted_features": 360374,
+    "skipped_records": 0,
+    "layers": {
+      "base_road": 358766,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 1608
+    },
+    "skipped": {}
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 358766,
+      "base_place": 1608
+    },
+    "total": 360374,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

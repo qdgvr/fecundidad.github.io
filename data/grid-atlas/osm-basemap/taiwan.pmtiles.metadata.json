@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "taiwan",
+  "label": "Taiwan",
+  "generated_at": "2026-07-26T10:36:21.344Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    119.2,
+    21.7,
+    122.2,
+    25.5
+  ],
+  "clip_bbox": null,
+  "source": {
+    "url": "https://download.geofabrik.de/asia/taiwan-latest.osm.pbf",
+    "filename": "taiwan-latest.osm.pbf",
+    "bytes": 325312625,
+    "sha256": "abd727ff38fbd6feb616e3585a6379f081f57bd17bbefcb38383d513b5eb594a",
+    "md5": "6ecf1c4ac6ff4719fc7e95e56779abc6",
+    "official_md5": "6ecf1c4ac6ff4719fc7e95e56779abc6",
+    "official_md5_file": "taiwan-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "taiwan-context-filtered.osm.pbf",
+      "bytes": 3315651,
+      "sha256": "61fe633cd9b31b3cb8ef872ea85a6ed1a031ab64fd71170b3ddfbba58fd86136",
+      "md5": "8a7fd67ea365d5ebbe1b79a635b754f1"
+    },
+    "clipped": null,
+    "geojsonseq": {
+      "filename": "taiwan-context.geojsonseq",
+      "bytes": 20649617,
+      "sha256": "d5be606cee0965139e0b6491c89f0d63e30d925855a3bcb5b98b3d62bd1370d1",
+      "md5": "c9a064bca7d2765f4ffb2c64b7786a11"
+    },
+    "stats": {
+      "filename": "taiwan-context-counts.json",
+      "bytes": 232,
+      "sha256": "eb3960c327167d55fd40fe1dd70cf6395c9ae1961f3b4fee2be0774c020bd373",
+      "md5": "5b89ddbda8f3d5d080464b37601477bb"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "taiwan.pmtiles",
+    "bytes": 834890,
+    "sha256": "11b23c763426b22acc52a707a95016ee8ec3915c287a2848efd0e435eed68dd2",
+    "md5": "4dc02b2154aa958c0e345e6e066e442d",
+    "path": "data/grid-atlas/osm-basemap/taiwan.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      118.244648,
+      21.903443,
+      122.003498,
+      26.366822
+    ],
+    "center": [
+      121.289063,
+      24.846154,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 29573,
+    "emitted_features": 29573,
+    "skipped_records": 0,
+    "layers": {
+      "base_road": 29318,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 255
+    },
+    "skipped": {}
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 29318,
+      "base_place": 255
+    },
+    "total": 29573,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

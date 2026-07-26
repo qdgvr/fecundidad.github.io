@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "dataset": "fecundidad-osm-regional-context",
+  "contract": {
+    "id": "fecundidad-osm-context",
+    "version": 1,
+    "minzoom": 2,
+    "maxzoom": 9,
+    "max_tile_bytes": 300000,
+    "simplification": 2,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "drop_densest_as_needed": true,
+    "coalesce_densest_as_needed": true
+  },
+  "region": "estados-unidos",
+  "label": "Continental United States",
+  "generated_at": "2026-07-26T10:39:04.692Z",
+  "snapshot": "2026-07-25T20:21:51Z",
+  "bounds": [
+    -125,
+    24,
+    -66,
+    50
+  ],
+  "clip_bbox": [
+    -125,
+    24,
+    -66,
+    50
+  ],
+  "source": {
+    "url": "https://download.geofabrik.de/north-america/us-latest.osm.pbf",
+    "filename": "us-latest.osm.pbf",
+    "bytes": 12043445491,
+    "sha256": "fb398e4ea4bdaf066052c2a94d2a943f38a31bfe7000474687f8c9de4fa15499",
+    "md5": "ad1ca35742eaba26957ab0d8eaa2fdcd",
+    "official_md5": "ad1ca35742eaba26957ab0d8eaa2fdcd",
+    "official_md5_file": "us-latest.osm.pbf.md5",
+    "official_md5_verified": true
+  },
+  "configuration": {
+    "regions": {
+      "filename": "regions.json",
+      "bytes": 1745,
+      "sha256": "f5bfbe7c97ab09b6195761f24ca1cde867510ca6cb68458ce483b4e06ab264e7",
+      "md5": "7db615a11d088a5354ff6aa5439d3e91"
+    },
+    "context_tags_filter": {
+      "filename": "context-tags.filter",
+      "bytes": 112,
+      "sha256": "faebc507541cb382a2aa17b10a88901f3271cf018a0a8f17488d92a9a1b91ce5",
+      "md5": "7161141ca51b09d470f56c875a6dbc73"
+    },
+    "normalizer": {
+      "filename": "normalize-osm-context.mjs",
+      "bytes": 8233,
+      "sha256": "5d6fca45548ba5f59ec3bac3afd154f8fa644942db7eb6fbe7cc185217817b94",
+      "md5": "d2067607b994a0a8f358961fe921c8b0"
+    },
+    "validator": {
+      "filename": "validate-osm-context.mjs",
+      "bytes": 8884,
+      "sha256": "2ec5047eca898aaf4ee29e82e9ae9e3a05fc5bf6e9610d53ed8897730801a3eb",
+      "md5": "9ae5a5c37d319b67d971b57d268c2679"
+    }
+  },
+  "intermediates": {
+    "filtered": {
+      "filename": "estados-unidos-context-filtered.osm.pbf",
+      "bytes": 195589257,
+      "sha256": "6d8db30340c6674089beeb4f2f5e4e0d5468f66012d57a09d6da54a2c67e0cbe",
+      "md5": "e30b601340c2028754fba5aca663932d"
+    },
+    "clipped": {
+      "filename": "estados-unidos-context-clipped.osm.pbf",
+      "bytes": 194307196,
+      "sha256": "1e22fb77193e7eb046a42cd438e03cfcb77d6339bd807d87359fcee584f2de16",
+      "md5": "0f9a54d53f365212d56e5a6d70ff3142"
+    },
+    "geojsonseq": {
+      "filename": "estados-unidos-context.geojsonseq",
+      "bytes": 1289446125,
+      "sha256": "eee0c4aa23fcff4255f6cbc53a5fff055657707b4c0824499c6a3da327a884a5",
+      "md5": "04cfc6f3bc587d7178b9b9719aba733c"
+    },
+    "stats": {
+      "filename": "estados-unidos-context-counts.json",
+      "bytes": 265,
+      "sha256": "08765d761cc5622f381a28e1e8c23251f594074061781be84fb2ab3ce404afc8",
+      "md5": "1e21fe7c91cae77ae37bdefb93d6a8f7"
+    }
+  },
+  "reference_integrity": {
+    "nodes_in_ways_missing": 0,
+    "nodes_in_relations_missing": 0,
+    "ways_in_relations_missing": 0,
+    "relations_in_relations_missing": 0
+  },
+  "output": {
+    "filename": "estados-unidos.pmtiles",
+    "bytes": 38127957,
+    "sha256": "ceee7a3867393c960a8a42e0fe22a2f2923d48c63b5e9d5961bac9059a84dcae",
+    "md5": "02d87d48ed44c3da46dfc5055e36b7f8",
+    "path": "data/grid-atlas/osm-basemap/estados-unidos.pmtiles",
+    "minzoom": 2,
+    "maxzoom": 9,
+    "bounds": [
+      -124.615534,
+      24.550407,
+      -66.983501,
+      49.288153
+    ],
+    "center": [
+      -118.476563,
+      34.015742,
+      9
+    ],
+    "tile_type": "mvt",
+    "tile_compression": "gzip"
+  },
+  "features": {
+    "schema_version": 1,
+    "input_records": 1852078,
+    "emitted_features": 1852077,
+    "skipped_records": 1,
+    "layers": {
+      "base_road": 1844385,
+      "base_water": 0,
+      "base_waterway": 0,
+      "base_place": 7692
+    },
+    "skipped": {
+      "unnamed_place": 1
+    }
+  },
+  "validation": {
+    "valid": true,
+    "layer_ids": [
+      "base_road",
+      "base_place"
+    ],
+    "counts": {
+      "base_road": 1844385,
+      "base_place": 7692
+    },
+    "total": 1852077,
+    "errors": []
+  },
+  "vector_layers": [
+    {
+      "description": "OSM motorway, trunk, primary and link road context.",
+      "fields": {
+        "bridge": "String",
+        "class": "String",
+        "link": "Number",
+        "tunnel": "String"
+      },
+      "id": "base_road",
+      "maxzoom": 9,
+      "minzoom": 2
+    },
+    {
+      "description": "OSM country, state, province, city and town label context.",
+      "fields": {
+        "capital": "String",
+        "class": "String",
+        "name": "String",
+        "name_local": "String",
+        "population": "Number"
+      },
+      "id": "base_place",
+      "maxzoom": 9,
+      "minzoom": 2
+    }
+  ],
+  "tools": {
+    "node": "v24.15.0",
+    "osmium": "osmium version 1.19.1",
+    "tippecanoe": "tippecanoe v2.79.0",
+    "pmtiles": "pmtiles dev, commit none, built at unknown"
+  },
+  "licence": {
+    "database": "Open Database License 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "url": "https://www.openstreetmap.org/copyright"
+  }
+}

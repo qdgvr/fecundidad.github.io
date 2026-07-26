@@ -116,7 +116,29 @@
     url.searchParams.set('v', osmPowerArchiveVersion);
     return `pmtiles://${url.href}`;
   };
+  const osmBasemapArchiveVersion = 'osm-basemap-2026-07-25-schema1';
+  const osmBasemapWorldArchive = 'data/grid-atlas/osm-basemap/world.pmtiles';
+  const osmBasemapRegionalArchives = Object.freeze({
+    europa: 'data/grid-atlas/osm-basemap/europa.pmtiles',
+    'estados-unidos': 'data/grid-atlas/osm-basemap/estados-unidos.pmtiles',
+    china: 'data/grid-atlas/osm-basemap/china.pmtiles',
+    japon: 'data/grid-atlas/osm-basemap/japon.pmtiles',
+    'corea-del-sur': 'data/grid-atlas/osm-basemap/corea-del-sur.pmtiles',
+    taiwan: 'data/grid-atlas/osm-basemap/taiwan.pmtiles'
+  });
+  const osmBasemapArchiveUrl = archive => {
+    if (!archive) return '';
+    const url = new URL(archive, window.location.href);
+    url.searchParams.set('v', osmBasemapArchiveVersion);
+    return `pmtiles://${url.href}`;
+  };
+  const osmBasemapRegionalArchiveUrl = regionKey => (
+    osmBasemapArchiveUrl(osmBasemapRegionalArchives[regionKey])
+  );
   let activePowerRegion = '';
+  let activeBasemapRegion = '';
+  let osmBasemapWorldReady = false;
+  let osmBasemapRegionReady = false;
 
   const emptyFeatureCollection = () => ({
     type: 'FeatureCollection',
@@ -360,11 +382,21 @@
 
   const style = {
     version: 8,
-    name: 'Comunicación · mosaicos OSM propios',
+    name: 'Comunicación · contexto OSM y Natural Earth propio',
     sources: {
-      basemap: {
-        type: 'geojson',
-        data: 'data/world-countries.geojson?v=1'
+      'base-world': {
+        type: 'vector',
+        url: osmBasemapArchiveUrl(osmBasemapWorldArchive),
+        minzoom: 0,
+        maxzoom: 8,
+        attribution: 'Made with Natural Earth · public domain'
+      },
+      'base-region': {
+        type: 'vector',
+        url: osmBasemapRegionalArchiveUrl('europa'),
+        minzoom: 2,
+        maxzoom: 9,
+        attribution: `© OpenStreetMap contributors · ODbL 1.0 · snapshot ${osmPowerSnapshot}`
       },
       power: {
         type: 'vector',
@@ -438,38 +470,332 @@
       {
         id: 'atlas-background',
         type: 'background',
-        paint: { 'background-color': '#0b1115' }
+        paint: { 'background-color': '#07131a' }
       },
       {
-        id: 'atlas-landcover',
+        id: 'atlas-land',
         type: 'fill',
-        source: 'basemap',
+        source: 'base-world',
+        'source-layer': 'base_land',
         paint: {
-          'fill-color': '#151a1d',
-          'fill-opacity': 0.96
+          'fill-color': '#172229',
+          'fill-opacity': 1
         }
       },
       {
-        id: 'atlas-boundaries',
-        type: 'line',
-        source: 'basemap',
+        id: 'atlas-urban',
+        type: 'fill',
+        source: 'base-world',
+        'source-layer': 'base_urban',
+        minzoom: 4,
         paint: {
-          'line-color': '#7f8b91',
+          'fill-color': '#354048',
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0.16,
+            8, 0.38
+          ]
+        }
+      },
+      {
+        id: 'atlas-water',
+        type: 'fill',
+        source: 'base-world',
+        'source-layer': 'base_water',
+        paint: {
+          'fill-color': '#0a2a38',
+          'fill-opacity': 0.96,
+          'fill-outline-color': '#1b4b5e'
+        }
+      },
+      {
+        id: 'atlas-waterway',
+        type: 'line',
+        source: 'base-world',
+        'source-layer': 'base_waterway',
+        minzoom: 3,
+        paint: {
+          'line-color': '#27718a',
           'line-opacity': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.46,
-            8, 0.7
+            3, 0.42,
+            8, 0.78
           ],
           'line-width': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.55,
-            8, 1.05
+            3, 0.35,
+            8, 1.15,
+            12, 2
+          ]
+        }
+      },
+      {
+        id: 'atlas-country-boundaries',
+        type: 'line',
+        source: 'base-world',
+        'source-layer': 'base_land',
+        paint: {
+          'line-color': '#718087',
+          'line-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            2, 0.62,
+            8, 0.82
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            2, 0.7,
+            8, 1.2
+          ]
+        }
+      },
+      {
+        id: 'atlas-regional-boundaries',
+        type: 'line',
+        source: 'base-world',
+        'source-layer': 'base_boundary',
+        minzoom: 3,
+        paint: {
+          'line-color': '#53636b',
+          'line-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            3, 0.34,
+            8, 0.64
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            3, 0.45,
+            8, 0.9
           ],
           'line-dasharray': [3, 2]
+        }
+      },
+      {
+        id: 'atlas-road-primary-casing',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 6,
+        filter: ['==', ['get', 'class'], 'primary'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#081014',
+          'line-opacity': 0.82,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            6, 1.05,
+            10, 3.5,
+            14, 6.2
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-trunk-casing',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 5,
+        filter: ['==', ['get', 'class'], 'trunk'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#081014',
+          'line-opacity': 0.86,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            5, 1.05,
+            10, 4,
+            14, 7
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-motorway-casing',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 4,
+        filter: ['==', ['get', 'class'], 'motorway'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#081014',
+          'line-opacity': 0.9,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 1.2,
+            10, 4.7,
+            14, 8
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-primary',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 6,
+        filter: ['==', ['get', 'class'], 'primary'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#68777d',
+          'line-opacity': [
+            'case',
+            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            0.38,
+            0.76
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            6, 0.38,
+            10, 1.65,
+            14, 3.5
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-trunk',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 5,
+        filter: ['==', ['get', 'class'], 'trunk'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#879194',
+          'line-opacity': [
+            'case',
+            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            0.4,
+            0.82
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            5, 0.42,
+            10, 1.95,
+            14, 4
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-motorway',
+        type: 'line',
+        source: 'base-region',
+        'source-layer': 'base_road',
+        minzoom: 4,
+        filter: ['==', ['get', 'class'], 'motorway'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#a59c84',
+          'line-opacity': [
+            'case',
+            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            0.42,
+            0.88
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0.48,
+            10, 2.25,
+            14, 4.6
+          ]
+        }
+      },
+      {
+        id: 'atlas-place-labels',
+        type: 'symbol',
+        source: 'base-region',
+        'source-layer': 'base_place',
+        minzoom: 2,
+        filter: ['in', ['get', 'class'], ['literal', ['country', 'state', 'province', 'city', 'town']]],
+        layout: {
+          'text-field': [
+            'case',
+            [
+              'all',
+              ['has', 'name_local'],
+              ['has', 'name'],
+              ['!=', ['get', 'name_local'], ['get', 'name']]
+            ],
+            ['concat', ['get', 'name_local'], ' · ', ['get', 'name']],
+            ['coalesce', ['get', 'name_local'], ['get', 'name'], '']
+          ],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            2, ['match', ['get', 'class'], 'country', 11, ['state', 'province'], 10, 'city', 9.5, 9],
+            8, ['match', ['get', 'class'], 'country', 15, ['state', 'province'], 13, 'city', 12.5, 11],
+            12, ['match', ['get', 'class'], 'country', 16, ['state', 'province'], 14, 'city', 15, 13]
+          ],
+          'text-letter-spacing': 0.02,
+          'text-max-width': 12,
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 0.45,
+          'text-allow-overlap': false,
+          'text-optional': false
+        },
+        paint: {
+          'text-color': [
+            'match',
+            ['get', 'class'],
+            'country', '#c2cbce',
+            ['state', 'province'], '#9ca8ac',
+            'city', '#c3ccce',
+            '#aeb8bb'
+          ],
+          'text-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            3, 0.72,
+            8, 0.92
+          ],
+          'text-halo-color': '#0b151a',
+          'text-halo-width': 1.35,
+          'text-halo-blur': 0.4
         }
       },
       {
@@ -2489,7 +2815,7 @@
     }
 
     if (regionKey === 'estados-unidos') {
-      setTextWithTitle(sourceLabel, 'HIFLD + CEC + BPA + EIA + OSM + GEM', 'HIFLD / U.S. Government + California Energy Commission + Bonneville Power Administration + EIA-860M + OpenStreetMap + Global Energy Monitor');
+      setTextWithTitle(sourceLabel, 'HIFLD + CEC + BPA + EIA + OSM + GEM · base OSM/NE', 'HIFLD / U.S. Government + California Energy Commission + Bonneville Power Administration + EIA-860M + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
       if (hifldState === 'loading' || regionalState === 'loading' || eiaSourceState === 'loading') {
         setTextWithTitle(dataStatus, 'Capas oficiales cargando', 'Cargando HIFLD nacional, CEC California, BPA en el noroeste y las centrales EIA-860M de junio de 2026');
       } else if (officialFeatureCount > 0 || regionalFeatureCount > 0 || eiaFeatureCount > 0) {
@@ -2515,7 +2841,7 @@
     }
 
     if (regionKey === 'europa') {
-      setTextWithTitle(sourceLabel, 'IGN + OS + Kadaster + BKG + BNetzA + NVE + SFOE + RTE + OSM + GEM', 'IGN BD TOPO + Ordnance Survey OpenMap Local + Kadaster BRT TOP10NL + BKG DLM250 + Bundesnetzagentur + NVE Nettanlegg + Swiss Federal Office of Energy + inventario RTE ODRÉ + OpenStreetMap + Global Energy Monitor');
+      setTextWithTitle(sourceLabel, 'IGN + OS + Kadaster + BKG + BNetzA + NVE + SFOE + RTE + OSM + GEM · base OSM/NE', 'IGN BD TOPO + Ordnance Survey OpenMap Local + Kadaster BRT TOP10NL + BKG DLM250 + Bundesnetzagentur + NVE Nettanlegg + Swiss Federal Office of Energy + inventario RTE ODRÉ + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
       if (regionalState === 'loading') {
         setTextWithTitle(dataStatus, 'Fuentes europeas cargando', 'Consultando geometría oficial de Francia, Gran Bretaña, Países Bajos, Alemania y Noruega, más proyectos federales alemanes');
       } else if (regionalFeatureCount > 0) {
@@ -2555,7 +2881,7 @@
     }
 
     if (regionKey === 'taiwan') {
-      setTextWithTitle(sourceLabel, 'Taipower + OSM + GEM', 'Taiwan Power Company / data.gov.tw + OpenStreetMap + Global Energy Monitor');
+      setTextWithTitle(sourceLabel, 'Taipower + OSM + GEM · base OSM/NE', 'Taiwan Power Company / data.gov.tw + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
       const taiwanStatus = taiwanSourceState === 'loading'
         ? 'Taipower cargando'
         : taiwanSourceState === 'error'
@@ -2570,7 +2896,7 @@
     }
 
     if (regionKey === 'japon') {
-      setTextWithTitle(sourceLabel, 'GSI + OCCTO + OSM + GEM', 'Geospatial Information Authority of Japan + OCCTO + OpenStreetMap + Global Energy Monitor');
+      setTextWithTitle(sourceLabel, 'GSI + OCCTO + OSM + GEM · base OSM/NE', 'Geospatial Information Authority of Japan + OCCTO + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
       setTextWithTitle(dataStatus, 'GSI oficial z13–16 · 7 OCCTO', 'Geometría oficial GSI de líneas desde z14 y centrales desde z13; siete relaciones OCCTO de capacidad direccional');
       if (sourceSummary) {
         sourceSummary.textContent = 'GSI aporta geometría oficial nacional de líneas de transmisión a z14–16 y centrales a z13–16. OCCTO aporta capacidad direccional; sus rectas se conservan separadas como esquema y OSM sigue como cobertura multiescala.';
@@ -2580,7 +2906,7 @@
     }
 
     if (regionKey === 'china') {
-      setTextWithTitle(sourceLabel, 'NEA/CSG + OSM + GEM', 'National Energy Administration / China Southern Power Grid + OpenStreetMap + Global Energy Monitor');
+      setTextWithTitle(sourceLabel, 'NEA/CSG + OSM + GEM · base OSM/NE', 'National Energy Administration / China Southern Power Grid + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
       setTextWithTitle(dataStatus, '51 sistemas HVDC consultables · 2024', 'NEA: los 51 sistemas, 233.574 MW y 52.949 km están normalizados para búsqueda; la ruta de proyecto CSG es esquemática');
       if (sourceSummary) {
         sourceSummary.textContent = 'El inventario NEA permite buscar los 51 sistemas HVDC y auditar tensión, capacidad, longitud, fechas y terminales publicados. Como el informe no ofrece coordenadas ni trazados reutilizables, OSM conserva aparte la geometría pública y el proyecto CSG ±800 kV sólo une terminales publicadas con una recta marcada como modelo.';
@@ -2592,10 +2918,10 @@
     const kpgVisible = getLayerState('kpg-model');
     setTextWithTitle(
       sourceLabel,
-      kpgVisible ? 'KEPCO + OSM + GEM + KPG sintético' : 'KEPCO + OSM + GEM',
+      kpgVisible ? 'KEPCO + OSM + GEM + KPG sintético · base OSM/NE' : 'KEPCO + OSM + GEM · base OSM/NE',
       kpgVisible
-        ? 'Korea Electric Power Corporation + OpenStreetMap + Global Energy Monitor + modelo sintético KPG 193 / KENTECH'
-        : 'Korea Electric Power Corporation + Korea Power Exchange + OpenStreetMap + Global Energy Monitor'
+        ? 'Korea Electric Power Corporation + OpenStreetMap + Global Energy Monitor + modelo sintético KPG 193 / KENTECH · contexto cartográfico propio OpenStreetMap/Natural Earth'
+        : 'Korea Electric Power Corporation + Korea Power Exchange + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth'
     );
     setTextWithTitle(
       dataStatus,
@@ -3004,6 +3330,27 @@
     }
   };
 
+  const updateOsmBasemapReadiness = () => {
+    root.dataset.osmBasemapReady = String(
+      osmBasemapWorldReady && osmBasemapRegionReady
+    );
+  };
+
+  const setBasemapRegion = (regionKey, options = {}) => {
+    const { force = false } = options;
+    const archive = osmBasemapRegionalArchives[regionKey];
+    if (!archive || (!force && activeBasemapRegion === regionKey)) return;
+    const archiveUrl = osmBasemapRegionalArchiveUrl(regionKey);
+    activeBasemapRegion = regionKey;
+    osmBasemapRegionReady = false;
+    root.dataset.osmBasemapRegion = regionKey;
+    delete root.dataset.osmBasemapError;
+    updateOsmBasemapReadiness();
+    const source = map?.getSource('base-region');
+    if (source && typeof source.setUrl === 'function') source.setUrl(archiveUrl);
+    else style.sources['base-region'].url = archiveUrl;
+  };
+
   const setRegion = (button, options = {}) => {
     const { animate = !reducedMotion, updateHash = true } = options;
     const region = button.dataset.region;
@@ -3026,6 +3373,7 @@
     openMap.href = url;
     root.dataset.activeRegion = regionKey;
     setPowerRegion(regionKey);
+    setBasemapRegion(regionKey);
     updateRegionProfile(regionKey);
     loadOfficialInventory(regionKey);
     updateMapControls(false);
@@ -4187,6 +4535,7 @@
       canvas.setAttribute('aria-label', `Mapa de infraestructura eléctrica cartografiada en ${currentButton.dataset.region}`);
       mapContainer.removeAttribute('tabindex');
       setPowerRegion(currentButton.dataset.regionKey, { force: true });
+      setBasemapRegion(currentButton.dataset.regionKey, { force: true });
       updateMapControls(false);
       setRegion(currentButton, { animate: false, updateHash: false });
     });
@@ -4196,6 +4545,14 @@
     map.on('sourcedata', event => {
       if (!event.isSourceLoaded) return;
       if (event.sourceId === 'power') root.dataset.osmPowerReady = 'true';
+      if (event.sourceId === 'base-world') {
+        osmBasemapWorldReady = true;
+        updateOsmBasemapReadiness();
+      }
+      if (event.sourceId === 'base-region') {
+        osmBasemapRegionReady = true;
+        updateOsmBasemapReadiness();
+      }
       refreshDeferredSourceStates(event.sourceId);
     });
 
@@ -4229,9 +4586,29 @@
       const errorSource = String(event.sourceId || event.source?.id || '');
       if (/abort|cancel/i.test(errorMessage)) return;
 
+      if (errorSource === 'base-world') {
+        osmBasemapWorldReady = false;
+        root.dataset.osmBasemapError = 'world';
+        updateOsmBasemapReadiness();
+        console.warn('No se pudo cargar el contexto global propio de Natural Earth.', event.error);
+        mapWarning.textContent = 'La base global propia (tierra, agua y límites de Natural Earth) no respondió; el contexto regional OSM y las capas eléctricas siguen activos.';
+        mapWarning.hidden = false;
+        return;
+      }
+
+      if (errorSource === 'base-region') {
+        osmBasemapRegionReady = false;
+        root.dataset.osmBasemapError = 'region';
+        updateOsmBasemapReadiness();
+        console.warn('No se pudo cargar el contexto regional propio de OSM.', event.error);
+        mapWarning.textContent = 'El contexto regional propio de OSM (carreteras y ciudades) no respondió; la base global y las capas eléctricas siguen activas.';
+        mapWarning.hidden = false;
+        return;
+      }
+
       if (['power', 'power-centroids'].includes(errorSource)) {
-        console.warn('No se pudo cargar la instantánea OSM propia.', event.error);
-        mapWarning.textContent = 'La tesela OSM propia de esta región no respondió; las capas oficiales disponibles siguen activas.';
+        console.warn('No se pudo cargar la instantánea eléctrica OSM propia.', event.error);
+        mapWarning.textContent = 'La tesela propia de infraestructura eléctrica OSM no respondió; el mapa de contexto y las capas oficiales disponibles siguen activos.';
         mapWarning.hidden = false;
         return;
       }

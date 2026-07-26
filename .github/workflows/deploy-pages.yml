@@ -17,6 +17,7 @@ concurrency:
 
 env:
   PMTILES_RELEASE_TAG: osm-power-2026-07-25-schema1
+  BASEMAP_RELEASE_TAG: osm-basemap-2026-07-25-schema1
 
 jobs:
   build:
@@ -38,9 +39,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site/data/grid-atlas/osm-power
+          mkdir -p _site/data/grid-atlas/osm-basemap
           git archive --format=tar HEAD | tar -xf - -C _site
 
-      - name: Download pinned PMTiles release assets
+      - name: Download pinned power PMTiles release assets
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -61,11 +63,39 @@ jobs:
               --pattern "$asset"
           done
 
-      - name: Verify PMTiles size and SHA-256
+      - name: Download pinned basemap PMTiles release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          assets=(
+            world.pmtiles
+            europa.pmtiles
+            estados-unidos.pmtiles
+            china.pmtiles
+            japon.pmtiles
+            corea-del-sur.pmtiles
+            taiwan.pmtiles
+          )
+          for asset in "${assets[@]}"; do
+            gh release download "$BASEMAP_RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --dir "_site/data/grid-atlas/osm-basemap" \
+              --pattern "$asset"
+          done
+
+      - name: Verify power PMTiles size and SHA-256
         run: >-
           node scripts/grid-atlas/osm-self-hosted/verify-pmtiles-manifest.mjs
           --manifest _site/data/grid-atlas/osm-power-manifest.json
           --asset-root _site/data/grid-atlas/osm-power
+
+      - name: Verify basemap PMTiles size and SHA-256
+        run: >-
+          node scripts/grid-atlas/osm-self-hosted/verify-osm-basemap-manifest.mjs
+          --manifest _site/data/grid-atlas/osm-basemap-manifest.json
+          --asset-root _site/data/grid-atlas/osm-basemap
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4

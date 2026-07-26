@@ -17,7 +17,7 @@
     "rules": [
       "Never relabel an inferred or modelled record as reported.",
       "Keep source date, publisher, licence, original identifier and source URL with every integrated record.",
-      "Prefer official geometry and attributes; use verified research to fill documented gaps; retain OSM as the global geographic backbone.",
+      "Prefer official geometry and attributes; use verified research to fill documented gaps; retain self-hosted OSM and Natural Earth as geographic context.",
       "Operational status fields are historical snapshots unless the source explicitly supplies live telemetry."
     ]
   },
@@ -40,6 +40,46 @@
       "redistribution": "self-hosted PMTiles derived from dated Geofabrik OSM PBF extracts; source and output hashes, tool versions, feature counts and bounds are recorded in the manifest",
       "pipeline": "osmium tags-filter/export → project schema normalization → tippecanoe MVT → PMTiles",
       "limitations": ["community-mapped snapshot rather than live telemetry", "missing tags remain unknown and are never inferred", "continental-U.S. coverage is clipped to the declared atlas bounds"]
+    },
+    {
+      "id": "osm-self-hosted-context-2026-07-25",
+      "regions": ["europa", "estados-unidos", "china", "japon", "corea-del-sur", "taiwan"],
+      "source_class": "open-community",
+      "evidence_level": "reported",
+      "source_role": "geographic-context",
+      "publisher": "OpenStreetMap contributors; regional extracts distributed by Geofabrik GmbH",
+      "title": "Project-built regional road and place context",
+      "coverage": ["motorways", "trunk_roads", "primary_roads", "road_links", "countries", "states_and_provinces", "cities", "towns", "local_names"],
+      "date": "2026-07-25T20:21:51Z",
+      "licence": "Open Database License 1.0; attribution to OpenStreetMap contributors is required",
+      "licence_url": "https://www.openstreetmap.org/copyright",
+      "url": "https://download.geofabrik.de/",
+      "endpoint": "https://qdgvr.github.io/fecundidad.github.io/data/grid-atlas/osm-basemap/{region}.pmtiles",
+      "manifest": "data/grid-atlas/osm-basemap-manifest.json",
+      "integration_status": "active",
+      "redistribution": "self-hosted regional PMTiles derived from the same dated Geofabrik OSM PBF extracts as the electrical layers; source and output hashes, tool versions, feature counts and bounds are recorded in the manifest",
+      "pipeline": "osmium tags-filter/export → compact road and place schema → tippecanoe MVT → PMTiles",
+      "limitations": ["regional orientation context rather than a navigation map", "only motorway, trunk and primary road classes and selected populated places are included", "community-mapped names and classifications remain a dated snapshot"]
+    },
+    {
+      "id": "natural-earth-self-hosted-context-2026-07-26",
+      "regions": ["europa", "estados-unidos", "china", "japon", "corea-del-sur", "taiwan"],
+      "source_class": "open-community",
+      "evidence_level": "reported",
+      "source_role": "geographic-context",
+      "publisher": "Natural Earth",
+      "title": "Natural Earth 1:10m global geographic context",
+      "coverage": ["country_land_polygons", "country_boundaries", "state_and_province_boundaries", "lakes", "river_centerlines", "urban_areas"],
+      "date": "public vector sources retrieved 2026-07-26",
+      "licence": "Public domain",
+      "licence_url": "https://www.naturalearthdata.com/about/terms-of-use/",
+      "url": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/",
+      "endpoint": "https://qdgvr.github.io/fecundidad.github.io/data/grid-atlas/osm-basemap/world.pmtiles",
+      "manifest": "data/grid-atlas/osm-basemap-manifest.json",
+      "integration_status": "active",
+      "redistribution": "selected public-domain Natural Earth vector layers are normalized and served as one self-hosted PMTiles archive; input and output hashes are recorded in the manifest",
+      "pipeline": "Natural Earth GeoJSON → project context schema → tippecanoe MVT → PMTiles",
+      "limitations": ["generalized regional context rather than street-level cartography", "boundaries and labels are cartographic reference data and do not imply a position on territorial disputes", "roads and populated-place labels come from the separate regional OSM context"]
     },
     {
       "id": "gem-gipt-2026-03",

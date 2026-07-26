@@ -1,4 +1,4 @@
-# Self-hosted OSM power normalizer
+# Self-hosted OSM atlas pipelines
 
 This directory turns `osmium export` GeoJSONSeq into the ten vector-tile
 source layers consumed by the grid atlas. It uses only Node.js built-ins and
@@ -61,6 +61,34 @@ aggregate manifest rather than being duplicated on every tile feature.
 Production archives use zooms 2–12 from `regions.json`. MapLibre overzooms the
 maximum vector tile for closer inspection, so objects and links remain
 available without duplicating the full geometry pyramid through zoom 14.
+
+## Regional geographic context
+
+`build-context-region.mjs` uses the same dated Geofabrik PBFs to build a
+separate, compact orientation map. It keeps only:
+
+- OSM motorway, trunk and primary roads, including their link classes;
+- named countries, states/provinces, cities and towns.
+
+The output contract is exactly `base_road` and `base_place` at zooms 2–9.
+MapLibre overzooms zoom 9 at closer views. This keeps the roads as sharp vector
+lines while avoiding a street-navigation payload that would exceed the Pages
+site budget. Water, land, urban areas and boundaries come from the separate
+global Natural Earth archive documented in `NATURAL_EARTH_CONTEXT.md`.
+
+```sh
+node scripts/grid-atlas/osm-self-hosted/build-context-region.mjs \
+  --region taiwan \
+  --raw /absolute/downloads/taiwan-latest.osm.pbf \
+  --work /absolute/work/context/taiwan \
+  --output data/grid-atlas/osm-basemap/taiwan.pmtiles \
+  --force
+```
+
+The builder requires the official Geofabrik MD5 sidecar, verifies way-node
+references, enforces a 300,000-byte tile ceiling, runs the streaming normalizer
+and validator, verifies the PMTiles archive, and writes an adjacent metadata
+sidecar with all source, configuration, intermediate and output hashes.
 
 ## Regional build integrity and export reuse
 
@@ -125,3 +153,18 @@ runs the same verifier, and deploys the verified directory. A partial manifest
 can be generated only for isolated local tests by combining
 `--allow-incomplete` with an explicit `--output`; the deployment verifier
 never accepts a partial manifest.
+
+The self-hosted geographic context is released separately as
+`osm-basemap-2026-07-25-schema1`: one `world.pmtiles` archive and the six
+regional archives. Generate and validate its strict seven-archive manifest
+after all sidecars exist:
+
+```sh
+node scripts/grid-atlas/osm-self-hosted/generate-osm-basemap-manifest.mjs
+node scripts/grid-atlas/osm-self-hosted/verify-osm-basemap-manifest.mjs \
+  --asset-root data/grid-atlas/osm-basemap
+```
+
+The generator refuses a context payload over 190,000,000 bytes so the combined
+power and geographic archives retain headroom below the Pages published-site
+limit.
