@@ -1,2 +1,33 @@
-n/place=country,state,province,city,town
-w/highway=motorway,motorway_link,trunk,trunk_link,primary,primary_link
+# Labels, ordered from broadest to most local.
+n/place=country,state,province,city,town,village,suburb,hamlet,neighbourhood,locality,island
+
+# Full practical road hierarchy. Links are retained through tertiary roads.
+w/highway=motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,unclassified,residential,living_street,service,pedestrian,track,road,busway,cycleway,footway,path,bridleway,steps
+
+# Rail context.
+w/railway=rail,narrow_gauge,light_rail,subway,tram,monorail,funicular
+
+# Administrative boundaries. Relations retain their complete referenced ways.
+wr/boundary=administrative
+
+# High-detail coast and linear hydrography.
+w/natural=coastline
+w/waterway=river,canal,stream,ditch,drain
+
+# Polygonal water.
+a/natural=water
+a/water
+a/waterway=riverbank
+a/landuse=reservoir,basin,salt_pond
+
+# Natural/vegetated cover.
+a/natural=wood,scrub,heath,grassland,wetland,glacier,sand,beach,bare_rock,scree
+a/landuse=forest,meadow,grass
+
+# Human land use.
+a/landuse=residential,commercial,industrial,retail,railway,military,cemetery,farmland,farmyard,orchard,vineyard,plant_nursery,quarry,landfill,construction,allotments,brownfield,greenfield,recreation_ground
+a/leisure=park,garden,golf_course,pitch,common,nature_reserve
+a/amenity=school,university,college,hospital
+
+# Building footprints are kept only as valid area candidates.
+a/building

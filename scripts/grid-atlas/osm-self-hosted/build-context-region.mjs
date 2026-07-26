@@ -14,18 +14,24 @@ import {
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {
+  CONTEXT_SCHEMA_ID,
+  CONTEXT_SCHEMA_VERSION,
+  LAYER_DESCRIPTIONS,
+  LAYER_NAMES,
+  MAXIMUM_TILE_BYTES,
+  SIMPLIFICATION,
+  TILE_MAXZOOM,
+  TILE_MINZOOM
+} from './context-schema.mjs';
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectDirectory = path.resolve(scriptDirectory, '../../..');
 const configPath = path.join(scriptDirectory, 'regions.json');
 const filterPath = path.join(scriptDirectory, 'context-tags.filter');
+const schemaPath = path.join(scriptDirectory, 'context-schema.mjs');
 const normalizerPath = path.join(scriptDirectory, 'normalize-osm-context.mjs');
 const validatorPath = path.join(scriptDirectory, 'validate-osm-context.mjs');
-const layerNames = ['base_road', 'base_place'];
-const tileMinzoom = 2;
-const tileMaxzoom = 9;
-const maximumTileBytes = 300_000;
-const simplification = 2;
 
 const usage = `Usage:
   node build-context-region.mjs --region KEY --raw INPUT.osm.pbf --output OUTPUT.pmtiles [options]
@@ -217,7 +223,13 @@ const build = async args => {
   for (const command of ['node', 'osmium', 'tippecanoe', 'pmtiles']) {
     ensureCommand(command);
   }
-  for (const requiredPath of [configPath, filterPath, normalizerPath, validatorPath]) {
+  for (const requiredPath of [
+    configPath,
+    filterPath,
+    schemaPath,
+    normalizerPath,
+    validatorPath
+  ]) {
     if (!(await exists(requiredPath))) throw new Error(`Required input is missing: ${requiredPath}`);
   }
 
@@ -282,6 +294,7 @@ const build = async args => {
   const configuration = {
     regions: await fileRecord(configPath),
     context_tags_filter: await fileRecord(filterPath),
+    context_schema: await fileRecord(schemaPath),
     normalizer: await fileRecord(normalizerPath),
     validator: await fileRecord(validatorPath)
   };
@@ -290,7 +303,7 @@ const build = async args => {
     'tags-filter',
     '--expressions', filterPath,
     '--remove-tags',
-    '--generator', 'fecundidad-osm-context/schema1',
+    '--generator', `fecundidad-osm-context/schema${CONTEXT_SCHEMA_VERSION}`,
     '--overwrite',
     rawPath,
     '--output', filteredPath
@@ -303,7 +316,7 @@ const build = async args => {
       '--bbox', region.clip_bbox.join(','),
       '--strategy', 'smart',
       '--set-bounds',
-      '--generator', 'fecundidad-osm-context/schema1',
+      '--generator', `fecundidad-osm-context/schema${CONTEXT_SCHEMA_VERSION}`,
       '--overwrite',
       filteredPath,
       '--output', clippedPath
@@ -322,13 +335,13 @@ const build = async args => {
   const referenceIntegrity = parseReferenceCheck(referenceOutput);
   if (referenceResult.status !== 0 || referenceIntegrity.nodes_in_ways_missing !== 0) {
     throw new Error(
-      `Unsafe road extract: ${referenceIntegrity.nodes_in_ways_missing} way-node references are missing`
+      `Unsafe context extract: ${referenceIntegrity.nodes_in_ways_missing} way-node references are missing`
     );
   }
 
   run('osmium', [
     'export',
-    '--geometry-types', 'point,linestring',
+    '--geometry-types', 'point,linestring,polygon',
     '--attributes', 'type,id,version,timestamp',
     '--add-unique-id', 'type_id',
     '--output-format', 'geojsonseq',
@@ -356,7 +369,7 @@ const build = async args => {
   );
 
   const statsDocument = JSON.parse(await readFile(statsPath, 'utf8'));
-  for (const layerName of layerNames) {
+  for (const layerName of LAYER_NAMES) {
     if (!Number.isInteger(statsDocument.layers?.[layerName]) || statsDocument.layers[layerName] <= 0) {
       throw new Error(`Contract layer ${layerName} has no normalized features`);
     }
@@ -366,20 +379,22 @@ const build = async args => {
     '--output', mbtilesPath,
     '--force',
     '--read-parallel',
-    '--minimum-zoom', String(tileMinzoom),
-    '--maximum-zoom', String(tileMaxzoom),
-    `--simplification=${simplification}`,
-    `--maximum-tile-bytes=${maximumTileBytes}`,
-    '--drop-densest-as-needed',
-    '--coalesce-densest-as-needed',
+    '--minimum-zoom', String(TILE_MINZOOM),
+    '--maximum-zoom', String(TILE_MAXZOOM),
+    `--simplification=${SIMPLIFICATION}`,
+    '--simplify-only-low-zooms',
+    `--maximum-tile-bytes=${MAXIMUM_TILE_BYTES}`,
+    '--drop-smallest-as-needed',
+    '--coalesce-smallest-as-needed',
+    '--detect-shared-borders',
     '--preserve-input-order',
     '--quiet',
     '--name', `Fecundidad OSM context · ${region.label}`,
-    '--description', `Project-built OSM road and place context snapshot ${config.snapshot}`,
+    '--description', `Project-built high-detail OSM geographic context snapshot ${config.snapshot}`,
     '--attribution', '© OpenStreetMap contributors · ODbL 1.0',
     '--temporary-directory', temporaryDirectory
   ];
-  for (const layerName of layerNames) {
+  for (const layerName of LAYER_NAMES) {
     tippecanoeArguments.push(
       '--named-layer',
       `${layerName}:${path.join(normalizedDirectory, `${layerName}.ndjson`)}`
@@ -393,31 +408,29 @@ const build = async args => {
     ['show', stagedOutputPath, '--metadata']
   );
   const generatedLayerIds = (generatedMetadata.vector_layers || []).map(layer => layer.id);
-  const unexpectedLayers = generatedLayerIds.filter(layer => !layerNames.includes(layer));
+  const unexpectedLayers = generatedLayerIds.filter(layer => !LAYER_NAMES.includes(layer));
   if (unexpectedLayers.length) {
     throw new Error(`Unexpected PMTiles layers: ${unexpectedLayers.join(', ')}`);
   }
   const layersById = new Map(
     (generatedMetadata.vector_layers || []).map(layer => [layer.id, layer])
   );
-  const contractVectorLayers = layerNames.map(layerName => ({
+  const contractVectorLayers = LAYER_NAMES.map(layerName => ({
     ...(layersById.get(layerName) || {}),
     id: layerName,
-    description: layerName === 'base_road'
-      ? 'OSM motorway, trunk, primary and link road context.'
-      : 'OSM country, state, province, city and town label context.',
-    minzoom: tileMinzoom,
-    maxzoom: tileMaxzoom,
+    description: LAYER_DESCRIPTIONS[layerName],
+    minzoom: TILE_MINZOOM,
+    maxzoom: TILE_MAXZOOM,
     fields: layersById.get(layerName)?.fields || {}
   }));
   const embeddedMetadata = {
     ...generatedMetadata,
     name: `Fecundidad OSM context · ${region.label}`,
-    description: `Project-built OSM road and place context snapshot ${config.snapshot}`,
+    description: `Project-built high-detail OSM geographic context snapshot ${config.snapshot}`,
     attribution: '© OpenStreetMap contributors · ODbL 1.0',
-    minzoom: String(tileMinzoom),
-    maxzoom: String(tileMaxzoom),
-    fecundidad_schema: 'osm-context-v1',
+    minzoom: String(TILE_MINZOOM),
+    maxzoom: String(TILE_MAXZOOM),
+    fecundidad_schema: CONTEXT_SCHEMA_ID,
     vector_layers: contractVectorLayers
   };
   await writeFile(
@@ -431,15 +444,15 @@ const build = async args => {
   const header = readJsonOutput('pmtiles', ['show', stagedOutputPath, '--header-json']);
   const tileMetadata = readJsonOutput('pmtiles', ['show', stagedOutputPath, '--metadata']);
   const actualLayerIds = (tileMetadata.vector_layers || []).map(layer => layer.id);
-  if (JSON.stringify(actualLayerIds) !== JSON.stringify(layerNames)) {
+  if (JSON.stringify(actualLayerIds) !== JSON.stringify(LAYER_NAMES)) {
     throw new Error(
-      `PMTiles layer contract mismatch: expected ${layerNames.join(', ')}, ` +
+      `PMTiles layer contract mismatch: expected ${LAYER_NAMES.join(', ')}, ` +
       `got ${actualLayerIds.join(', ')}`
     );
   }
   if (
-    header.minzoom !== tileMinzoom ||
-    header.maxzoom !== tileMaxzoom ||
+    header.minzoom !== TILE_MINZOOM ||
+    header.maxzoom !== TILE_MAXZOOM ||
     header.tile_type !== 'mvt'
   ) {
     throw new Error(
@@ -447,7 +460,7 @@ const build = async args => {
     );
   }
   if (
-    tileMetadata.fecundidad_schema !== 'osm-context-v1' ||
+    tileMetadata.fecundidad_schema !== CONTEXT_SCHEMA_ID ||
     tileMetadata.attribution !== '© OpenStreetMap contributors · ODbL 1.0'
   ) {
     throw new Error('PMTiles embedded metadata contract is incomplete');
@@ -460,18 +473,20 @@ const build = async args => {
   ).stdout;
   const outputRecord = await fileRecord(stagedOutputPath);
   const metadata = {
-    schema_version: 1,
+    schema_version: CONTEXT_SCHEMA_VERSION,
     dataset: 'fecundidad-osm-regional-context',
     contract: {
       id: 'fecundidad-osm-context',
-      version: 1,
-      minzoom: tileMinzoom,
-      maxzoom: tileMaxzoom,
-      max_tile_bytes: maximumTileBytes,
-      simplification,
-      layer_ids: layerNames,
-      drop_densest_as_needed: true,
-      coalesce_densest_as_needed: true
+      version: CONTEXT_SCHEMA_VERSION,
+      minzoom: TILE_MINZOOM,
+      maxzoom: TILE_MAXZOOM,
+      max_tile_bytes: MAXIMUM_TILE_BYTES,
+      simplification: SIMPLIFICATION,
+      simplify_only_low_zooms: true,
+      layer_ids: LAYER_NAMES,
+      drop_smallest_as_needed: true,
+      coalesce_smallest_as_needed: true,
+      detect_shared_borders: true
     },
     region: args.region,
     label: region.label,

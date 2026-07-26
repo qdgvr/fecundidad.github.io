@@ -17,7 +17,6 @@ concurrency:
 
 env:
   PMTILES_RELEASE_TAG: osm-power-2026-07-25-schema1
-  BASEMAP_RELEASE_TAG: osm-basemap-2026-07-25-schema1
 
 jobs:
   build:
@@ -39,7 +38,6 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site/data/grid-atlas/osm-power
-          mkdir -p _site/data/grid-atlas/osm-basemap
           git archive --format=tar HEAD | tar -xf - -C _site
 
       - name: Download pinned power PMTiles release assets
@@ -63,39 +61,31 @@ jobs:
               --pattern "$asset"
           done
 
-      - name: Download pinned basemap PMTiles release assets
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          assets=(
-            world.pmtiles
-            europa.pmtiles
-            estados-unidos.pmtiles
-            china.pmtiles
-            japon.pmtiles
-            corea-del-sur.pmtiles
-            taiwan.pmtiles
-          )
-          for asset in "${assets[@]}"; do
-            gh release download "$BASEMAP_RELEASE_TAG" \
-              --repo "$GITHUB_REPOSITORY" \
-              --dir "_site/data/grid-atlas/osm-basemap" \
-              --pattern "$asset"
-          done
-
       - name: Verify power PMTiles size and SHA-256
         run: >-
           node scripts/grid-atlas/osm-self-hosted/verify-pmtiles-manifest.mjs
           --manifest _site/data/grid-atlas/osm-power-manifest.json
           --asset-root _site/data/grid-atlas/osm-power
 
-      - name: Verify basemap PMTiles size and SHA-256
-        run: >-
-          node scripts/grid-atlas/osm-self-hosted/verify-osm-basemap-manifest.mjs
-          --manifest _site/data/grid-atlas/osm-basemap-manifest.json
-          --asset-root _site/data/grid-atlas/osm-basemap
+      - name: Verify hybrid artifact size and exclusions
+        shell: bash
+        run: |
+          set -euo pipefail
+          unexpected_basemap=""
+          if [[ -d _site/data/grid-atlas/osm-basemap ]]; then
+            unexpected_basemap="$(find _site/data/grid-atlas/osm-basemap -maxdepth 1 -type f -name '*.pmtiles' -print -quit)"
+          fi
+          if [[ -n "$unexpected_basemap" ]]; then
+            echo "Unexpected self-hosted basemap in Pages artifact: $unexpected_basemap" >&2
+            exit 1
+          fi
+          site_bytes="$(find _site -type f -printf '%s\n' | awk '{ total += $1 } END { printf "%.0f", total }')"
+          printf 'Pages regular-file total: %s bytes\n' "$site_bytes"
+          printf '### Pages artifact\n- Regular-file bytes: `%s`\n- Self-hosted basemap PMTiles: `0`\n' "$site_bytes" >> "$GITHUB_STEP_SUMMARY"
+          if (( site_bytes > 1000000000 )); then
+            echo "Pages artifact exceeds 1,000,000,000 bytes" >&2
+            exit 1
+          fi
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4

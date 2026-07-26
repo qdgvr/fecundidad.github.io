@@ -64,17 +64,30 @@ available without duplicating the full geometry pyramid through zoom 14.
 
 ## Regional geographic context
 
-`build-context-region.mjs` uses the same dated Geofabrik PBFs to build a
-separate, compact orientation map. It keeps only:
+`build-context-region.mjs` uses the same dated Geofabrik PBF and official MD5
+sidecar as the power build. Context schema 2 replaces the former z9
+motorway/place orientation layer with ten OSM vector layers through z15:
 
-- OSM motorway, trunk and primary roads, including their link classes;
-- named countries, states/provinces, cities and towns.
+- `base_landcover`: woods, scrub, heath, grass, wetlands, ice, sand and rock;
+- `base_landuse`: urban, agricultural, industrial, civic and leisure polygons;
+- `base_water`: inland water, reservoirs, basins and riverbanks;
+- `base_waterway`: rivers, canals, streams, ditches and drains;
+- `base_coastline`: high-zoom OSM coastline ways;
+- `base_building`: building footprints from z13;
+- `base_road`: the practical hierarchy from motorway through service streets,
+  tracks, cycleways, footways, paths and steps;
+- `base_boundary`: administrative levels 2–11;
+- `base_rail`: heavy rail, narrow gauge, metro, light rail, tram, monorail and
+  funicular alignments;
+- `base_place`: country, region, city, town, village and local labels.
 
-The output contract is exactly `base_road` and `base_place` at zooms 2–9.
-MapLibre overzooms zoom 9 at closer views. This keeps the roads as sharp vector
-lines while avoiding a street-navigation payload that would exceed the Pages
-site budget. Water, land, urban areas and boundaries come from the separate
-global Natural Earth archive documented in `NATURAL_EARTH_CONTEXT.md`.
+Feature-specific minimum zooms keep continental views legible. Polygon area
+controls the first zoom for water, landcover and landuse; buildings start at
+z13; the most local paths and neighbourhood labels start at z14. Tippecanoe
+simplifies only below the maximum zoom, detects shared polygon borders and
+uses size-based dropping/coalescing only when a tile would exceed 750,000
+bytes. The z15 tile retains unsimplified input geometry unless that safety
+ceiling is reached.
 
 ```sh
 node scripts/grid-atlas/osm-self-hosted/build-context-region.mjs \
@@ -86,9 +99,19 @@ node scripts/grid-atlas/osm-self-hosted/build-context-region.mjs \
 ```
 
 The builder requires the official Geofabrik MD5 sidecar, verifies way-node
-references, enforces a 300,000-byte tile ceiling, runs the streaming normalizer
-and validator, verifies the PMTiles archive, and writes an adjacent metadata
-sidecar with all source, configuration, intermediate and output hashes.
+references, runs the streaming normalizer and ten-layer validator, verifies the
+PMTiles archive, and writes an adjacent metadata sidecar with all source,
+configuration, intermediate and output hashes. Every normalized context
+feature retains its OSM object type and ID. Embedded and sidecar metadata carry
+the ODbL attribution and schema contract.
+
+Schema 2 is deliberately a build contract, not a promise that all six z15
+archives fit inside one GitHub Pages artifact. Buildings and local streets make
+full-detail regional extracts orders of magnitude larger than schema 1. Publish
+them from a Range-capable object store or as region-on-demand release assets;
+do not add all six archives to the Pages deployment without first measuring
+the assembled artifact. The Natural Earth archive documented in
+`NATURAL_EARTH_CONTEXT.md` remains the compact world/failure fallback.
 
 ## Regional build integrity and export reuse
 
@@ -148,16 +171,19 @@ node scripts/grid-atlas/osm-self-hosted/verify-pmtiles-manifest.mjs \
 ```
 
 `.github/workflows/deploy-pages.yml` exports the tracked revision into a clean
-site directory, downloads exactly those six assets from the pinned release,
-runs the same verifier, and deploys the verified directory. A partial manifest
-can be generated only for isolated local tests by combining
-`--allow-incomplete` with an explicit `--output`; the deployment verifier
-never accepts a partial manifest.
+site directory, downloads exactly those six power assets from the pinned
+release, runs the same verifier, rejects any packaged background PMTiles,
+enforces the 1,000,000,000-byte Pages budget, and deploys the verified
+directory. A partial manifest can be generated only for isolated local tests
+by combining `--allow-incomplete` with an explicit `--output`; the deployment
+verifier never accepts a partial manifest.
 
-The self-hosted geographic context is released separately as
+The currently pinned compact geographic release is
 `osm-basemap-2026-07-25-schema1`: one `world.pmtiles` archive and the six
-regional archives. Generate and validate its strict seven-archive manifest
-after all sidecars exist:
+schema-1 regional archives. The atlas no longer downloads these archives into
+the Pages artifact because OpenInfraMap supplies the active geographic
+background. The release and its strict seven-archive manifest remain the
+documented recovery path and are reproducible with:
 
 ```sh
 node scripts/grid-atlas/osm-self-hosted/generate-osm-basemap-manifest.mjs
@@ -165,6 +191,9 @@ node scripts/grid-atlas/osm-self-hosted/verify-osm-basemap-manifest.mjs \
   --asset-root data/grid-atlas/osm-basemap
 ```
 
-The generator refuses a context payload over 190,000,000 bytes so the combined
-power and geographic archives retain headroom below the Pages published-site
-limit.
+The schema-1 generator refuses a context payload over 190,000,000 bytes so the
+archived compact set remains measurable. The validated Taiwan schema-2 archive
+and its exact build contract are preserved outside the repository under
+`../atlas-archives/osm-context-v2/taiwan-2026-07-25/`. Any future runtime use of
+schema-2 archives needs on-demand delivery and Range-capable hosting rather
+than the aggregate Pages budget.

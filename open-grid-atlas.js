@@ -40,6 +40,80 @@
   const voltageLegendItems = [...root.querySelectorAll('[data-voltage-value]')];
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isNarrow = () => window.matchMedia('(max-width: 640px)').matches;
+  const githubPagesAssetBase = 'https://qdgvr.github.io/fecundidad.github.io/';
+  const isFilePreview = window.location.protocol === 'file:';
+  const localDataBase = isFilePreview ? new URL('data/', window.location.href).href : '';
+  const projectAssetUrl = asset => {
+    const value = String(asset || '');
+    if (!isFilePreview || !value) return value;
+    const relativeMatch = value.match(/^(?:\.\/)?(data\/.+)$/);
+    if (relativeMatch) return new URL(relativeMatch[1], githubPagesAssetBase).href;
+    try {
+      const resolved = new URL(value, window.location.href);
+      if (resolved.protocol === 'file:' && resolved.href.startsWith(localDataBase)) {
+        return new URL(`data/${resolved.href.slice(localDataBase.length)}`, githubPagesAssetBase).href;
+      }
+    } catch {
+      return value;
+    }
+    return value;
+  };
+
+  if (isFilePreview && typeof window.fetch === 'function') {
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = (input, init) => {
+      if (typeof input === 'string') return nativeFetch(projectAssetUrl(input), init);
+      if (input instanceof URL) return nativeFetch(projectAssetUrl(input.href), init);
+      return nativeFetch(input, init);
+    };
+  }
+
+  const mapSourceFailures = new Set();
+  let auxiliaryMapWarning = '';
+  const formatSpanishList = values => {
+    if (values.length < 2) return values[0] || '';
+    if (values.length === 2) return `${values[0]} y ${values[1]}`;
+    return `${values.slice(0, -1).join(', ')} y ${values.at(-1)}`;
+  };
+  const renderMapWarning = () => {
+    const labels = {
+      basemap: 'la base cartográfica de OpenInfraMap',
+      power: 'la infraestructura eléctrica OSM propia'
+    };
+    const failedLabels = ['basemap', 'power']
+      .filter(key => mapSourceFailures.has(key))
+      .map(key => labels[key]);
+    const warnings = [];
+    if (failedLabels.length) {
+      const verb = failedLabels.length === 1 ? 'No respondió' : 'No respondieron';
+      const consequence = mapSourceFailures.has('power')
+        ? 'Las demás fuentes disponibles siguen activas, pero el atlas no se considera completo sin la red eléctrica.'
+        : 'La red eléctrica propia y las capas oficiales disponibles siguen activas sobre la geografía mínima de respaldo.';
+      warnings.push(`${verb} ${formatSpanishList(failedLabels)}. ${consequence}`);
+    }
+    if (auxiliaryMapWarning) warnings.push(auxiliaryMapWarning);
+    mapWarning.textContent = warnings.join(' ');
+    mapWarning.hidden = warnings.length === 0;
+  };
+  const showAuxiliaryMapWarning = text => {
+    auxiliaryMapWarning = String(text || '');
+    renderMapWarning();
+  };
+  const clearAuxiliaryMapWarning = () => {
+    auxiliaryMapWarning = '';
+    renderMapWarning();
+  };
+  const setMapSourceFailure = (key, failed) => {
+    if (failed) mapSourceFailures.add(key);
+    else mapSourceFailures.delete(key);
+    if (mapSourceFailures.has('power')) root.dataset.pmtilesFailures = 'power';
+    else delete root.dataset.pmtilesFailures;
+    if (mapSourceFailures.has('basemap')) root.dataset.osmBasemapError = 'openinframap';
+    else delete root.dataset.osmBasemapError;
+    if (mapSourceFailures.has('power')) root.dataset.osmPowerError = 'true';
+    else delete root.dataset.osmPowerError;
+    renderMapWarning();
+  };
 
   let map;
   let selectedButton;
@@ -89,12 +163,12 @@
   const hoverAvailable = window.matchMedia('(hover: hover)').matches;
   const inventoryConfigs = Object.freeze({
     china: {
-      url: 'data/grid-atlas/china-nea-hvdc-systems.json?v=1',
+      url: projectAssetUrl('data/grid-atlas/china-nea-hvdc-systems.json?v=1'),
       loadingTitle: '51 sistemas HVDC · NEA 2024',
       searchPlaceholder: 'Sistema, terminal, tensión, red…'
     },
     'corea-del-sur': {
-      url: 'data/grid-atlas/kepco-transmission-projects.json?v=1',
+      url: projectAssetUrl('data/grid-atlas/kepco-transmission-projects.json?v=1'),
       loadingTitle: '848 proyectos enumerados · KEPCO',
       searchPlaceholder: 'Proyecto, etapa, tensión, oficina…'
     }
@@ -112,40 +186,26 @@
   const osmPowerArchiveUrl = regionKey => {
     const archive = osmPowerArchives[regionKey];
     if (!archive) return '';
-    const url = new URL(archive, window.location.href);
+    const url = new URL(projectAssetUrl(archive), window.location.href);
     url.searchParams.set('v', osmPowerArchiveVersion);
     return `pmtiles://${url.href}`;
   };
-  const osmBasemapArchiveVersion = 'osm-basemap-2026-07-25-schema1';
-  const osmBasemapWorldArchive = 'data/grid-atlas/osm-basemap/world.pmtiles';
-  const osmBasemapRegionalArchives = Object.freeze({
-    europa: 'data/grid-atlas/osm-basemap/europa.pmtiles',
-    'estados-unidos': 'data/grid-atlas/osm-basemap/estados-unidos.pmtiles',
-    china: 'data/grid-atlas/osm-basemap/china.pmtiles',
-    japon: 'data/grid-atlas/osm-basemap/japon.pmtiles',
-    'corea-del-sur': 'data/grid-atlas/osm-basemap/corea-del-sur.pmtiles',
-    taiwan: 'data/grid-atlas/osm-basemap/taiwan.pmtiles'
-  });
-  const osmBasemapArchiveUrl = archive => {
-    if (!archive) return '';
-    const url = new URL(archive, window.location.href);
-    url.searchParams.set('v', osmBasemapArchiveVersion);
-    return `pmtiles://${url.href}`;
-  };
-  const osmBasemapRegionalArchiveUrl = regionKey => (
-    osmBasemapArchiveUrl(osmBasemapRegionalArchives[regionKey])
-  );
+  const openInfraMapBasemapTile = 'https://openinframap.org/20250311/{z}/{x}/{y}.mvt';
+  root.dataset.osmBasemapProvider = 'openinframap';
   let activePowerRegion = '';
-  let activeBasemapRegion = '';
   let osmBasemapFallbackReady = false;
-  let osmBasemapWorldReady = false;
-  let osmBasemapRegionReady = false;
+  let osmBasemapSourceReady = false;
+  const osmBasemapProbeState = {
+    attempt: 0,
+    confirmedRegion: '',
+    confirming: false,
+    generation: 0,
+    timer: 0
+  };
   const pmtilesRetryLimit = 6;
   const pmtilesRetryDelay = 900;
   const pmtilesByteServingError = /no content-length header|content-length exceeding request|http byte serving|failed to fetch/i;
   const pmtilesRetryState = {
-    world: { attempt: 0, timer: 0, generation: 0, errorGeneration: 0, confirmationGeneration: 0, confirmed: false, confirming: false },
-    region: { attempt: 0, timer: 0, generation: 0, errorGeneration: 0, confirmationGeneration: 0, confirmed: false, confirming: false },
     power: { attempt: 0, timer: 0, generation: 0, errorGeneration: 0, confirmationGeneration: 0, confirmed: false, confirming: false },
     centroids: { attempt: 0, timer: 0, generation: 0, errorGeneration: 0, confirmationGeneration: 0, confirmed: false, confirming: false }
   };
@@ -187,6 +247,137 @@
     } finally {
       window.clearTimeout(timeout);
     }
+  };
+
+  const openInfraMapRegionProbeUrl = regionKey => {
+    const button = regionButtons.find(item => item.dataset.regionKey === regionKey);
+    if (!button) return '';
+    const [west, south, east, north] = button.dataset.bounds.split(',').map(Number);
+    if (![west, south, east, north].every(Number.isFinite)) return '';
+    const longitude = (west + east) / 2;
+    const latitude = Math.max(-85.05112878, Math.min(85.05112878, (south + north) / 2));
+    const tileZoom = Math.max(2, Math.min(15, Math.floor(Number(button.dataset.maxZoom) || 5)));
+    const tileCount = 2 ** tileZoom;
+    const tileX = Math.max(0, Math.min(
+      tileCount - 1,
+      Math.floor(((longitude + 180) / 360) * tileCount)
+    ));
+    const latitudeRadians = latitude * Math.PI / 180;
+    const tileY = Math.max(0, Math.min(
+      tileCount - 1,
+      Math.floor(
+        (1 - Math.asinh(Math.tan(latitudeRadians)) / Math.PI) / 2 * tileCount
+      )
+    ));
+    return openInfraMapBasemapTile
+      .replace('{z}', String(tileZoom))
+      .replace('{x}', String(tileX))
+      .replace('{y}', String(tileY));
+  };
+
+  const resetOpenInfraMapProbe = regionKey => {
+    if (osmBasemapProbeState.timer) window.clearTimeout(osmBasemapProbeState.timer);
+    osmBasemapProbeState.attempt = 0;
+    osmBasemapProbeState.confirmedRegion = '';
+    osmBasemapProbeState.confirming = false;
+    osmBasemapProbeState.generation += 1;
+    osmBasemapProbeState.timer = 0;
+    osmBasemapSourceReady = false;
+    root.dataset.osmBasemapProbe = 'pending';
+    root.dataset.osmBasemapProbeRegion = regionKey;
+  };
+
+  const invalidateOpenInfraMapProbe = options => {
+    const { preserveReady = false } = options || {};
+    if (osmBasemapProbeState.timer) window.clearTimeout(osmBasemapProbeState.timer);
+    osmBasemapProbeState.confirmedRegion = '';
+    osmBasemapProbeState.confirming = false;
+    osmBasemapProbeState.generation += 1;
+    osmBasemapProbeState.timer = 0;
+    if (!preserveReady) osmBasemapSourceReady = false;
+    root.dataset.osmBasemapProbe = 'pending';
+  };
+
+  const probeOpenInfraMapTile = async tileUrl => {
+    if (!tileUrl) return false;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    try {
+      const response = await window.fetch(tileUrl, {
+        credentials: 'omit',
+        headers: { Range: 'bytes=0-0' },
+        signal: controller.signal
+      });
+      const contentType = response.headers.get('content-type') || '';
+      root.dataset.osmBasemapProbeStatus = String(response.status);
+      root.dataset.osmBasemapProbeType = contentType;
+      delete root.dataset.osmBasemapProbeError;
+      const ready = (
+        [200, 206].includes(response.status) &&
+        /protobuf|octet-stream/i.test(contentType)
+      );
+      if (response.body) await response.body.cancel();
+      return ready;
+    } catch (error) {
+      root.dataset.osmBasemapProbeError = String(error?.name || 'fetch-error');
+      return false;
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  };
+
+  const scheduleOpenInfraMapProbeRetry = regionKey => {
+    if (
+      osmBasemapProbeState.timer ||
+      osmBasemapProbeState.attempt >= pmtilesRetryLimit ||
+      root.dataset.activeRegion !== regionKey
+    ) return;
+    osmBasemapProbeState.attempt += 1;
+    const generation = osmBasemapProbeState.generation;
+    osmBasemapProbeState.timer = window.setTimeout(() => {
+      if (
+        osmBasemapProbeState.generation !== generation ||
+        root.dataset.activeRegion !== regionKey
+      ) return;
+      osmBasemapProbeState.timer = 0;
+      void confirmOpenInfraMapReady(regionKey);
+    }, Math.min(pmtilesRetryDelay * (2 ** (osmBasemapProbeState.attempt - 1)), 12000));
+  };
+
+  const confirmOpenInfraMapReady = async regionKey => {
+    if (!regionKey || root.dataset.activeRegion !== regionKey) return;
+    if (
+      osmBasemapProbeState.confirmedRegion === regionKey &&
+      osmBasemapSourceReady
+    ) {
+      setMapSourceFailure('basemap', false);
+      return;
+    }
+    if (osmBasemapProbeState.confirming) return;
+    const tileUrl = openInfraMapRegionProbeUrl(regionKey);
+    if (!tileUrl) return;
+    const generation = osmBasemapProbeState.generation;
+    osmBasemapProbeState.confirming = true;
+    root.dataset.osmBasemapProbe = 'checking';
+    const ready = await probeOpenInfraMapTile(tileUrl);
+    if (
+      osmBasemapProbeState.generation !== generation ||
+      root.dataset.activeRegion !== regionKey
+    ) return;
+    osmBasemapProbeState.confirming = false;
+    if (!ready) {
+      root.dataset.osmBasemapProbe = 'error';
+      setMapSourceFailure('basemap', true);
+      updateOsmBasemapReadiness(false);
+      scheduleOpenInfraMapProbeRetry(regionKey);
+      return;
+    }
+    if (osmBasemapProbeState.timer) window.clearTimeout(osmBasemapProbeState.timer);
+    osmBasemapProbeState.attempt = 0;
+    osmBasemapProbeState.confirmedRegion = regionKey;
+    osmBasemapProbeState.timer = 0;
+    root.dataset.osmBasemapProbe = 'ready';
+    updateOsmBasemapReadiness(true);
   };
 
   const invalidatePmtilesConfirmation = key => {
@@ -307,6 +498,13 @@
   const zoom = ['zoom'];
   const construction = ['coalesce', ['get', 'construction'], false];
   const disused = ['coalesce', ['get', 'disused'], false];
+  const contextFlag = key => [
+    'in',
+    ['to-string', ['coalesce', ['get', key], 0]],
+    ['literal', ['1', 'yes', 'true']]
+  ];
+  const contextTunnel = ['has', 'is_tunnel'];
+  const contextIntermittent = contextFlag('intermittent');
 
   const voltageColor = [
     'case',
@@ -524,26 +722,20 @@
 
   const style = {
     version: 8,
-    name: 'Comunicación · contexto OSM y Natural Earth propio',
+    name: 'Comunicación · OpenInfraMap + red OSM propia',
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
     sources: {
       'base-fallback': {
         type: 'geojson',
-        data: 'data/world-countries.geojson?v=1',
+        data: projectAssetUrl('data/world-countries.geojson?v=1'),
         attribution: 'Made with Natural Earth · public domain · fallback geography'
       },
-      'base-world': {
+      basemap: {
         type: 'vector',
-        url: osmBasemapArchiveUrl(osmBasemapWorldArchive),
+        tiles: [openInfraMapBasemapTile],
         minzoom: 0,
-        maxzoom: 8,
-        attribution: 'Made with Natural Earth · public domain'
-      },
-      'base-region': {
-        type: 'vector',
-        url: osmBasemapRegionalArchiveUrl('europa'),
-        minzoom: 2,
-        maxzoom: 9,
-        attribution: `© OpenStreetMap contributors · ODbL 1.0 · snapshot ${osmPowerSnapshot}`
+        maxzoom: 15,
+        attribution: '© OpenStreetMap contributors · ODbL 1.0 · base vectorial OpenInfraMap'
       },
       power: {
         type: 'vector',
@@ -604,7 +796,7 @@
       },
       'model-corridors': {
         type: 'geojson',
-        data: 'data/grid-atlas/model-corridors.geojson?v=1',
+        data: projectAssetUrl('data/grid-atlas/model-corridors.geojson?v=1'),
         attribution: 'Official capacity facts; geometry explicitly modelled'
       },
       'kpg193-model': {
@@ -647,8 +839,8 @@
       {
         id: 'atlas-land',
         type: 'fill',
-        source: 'base-world',
-        'source-layer': 'base_land',
+        source: 'basemap',
+        'source-layer': 'earth',
         paint: {
           'fill-color': '#172229',
           'fill-opacity': 1
@@ -657,9 +849,10 @@
       {
         id: 'atlas-urban',
         type: 'fill',
-        source: 'base-world',
-        'source-layer': 'base_urban',
+        source: 'basemap',
+        'source-layer': 'landcover',
         minzoom: 4,
+        filter: ['==', ['get', 'kind'], 'urban_area'],
         paint: {
           'fill-color': '#354048',
           'fill-opacity': [
@@ -672,10 +865,68 @@
         }
       },
       {
+        id: 'atlas-regional-landcover',
+        type: 'fill',
+        source: 'basemap',
+        'source-layer': 'landcover',
+        minzoom: 4,
+        paint: {
+          'fill-color': [
+            'match',
+            ['get', 'kind'],
+            ['wood', 'forest'], '#12231d',
+            'scrub', '#1a261d',
+            'heath', '#25251d',
+            ['grass', 'grassland', 'farmland'], '#1b2a20',
+            'wetland', '#173039',
+            'glacier', '#a7c4ca',
+            'sand', '#3a3527',
+            ['rock', 'barren'], '#303438',
+            'scree', '#393936',
+            '#172229'
+          ],
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0.38,
+            12, 0.72
+          ]
+        }
+      },
+      {
+        id: 'atlas-regional-landuse',
+        type: 'fill',
+        source: 'basemap',
+        'source-layer': 'landuse',
+        minzoom: 7,
+        paint: {
+          'fill-color': [
+            'match',
+            ['get', 'kind'],
+            ['residential', 'commercial', 'retail'], '#25282c',
+            ['industrial', 'railway', 'quarry', 'landfill'], '#302a27',
+            ['farmland', 'farmyard', 'orchard', 'vineyard', 'plant_nursery'], '#283021',
+            ['park', 'garden', 'recreation_ground', 'nature_reserve', 'golf_course', 'common'], '#1d3023',
+            ['school', 'university', 'college', 'hospital'], '#292a31',
+            ['military', 'cemetery'], '#2e292b',
+            '#23282b'
+          ],
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            7, 0.24,
+            13, 0.62
+          ]
+        }
+      },
+      {
         id: 'atlas-water',
         type: 'fill',
-        source: 'base-world',
-        'source-layer': 'base_water',
+        source: 'basemap',
+        'source-layer': 'water',
+        filter: ['==', ['geometry-type'], 'Polygon'],
         paint: {
           'fill-color': '#0a2a38',
           'fill-opacity': 0.96,
@@ -685,9 +936,14 @@
       {
         id: 'atlas-waterway',
         type: 'line',
-        source: 'base-world',
-        'source-layer': 'base_waterway',
+        source: 'basemap',
+        'source-layer': 'water',
         minzoom: 3,
+        filter: [
+          'all',
+          ['==', ['geometry-type'], 'LineString'],
+          ['in', ['get', 'kind'], ['literal', ['river', 'canal']]]
+        ],
         paint: {
           'line-color': '#27718a',
           'line-opacity': [
@@ -708,10 +964,46 @@
         }
       },
       {
+        id: 'atlas-regional-waterway',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'water',
+        minzoom: 6,
+        filter: ['==', ['geometry-type'], 'LineString'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#2c718a',
+          'line-opacity': [
+            'case',
+            contextIntermittent,
+            0.46,
+            0.76
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            6, ['match', ['get', 'kind'], 'river', 0.7, 'canal', 0.55, 0.32],
+            12, ['match', ['get', 'kind'], 'river', 2.4, 'canal', 1.7, 0.9],
+            15, ['match', ['get', 'kind'], 'river', 4, 'canal', 2.8, 1.5]
+          ],
+          'line-dasharray': [
+            'case',
+            contextIntermittent,
+            ['literal', [2, 2]],
+            ['literal', [1, 0]]
+          ]
+        }
+      },
+      {
         id: 'atlas-country-boundaries',
         type: 'line',
-        source: 'base-world',
-        'source-layer': 'base_land',
+        source: 'basemap',
+        'source-layer': 'boundaries',
+        filter: ['<=', ['to-number', ['coalesce', ['get', 'kind_detail'], 10], 10], 2],
         paint: {
           'line-color': '#718087',
           'line-opacity': [
@@ -733,9 +1025,10 @@
       {
         id: 'atlas-regional-boundaries',
         type: 'line',
-        source: 'base-world',
-        'source-layer': 'base_boundary',
+        source: 'basemap',
+        'source-layer': 'boundaries',
         minzoom: 3,
+        filter: ['>', ['to-number', ['coalesce', ['get', 'kind_detail'], 10], 10], 2],
         paint: {
           'line-color': '#53636b',
           'line-opacity': [
@@ -756,12 +1049,158 @@
         }
       },
       {
+        id: 'atlas-osm-boundaries',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'boundaries',
+        minzoom: 4,
+        filter: ['has', 'is_disputed'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': [
+            'case',
+            ['has', 'is_disputed'],
+            '#a77d79',
+            '#65747b'
+          ],
+          'line-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, 0.42,
+            12, 0.72
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            4, ['step', ['to-number', ['coalesce', ['get', 'kind_detail'], 10], 10], 0.65, 5, 0.42],
+            14, ['step', ['to-number', ['coalesce', ['get', 'kind_detail'], 10], 10], 1.4, 5, 0.85]
+          ],
+          'line-dasharray': [
+            'case',
+            ['has', 'is_disputed'],
+            ['literal', [2, 2]],
+            ['literal', [4, 2]]
+          ]
+        }
+      },
+      {
+        id: 'atlas-buildings',
+        type: 'fill',
+        source: 'basemap',
+        'source-layer': 'buildings',
+        minzoom: 13,
+        filter: ['in', ['get', 'kind'], ['literal', ['building', 'building_part']]],
+        paint: {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['coalesce', ['get', 'levels'], 1],
+            1, '#2b3337',
+            12, '#3d4549',
+            40, '#525b5f'
+          ],
+          'fill-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13, 0.42,
+            15, 0.78
+          ],
+          'fill-outline-color': '#596267'
+        }
+      },
+      {
+        id: 'atlas-rail-casing',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 7,
+        filter: ['==', ['get', 'kind'], 'rail'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#071014',
+          'line-opacity': 0.84,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            7, 1,
+            15, 4.2
+          ]
+        }
+      },
+      {
+        id: 'atlas-rail',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 7,
+        filter: ['==', ['get', 'kind'], 'rail'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': [
+            'match',
+            ['get', 'kind_detail'],
+            ['subway', 'light_rail', 'tram'], '#8f778f',
+            '#858d91'
+          ],
+          'line-opacity': [
+            'case',
+            contextTunnel,
+            0.38,
+            0.72
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            7, 0.38,
+            15, 1.7
+          ],
+          'line-dasharray': [3, 2]
+        }
+      },
+      {
+        id: 'atlas-road-secondary-casing',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 7,
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['secondary', 'secondary_link']]],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#081014',
+          'line-opacity': 0.8,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            7, 0.9,
+            14, 5.2
+          ]
+        }
+      },
+      {
         id: 'atlas-road-primary-casing',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 6,
-        filter: ['==', ['get', 'class'], 'primary'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['primary', 'primary_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -782,10 +1221,10 @@
       {
         id: 'atlas-road-trunk-casing',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 5,
-        filter: ['==', ['get', 'class'], 'trunk'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['trunk', 'trunk_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -806,10 +1245,10 @@
       {
         id: 'atlas-road-motorway-casing',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 4,
-        filter: ['==', ['get', 'class'], 'motorway'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['motorway', 'motorway_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -830,10 +1269,10 @@
       {
         id: 'atlas-road-primary',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 6,
-        filter: ['==', ['get', 'class'], 'primary'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['primary', 'primary_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -842,7 +1281,7 @@
           'line-color': '#68777d',
           'line-opacity': [
             'case',
-            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            contextTunnel,
             0.38,
             0.76
           ],
@@ -859,10 +1298,10 @@
       {
         id: 'atlas-road-trunk',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 5,
-        filter: ['==', ['get', 'class'], 'trunk'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['trunk', 'trunk_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -871,7 +1310,7 @@
           'line-color': '#879194',
           'line-opacity': [
             'case',
-            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            contextTunnel,
             0.4,
             0.82
           ],
@@ -888,10 +1327,10 @@
       {
         id: 'atlas-road-motorway',
         type: 'line',
-        source: 'base-region',
-        'source-layer': 'base_road',
+        source: 'basemap',
+        'source-layer': 'roads',
         minzoom: 4,
-        filter: ['==', ['get', 'class'], 'motorway'],
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['motorway', 'motorway_link']]],
         layout: {
           'line-cap': 'round',
           'line-join': 'round'
@@ -900,7 +1339,7 @@
           'line-color': '#a59c84',
           'line-opacity': [
             'case',
-            ['match', ['coalesce', ['get', 'tunnel'], ''], ['yes', 'true'], true, false],
+            contextTunnel,
             0.42,
             0.88
           ],
@@ -915,32 +1354,236 @@
         }
       },
       {
-        id: 'atlas-place-labels',
-        type: 'symbol',
-        source: 'base-region',
-        'source-layer': 'base_place',
-        minzoom: 2,
-        filter: ['in', ['get', 'class'], ['literal', ['country', 'state', 'province', 'city', 'town']]],
+        id: 'atlas-road-secondary',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 7,
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['secondary', 'secondary_link']]],
         layout: {
-          'text-field': [
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#5d6c72',
+          'line-opacity': [
             'case',
-            [
-              'all',
-              ['has', 'name_local'],
-              ['has', 'name'],
-              ['!=', ['get', 'name_local'], ['get', 'name']]
-            ],
-            ['concat', ['get', 'name_local'], ' · ', ['get', 'name']],
-            ['coalesce', ['get', 'name_local'], ['get', 'name'], '']
+            contextTunnel,
+            0.34,
+            0.7
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            7, 0.3,
+            10, 1.2,
+            14, 2.8
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-tertiary',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 9,
+        filter: ['in', ['get', 'kind_detail'], ['literal', ['tertiary', 'tertiary_link']]],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#536168',
+          'line-opacity': 0.62,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 0.35,
+            15, 2.2
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-local',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 10,
+        filter: ['==', ['get', 'kind'], 'minor_road'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#465258',
+          'line-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11, 0.34,
+            15, 0.64
+          ],
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11, 0.25,
+            15, 1.45
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-path',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 13,
+        filter: [
+          'in',
+          ['get', 'kind'],
+          ['literal', ['other', 'path']]
+        ],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#59645f',
+          'line-opacity': 0.48,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13, 0.35,
+            15, 0.9
+          ],
+          'line-dasharray': [2, 2]
+        }
+      },
+      {
+        id: 'atlas-aeroway',
+        type: 'line',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 10,
+        filter: ['==', ['get', 'kind'], 'aeroway'],
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#6d7476',
+          'line-opacity': 0.72,
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            10, ['match', ['get', 'kind_detail'], 'runway', 1.4, 0.55],
+            15, ['match', ['get', 'kind_detail'], 'runway', 8, 2.4]
+          ]
+        }
+      },
+      {
+        id: 'atlas-road-labels',
+        type: 'symbol',
+        source: 'basemap',
+        'source-layer': 'roads',
+        minzoom: 12,
+        filter: [
+          'all',
+          ['has', 'name'],
+          ['in', ['get', 'kind'], ['literal', ['highway', 'major_road', 'minor_road']]]
+        ],
+        layout: {
+          'symbol-placement': 'line',
+          'symbol-spacing': 420,
+          'text-field': [
+            'coalesce',
+            ['get', 'name:es'],
+            ['get', 'name'],
+            ''
           ],
           'text-font': ['Noto Sans Regular'],
           'text-size': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, ['match', ['get', 'class'], 'country', 11, ['state', 'province'], 10, 'city', 9.5, 9],
-            8, ['match', ['get', 'class'], 'country', 15, ['state', 'province'], 13, 'city', 12.5, 11],
-            12, ['match', ['get', 'class'], 'country', 16, ['state', 'province'], 14, 'city', 15, 13]
+            12, 9,
+            16, 11.5
+          ],
+          'text-letter-spacing': 0.02,
+          'text-max-angle': 30,
+          'text-allow-overlap': false,
+          'text-optional': true
+        },
+        paint: {
+          'text-color': '#8f9a9e',
+          'text-opacity': 0.78,
+          'text-halo-color': '#0b151a',
+          'text-halo-width': 1,
+          'text-halo-blur': 0.3
+        }
+      },
+      {
+        id: 'atlas-pois',
+        type: 'circle',
+        source: 'basemap',
+        'source-layer': 'pois',
+        minzoom: 12,
+        filter: ['==', ['geometry-type'], 'Point'],
+        paint: {
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            12, 1,
+            16, 2.4
+          ],
+          'circle-color': [
+            'match',
+            ['get', 'kind'],
+            ['hospital', 'clinic'], '#9c777c',
+            ['park', 'protected_area'], '#688b70',
+            ['station', 'halt'], '#81778f',
+            '#77858a'
+          ],
+          'circle-opacity': 0.55,
+          'circle-stroke-color': '#10191d',
+          'circle-stroke-width': 0.6
+        }
+      },
+      {
+        id: 'atlas-place-labels',
+        type: 'symbol',
+        source: 'basemap',
+        'source-layer': 'places',
+        minzoom: 2,
+        filter: [
+          'any',
+          ['in', ['get', 'kind'], ['literal', ['country', 'region']]],
+          [
+            'all',
+            ['==', ['get', 'kind'], 'locality'],
+            ['in', ['get', 'kind_detail'], ['literal', ['city', 'town']]]
+          ]
+        ],
+        layout: {
+          'text-field': [
+            'coalesce',
+            ['get', 'name:es'],
+            ['get', 'name'],
+            ''
+          ],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            2, ['match', ['get', 'kind'], 'country', 11, 'region', 10, 9],
+            8, ['match', ['get', 'kind'], 'country', 15, 'region', 13, 12],
+            12, ['match', ['get', 'kind'], 'country', 16, 'region', 14, 15]
           ],
           'text-letter-spacing': 0.02,
           'text-max-width': 12,
@@ -952,10 +1595,10 @@
         paint: {
           'text-color': [
             'match',
-            ['get', 'class'],
+            ['get', 'kind'],
             'country', '#c2cbce',
-            ['state', 'province'], '#9ca8ac',
-            'city', '#c3ccce',
+            'region', '#9ca8ac',
+            'locality', '#c3ccce',
             '#aeb8bb'
           ],
           'text-opacity': [
@@ -968,6 +1611,61 @@
           'text-halo-color': '#0b151a',
           'text-halo-width': 1.35,
           'text-halo-blur': 0.4
+        }
+      },
+      {
+        id: 'atlas-place-labels-minor',
+        type: 'symbol',
+        source: 'basemap',
+        'source-layer': 'places',
+        minzoom: 9,
+        filter: [
+          'any',
+          ['==', ['get', 'kind'], 'neighbourhood'],
+          [
+            'all',
+            ['==', ['get', 'kind'], 'locality'],
+            [
+              '!',
+              ['in', ['get', 'kind_detail'], ['literal', ['city', 'town']]]
+            ]
+          ]
+        ],
+        layout: {
+          'text-field': [
+            'coalesce',
+            ['get', 'name:es'],
+            ['get', 'name'],
+            ''
+          ],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 9,
+            13, 11,
+            15, 12
+          ],
+          'text-letter-spacing': 0.01,
+          'text-max-width': 10,
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 0.35,
+          'text-allow-overlap': false,
+          'text-optional': true
+        },
+        paint: {
+          'text-color': '#9ba8ac',
+          'text-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 0.62,
+            13, 0.88
+          ],
+          'text-halo-color': '#0b151a',
+          'text-halo-width': 1.15,
+          'text-halo-blur': 0.35
         }
       },
       {
@@ -1020,7 +1718,7 @@
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.65,
+            2, 0.78,
             10, 2.2,
             15, 4.2
           ],
@@ -1040,7 +1738,7 @@
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.65,
+            2, 0.8,
             10, 2.25,
             15, 4.3
           ],
@@ -1060,8 +1758,8 @@
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.55,
-            6, 1.05,
+            2, 0.72,
+            6, 1.15,
             10, 2,
             15, 4.2
           ],
@@ -1081,8 +1779,8 @@
             'interpolate',
             ['linear'],
             ['zoom'],
-            2, 0.55,
-            6, 1.1,
+            2, 0.78,
+            6, 1.24,
             10, 2.15,
             15, 4.3
           ]
@@ -1792,16 +2490,16 @@
             'interpolate',
             ['linear'],
             gemCapacity,
-            0, 2,
-            250, 3,
-            1000, 5.2,
-            5000, 9,
-            15000, 13
+            0, 1.6,
+            250, 2.4,
+            1000, 4.2,
+            5000, 7,
+            15000, 10.5
           ],
           'circle-color': gemTypeColor,
-          'circle-opacity': 0.92,
+          'circle-opacity': 0.78,
           'circle-stroke-color': '#f5f1e9',
-          'circle-stroke-opacity': 0.78,
+          'circle-stroke-opacity': 0.58,
           'circle-stroke-width': [
             'interpolate',
             ['linear'],
@@ -1823,17 +2521,17 @@
             'interpolate',
             ['linear'],
             gemCapacity,
-            0, 2,
-            250, 3,
-            1000, 5.2,
-            5000, 9,
-            15000, 13
+            0, 1.6,
+            250, 2.4,
+            1000, 4.2,
+            5000, 7,
+            15000, 10.5
           ],
           'circle-color': gemTypeColor,
           'circle-opacity': 0.38,
           'circle-stroke-color': '#f0d45c',
           'circle-stroke-opacity': 1,
-          'circle-stroke-width': 1.4
+          'circle-stroke-width': 1.05
         }
       },
       {
@@ -1852,11 +2550,11 @@
             'interpolate',
             ['linear'],
             gemCapacity,
-            0, 2,
-            250, 3,
-            1000, 5.2,
-            5000, 9,
-            15000, 13
+            0, 1.6,
+            250, 2.4,
+            1000, 4.2,
+            5000, 7,
+            15000, 10.5
           ],
           'circle-color': '#0b1115',
           'circle-opacity': 0.72,
@@ -1882,11 +2580,11 @@
             'interpolate',
             ['linear'],
             gemCapacity,
-            0, 2,
-            250, 3,
-            1000, 5.2,
-            5000, 9,
-            15000, 13
+            0, 1.6,
+            250, 2.4,
+            1000, 4.2,
+            5000, 7,
+            15000, 10.5
           ],
           'circle-color': '#707070',
           'circle-opacity': 0.32,
@@ -1898,6 +2596,31 @@
       }
     ]
   };
+
+  const orderStyleLayersBefore = (layerIds, beforeId) => {
+    const indexed = new Map(style.layers.map(layer => [layer.id, layer]));
+    const ordered = layerIds.map(id => indexed.get(id)).filter(Boolean);
+    const moving = new Set(ordered.map(layer => layer.id));
+    const stationary = style.layers.filter(layer => !moving.has(layer.id));
+    const beforeIndex = stationary.findIndex(layer => layer.id === beforeId);
+    if (beforeIndex < 0 || !ordered.length) return;
+    stationary.splice(beforeIndex, 0, ...ordered);
+    style.layers = stationary;
+  };
+  orderStyleLayersBefore([
+    'atlas-road-secondary-casing',
+    'atlas-road-primary-casing',
+    'atlas-road-trunk-casing',
+    'atlas-road-motorway-casing',
+    'atlas-road-path',
+    'atlas-road-local',
+    'atlas-road-tertiary',
+    'atlas-road-secondary',
+    'atlas-road-primary',
+    'atlas-road-trunk',
+    'atlas-road-motorway',
+    'atlas-aeroway'
+  ], 'atlas-road-labels');
 
   const centroidTransitionLayerIds = [
     'power-plant-points',
@@ -2107,8 +2830,7 @@
     delete root.dataset.mapError;
     root.dataset.mapReady = 'false';
     sourceErrorCount = 0;
-    mapWarning.hidden = true;
-    mapWarning.textContent = '';
+    clearAuxiliaryMapWarning();
     status.textContent = text;
     status.hidden = false;
     loadingTimer = window.setTimeout(() => {
@@ -2120,7 +2842,8 @@
     if (
       requestToken !== regionRequest ||
       root.dataset.mapError === 'true' ||
-      root.dataset.osmBasemapReady !== 'true'
+      root.dataset.osmBasemapReady !== 'true' ||
+      root.dataset.osmPowerReady !== 'true'
     ) return;
     window.clearTimeout(loadingTimer);
     delete root.dataset.mapError;
@@ -2315,7 +3038,7 @@
       taiwanSourceState = 'loading';
       root.dataset.taiwanSource = 'loading';
       taiwanSource.setData(
-        'data/grid-atlas/taiwan-hosting-capacity-display.geojson?v=2'
+        projectAssetUrl('data/grid-atlas/taiwan-hosting-capacity-display.geojson?v=2')
       );
     }
 
@@ -2329,7 +3052,7 @@
       eiaSourceState = 'loading';
       root.dataset.eiaSource = 'loading';
       eiaSource.setData(
-        'data/grid-atlas/us-eia860m-plants.geojson?v=1'
+        projectAssetUrl('data/grid-atlas/us-eia860m-plants.geojson?v=1')
       );
     }
 
@@ -2343,7 +3066,7 @@
       kpgSourceState = 'loading';
       root.dataset.kpgSource = 'loading';
       kpgSource.setData(
-        'data/grid-atlas/kpg193-model.geojson?v=2'
+        projectAssetUrl('data/grid-atlas/kpg193-model.geojson?v=2')
       );
     }
   };
@@ -2971,7 +3694,7 @@
 
   const loadRegionProfiles = async () => {
     try {
-      const response = await fetch('data/grid-atlas/region-profiles.json?v=1', {
+      const response = await fetch(projectAssetUrl('data/grid-atlas/region-profiles.json?v=1'), {
         headers: { Accept: 'application/json' }
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -2991,7 +3714,7 @@
     }
 
     if (regionKey === 'estados-unidos') {
-      setTextWithTitle(sourceLabel, 'HIFLD + CEC + BPA + EIA + OSM + GEM · base OSM/NE', 'HIFLD / U.S. Government + California Energy Commission + Bonneville Power Administration + EIA-860M + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
+      setTextWithTitle(sourceLabel, 'HIFLD + CEC + BPA + EIA + OSM + GEM · base OpenInfraMap', 'HIFLD / U.S. Government + California Energy Commission + Bonneville Power Administration + EIA-860M + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap');
       if (hifldState === 'loading' || regionalState === 'loading' || eiaSourceState === 'loading') {
         setTextWithTitle(dataStatus, 'Capas oficiales cargando', 'Cargando HIFLD nacional, CEC California, BPA en el noroeste y las centrales EIA-860M de junio de 2026');
       } else if (officialFeatureCount > 0 || regionalFeatureCount > 0 || eiaFeatureCount > 0) {
@@ -3017,7 +3740,7 @@
     }
 
     if (regionKey === 'europa') {
-      setTextWithTitle(sourceLabel, 'IGN + OS + Kadaster + BKG + BNetzA + NVE + SFOE + RTE + OSM + GEM · base OSM/NE', 'IGN BD TOPO + Ordnance Survey OpenMap Local + Kadaster BRT TOP10NL + BKG DLM250 + Bundesnetzagentur + NVE Nettanlegg + Swiss Federal Office of Energy + inventario RTE ODRÉ + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
+      setTextWithTitle(sourceLabel, 'IGN + OS + Kadaster + BKG + BNetzA + NVE + SFOE + RTE + OSM + GEM · base OpenInfraMap', 'IGN BD TOPO + Ordnance Survey OpenMap Local + Kadaster BRT TOP10NL + BKG DLM250 + Bundesnetzagentur + NVE Nettanlegg + Swiss Federal Office of Energy + inventario RTE ODRÉ + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap');
       if (regionalState === 'loading') {
         setTextWithTitle(dataStatus, 'Fuentes europeas cargando', 'Consultando geometría oficial de Francia, Gran Bretaña, Países Bajos, Alemania y Noruega, más proyectos federales alemanes');
       } else if (regionalFeatureCount > 0) {
@@ -3057,7 +3780,7 @@
     }
 
     if (regionKey === 'taiwan') {
-      setTextWithTitle(sourceLabel, 'Taipower + OSM + GEM · base OSM/NE', 'Taiwan Power Company / data.gov.tw + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
+      setTextWithTitle(sourceLabel, 'Taipower + OSM + GEM · base OpenInfraMap', 'Taiwan Power Company / data.gov.tw + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap');
       const taiwanStatus = taiwanSourceState === 'loading'
         ? 'Taipower cargando'
         : taiwanSourceState === 'error'
@@ -3072,7 +3795,7 @@
     }
 
     if (regionKey === 'japon') {
-      setTextWithTitle(sourceLabel, 'GSI + OCCTO + OSM + GEM · base OSM/NE', 'Geospatial Information Authority of Japan + OCCTO + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
+      setTextWithTitle(sourceLabel, 'GSI + OCCTO + OSM + GEM · base OpenInfraMap', 'Geospatial Information Authority of Japan + OCCTO + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap');
       setTextWithTitle(dataStatus, 'GSI oficial z13–16 · 7 OCCTO', 'Geometría oficial GSI de líneas desde z14 y centrales desde z13; siete relaciones OCCTO de capacidad direccional');
       if (sourceSummary) {
         sourceSummary.textContent = 'GSI aporta geometría oficial nacional de líneas de transmisión a z14–16 y centrales a z13–16. OCCTO aporta capacidad direccional; sus rectas se conservan separadas como esquema y OSM sigue como cobertura multiescala.';
@@ -3082,7 +3805,7 @@
     }
 
     if (regionKey === 'china') {
-      setTextWithTitle(sourceLabel, 'NEA/CSG + OSM + GEM · base OSM/NE', 'National Energy Administration / China Southern Power Grid + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth');
+      setTextWithTitle(sourceLabel, 'NEA/CSG + OSM + GEM · base OpenInfraMap', 'National Energy Administration / China Southern Power Grid + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap');
       setTextWithTitle(dataStatus, '51 sistemas HVDC consultables · 2024', 'NEA: los 51 sistemas, 233.574 MW y 52.949 km están normalizados para búsqueda; la ruta de proyecto CSG es esquemática');
       if (sourceSummary) {
         sourceSummary.textContent = 'El inventario NEA permite buscar los 51 sistemas HVDC y auditar tensión, capacidad, longitud, fechas y terminales publicados. Como el informe no ofrece coordenadas ni trazados reutilizables, OSM conserva aparte la geometría pública y el proyecto CSG ±800 kV sólo une terminales publicadas con una recta marcada como modelo.';
@@ -3094,10 +3817,10 @@
     const kpgVisible = getLayerState('kpg-model');
     setTextWithTitle(
       sourceLabel,
-      kpgVisible ? 'KEPCO + OSM + GEM + KPG sintético · base OSM/NE' : 'KEPCO + OSM + GEM · base OSM/NE',
+      kpgVisible ? 'KEPCO + OSM + GEM + KPG sintético · base OpenInfraMap' : 'KEPCO + OSM + GEM · base OpenInfraMap',
       kpgVisible
-        ? 'Korea Electric Power Corporation + OpenStreetMap + Global Energy Monitor + modelo sintético KPG 193 / KENTECH · contexto cartográfico propio OpenStreetMap/Natural Earth'
-        : 'Korea Electric Power Corporation + Korea Power Exchange + OpenStreetMap + Global Energy Monitor · contexto cartográfico propio OpenStreetMap/Natural Earth'
+        ? 'Korea Electric Power Corporation + red eléctrica propia de OpenStreetMap + Global Energy Monitor + modelo sintético KPG 193 / KENTECH · base cartográfica OpenInfraMap'
+        : 'Korea Electric Power Corporation + Korea Power Exchange + red eléctrica propia de OpenStreetMap + Global Energy Monitor · base cartográfica OpenInfraMap'
     );
     setTextWithTitle(
       dataStatus,
@@ -3332,8 +4055,7 @@
       hifldState = 'error';
       map.getSource('official-us-lines')?.setData(emptyFeatureCollection());
       updateSourceSummary();
-      mapWarning.textContent = 'La capa oficial HIFLD no respondió. OSM y GEM siguen disponibles.';
-      mapWarning.hidden = false;
+      showAuxiliaryMapWarning('La capa oficial HIFLD no respondió. OSM y GEM siguen disponibles.');
     }
   };
 
@@ -3446,11 +4168,10 @@
       applyFilters();
 
       const actionableWarnings = regionalWarnings.filter(message =>
-        !/retiró las coordenadas GPS/i.test(message)
+        !/retiró las coordenadas GPS|fuera de la región seleccionada/i.test(message)
       );
       if (actionableWarnings.length) {
-        mapWarning.textContent = actionableWarnings[0];
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning(actionableWarnings[0]);
       }
     } catch (error) {
       if (signal.aborted || error?.name === 'AbortError') return;
@@ -3462,8 +4183,7 @@
       regionalState = 'error';
       map.getSource('official-regional')?.setData(emptyFeatureCollection());
       updateSourceSummary();
-      mapWarning.textContent = 'Una consulta oficial regional no respondió. OSM y GEM siguen disponibles.';
-      mapWarning.hidden = false;
+      showAuxiliaryMapWarning('Una consulta oficial regional no respondió. OSM y GEM siguen disponibles.');
     }
   };
 
@@ -3499,7 +4219,8 @@
     resetPmtilesRetry('centroids');
     activePowerRegion = regionKey;
     root.dataset.osmPowerRegion = regionKey;
-    delete root.dataset.osmPowerReady;
+    root.dataset.osmPowerReady = 'false';
+    setMapSourceFailure('power', false);
     const sourceIds = ['power', 'power-centroids'];
     for (const sourceId of sourceIds) {
       const source = map?.getSource(sourceId);
@@ -3508,31 +4229,55 @@
     }
   };
 
-  const updateOsmBasemapReadiness = () => {
-    const enhancedReady = osmBasemapWorldReady && osmBasemapRegionReady;
-    const ready = osmBasemapFallbackReady || enhancedReady;
-    root.dataset.osmBasemapReady = String(ready);
-    root.dataset.osmBasemapEnhancedReady = String(enhancedReady);
-    if (ready && root.dataset.mapReady !== 'true') {
+  const updateOsmPowerReadiness = (ready, options = {}) => {
+    const { terminal = false } = options;
+    root.dataset.osmPowerReady = String(ready);
+    if (ready) {
+      setMapSourceFailure('power', false);
+      delete root.dataset.osmPowerError;
+      if (
+        root.dataset.osmBasemapReady === 'true' &&
+        root.dataset.mapReady !== 'true'
+      ) {
+        delete root.dataset.mapError;
+        finishLoading(regionRequest);
+      }
+      return;
+    }
+    root.dataset.mapReady = 'false';
+    status.hidden = false;
+    if (terminal) {
+      window.clearTimeout(loadingTimer);
+      root.dataset.mapError = 'true';
+    }
+    status.textContent = terminal
+      ? 'No se pudo completar el atlas: la infraestructura eléctrica OSM no está disponible.'
+      : 'Cargando la infraestructura eléctrica…';
+  };
+
+  const updateOsmBasemapReadiness = ready => {
+    if (typeof ready === 'boolean') osmBasemapSourceReady = ready;
+    const usable = osmBasemapFallbackReady || osmBasemapSourceReady;
+    root.dataset.osmBasemapFallbackReady = String(osmBasemapFallbackReady);
+    root.dataset.osmBasemapUsable = String(usable);
+    root.dataset.osmBasemapReady = String(osmBasemapSourceReady);
+    root.dataset.osmBasemapEnhancedReady = String(osmBasemapSourceReady);
+    if (!osmBasemapSourceReady) {
+      root.dataset.mapReady = 'false';
+      if (root.dataset.mapError !== 'true') {
+        status.textContent = 'Cargando la base cartográfica de OpenInfraMap…';
+        status.hidden = false;
+      }
+      return;
+    }
+    setMapSourceFailure('basemap', false);
+    if (
+      root.dataset.osmPowerReady === 'true' &&
+      root.dataset.mapReady !== 'true'
+    ) {
       delete root.dataset.mapError;
       finishLoading(regionRequest);
     }
-  };
-
-  const setBasemapRegion = (regionKey, options = {}) => {
-    const { force = false } = options;
-    const archive = osmBasemapRegionalArchives[regionKey];
-    if (!archive || (!force && activeBasemapRegion === regionKey)) return;
-    const archiveUrl = osmBasemapRegionalArchiveUrl(regionKey);
-    resetPmtilesRetry('region');
-    activeBasemapRegion = regionKey;
-    osmBasemapRegionReady = false;
-    root.dataset.osmBasemapRegion = regionKey;
-    delete root.dataset.osmBasemapError;
-    updateOsmBasemapReadiness();
-    const source = map?.getSource('base-region');
-    if (source && typeof source.setUrl === 'function') source.setUrl(archiveUrl);
-    else style.sources['base-region'].url = archiveUrl;
   };
 
   const setRegion = (button, options = {}) => {
@@ -3556,8 +4301,8 @@
     regionLabel.textContent = region;
     openMap.href = url;
     root.dataset.activeRegion = regionKey;
+    resetOpenInfraMapProbe(regionKey);
     setPowerRegion(regionKey);
-    setBasemapRegion(regionKey);
     updateRegionProfile(regionKey);
     loadOfficialInventory(regionKey);
     updateMapControls(false);
@@ -4720,7 +5465,6 @@
       canvas.setAttribute('aria-label', `Mapa de infraestructura eléctrica cartografiada en ${currentButton.dataset.region}`);
       mapContainer.removeAttribute('tabindex');
       setPowerRegion(currentButton.dataset.regionKey, { force: true });
-      setBasemapRegion(currentButton.dataset.regionKey, { force: true });
       updateMapControls(false);
       setRegion(currentButton, { animate: false, updateHash: false });
     });
@@ -4740,37 +5484,22 @@
           osmPowerArchiveUrl(loadedRegion),
           () => activePowerRegion === loadedRegion,
           () => {
-            root.dataset.osmPowerReady = 'true';
+            updateOsmPowerReadiness(true);
           }
         );
       }
-      if (event.sourceId === 'base-world') {
-        void confirmPmtilesReady(
-          'world',
-          osmBasemapArchiveUrl(osmBasemapWorldArchive),
-          () => true,
-          () => {
-            osmBasemapWorldReady = true;
-            updateOsmBasemapReadiness();
-          }
-        );
-      }
-      if (event.sourceId === 'base-region') {
-        const loadedRegion = activeBasemapRegion;
-        void confirmPmtilesReady(
-          'region',
-          osmBasemapRegionalArchiveUrl(loadedRegion),
-          () => activeBasemapRegion === loadedRegion,
-          () => {
-            osmBasemapRegionReady = true;
-            updateOsmBasemapReadiness();
-          }
-        );
+      if (event.sourceId === 'basemap') {
+        void confirmOpenInfraMapReady(root.dataset.activeRegion);
       }
       refreshDeferredSourceStates(event.sourceId);
     });
 
-    map.on('idle', () => refreshDeferredSourceStates());
+    map.on('idle', () => {
+      refreshDeferredSourceStates();
+      if (map.isSourceLoaded('basemap')) {
+        void confirmOpenInfraMapReady(root.dataset.activeRegion);
+      }
+    });
 
     map.on('click', event => {
       const feature = queryFeature(event.point, isNarrow() ? 14 : 10);
@@ -4804,63 +5533,17 @@
         osmBasemapFallbackReady = false;
         updateOsmBasemapReadiness();
         console.warn('No se pudo cargar la geografía mínima de respaldo.', event.error);
-        mapWarning.textContent = 'La geografía mínima de respaldo no respondió; las capas PMTiles propias siguen intentando completar el mapa.';
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning('La geografía mínima de respaldo no respondió; OpenInfraMap y las capas eléctricas siguen intentando completar el mapa.');
         return;
       }
 
-      if (errorSource === 'base-world') {
-        invalidatePmtilesConfirmation('world');
-        osmBasemapWorldReady = false;
-        updateOsmBasemapReadiness();
-        if (
-          isRetryablePmtilesError(errorMessage, errorStatus) &&
-          schedulePmtilesRetry(
-            'world',
-            ['base-world'],
-            osmBasemapArchiveUrl(osmBasemapWorldArchive),
-            () => true,
-            () => {
-              osmBasemapWorldReady = true;
-              updateOsmBasemapReadiness();
-            }
-          )
-        ) {
-          console.info('Reintentando el contexto global propio tras una respuesta transitoria del servidor.');
-          return;
-        }
-        root.dataset.osmBasemapError = 'world';
-        console.warn('No se pudo cargar el contexto global propio de Natural Earth.', event.error);
-        mapWarning.textContent = 'El detalle global propio de Natural Earth no respondió; la geografía mínima de respaldo, el contexto regional OSM y las capas eléctricas siguen activos.';
-        mapWarning.hidden = false;
-        return;
-      }
-
-      if (errorSource === 'base-region') {
-        const failedRegion = activeBasemapRegion;
-        invalidatePmtilesConfirmation('region');
-        osmBasemapRegionReady = false;
-        updateOsmBasemapReadiness();
-        if (
-          isRetryablePmtilesError(errorMessage, errorStatus) &&
-          schedulePmtilesRetry(
-            'region',
-            ['base-region'],
-            osmBasemapRegionalArchiveUrl(failedRegion),
-            () => activeBasemapRegion === failedRegion,
-            () => {
-              osmBasemapRegionReady = true;
-              updateOsmBasemapReadiness();
-            }
-          )
-        ) {
-          console.info('Reintentando el contexto regional propio tras una respuesta transitoria del servidor.');
-          return;
-        }
-        root.dataset.osmBasemapError = 'region';
-        console.warn('No se pudo cargar el contexto regional propio de OSM.', event.error);
-        mapWarning.textContent = 'El contexto regional propio de OSM (carreteras y ciudades) no respondió; la base global y las capas eléctricas siguen activas.';
-        mapWarning.hidden = false;
+      if (errorSource === 'basemap' || /openinframap\.org\/20250311/i.test(errorMessage)) {
+        const preserveReady = root.dataset.mapReady === 'true';
+        invalidateOpenInfraMapProbe({ preserveReady });
+        if (!preserveReady) updateOsmBasemapReadiness(false);
+        setMapSourceFailure('basemap', true);
+        scheduleOpenInfraMapProbeRetry(root.dataset.activeRegion);
+        console.warn('No se pudo cargar una tesela de contexto de OpenInfraMap.', event.error);
         return;
       }
 
@@ -4868,7 +5551,7 @@
         const failedRegion = activePowerRegion;
         const retryKey = errorSource === 'power' ? 'power' : 'centroids';
         invalidatePmtilesConfirmation(retryKey);
-        if (errorSource === 'power') delete root.dataset.osmPowerReady;
+        if (errorSource === 'power') updateOsmPowerReadiness(false);
         if (
           isRetryablePmtilesError(errorMessage, errorStatus) &&
           schedulePmtilesRetry(
@@ -4877,16 +5560,21 @@
             osmPowerArchiveUrl(failedRegion),
             () => activePowerRegion === failedRegion,
             () => {
-              if (errorSource === 'power') root.dataset.osmPowerReady = 'true';
+              if (errorSource === 'power') updateOsmPowerReadiness(true);
             }
           )
         ) {
+          if (errorSource === 'power') setMapSourceFailure('power', false);
           console.info('Reintentando la infraestructura eléctrica propia tras una respuesta transitoria del servidor.');
           return;
         }
         console.warn('No se pudo cargar la instantánea eléctrica OSM propia.', event.error);
-        mapWarning.textContent = 'La tesela propia de infraestructura eléctrica OSM no respondió; el mapa de contexto y las capas oficiales disponibles siguen activos.';
-        mapWarning.hidden = false;
+        if (errorSource === 'power') {
+          setMapSourceFailure('power', true);
+          updateOsmPowerReadiness(false, { terminal: true });
+        } else {
+          showAuxiliaryMapWarning('El índice de puntos eléctricos OSM no respondió; las líneas y las demás capas disponibles siguen activas.');
+        }
         return;
       }
 
@@ -4905,8 +5593,7 @@
             root.dataset.eiaSource = 'error';
           }
           console.warn(`No se pudo cargar la fuente estática ${errorSource}.`, event.error);
-          mapWarning.textContent = 'Una capa estática verificada no respondió; la geometría OSM continúa disponible.';
-          mapWarning.hidden = false;
+          showAuxiliaryMapWarning('Una capa estática verificada no respondió; la geometría OSM continúa disponible.');
           updateSourceSummary();
         }
         return;
@@ -4914,8 +5601,7 @@
 
       if (errorSource === 'official-japan-gsi') {
         console.warn('No se pudo cargar una tesela oficial GSI.', event.error);
-        mapWarning.textContent = 'La tesela oficial GSI no respondió; OSM y las referencias OCCTO siguen disponibles.';
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning('La tesela oficial GSI no respondió; OSM y las referencias OCCTO siguen disponibles.');
         return;
       }
 
@@ -4923,16 +5609,14 @@
         eiaSourceState = 'error';
         root.dataset.eiaSource = 'error';
         console.warn('No se pudo cargar el inventario oficial EIA-860M.', event.error);
-        mapWarning.textContent = 'El inventario EIA-860M no respondió; HIFLD, CEC, OSM y GEM siguen disponibles.';
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning('El inventario EIA-860M no respondió; HIFLD, CEC, OSM y GEM siguen disponibles.');
         updateSourceSummary();
         return;
       }
 
       if (errorSource === 'gem') {
         console.warn('No se pudo cargar una tesela de Global Energy Monitor.', event.error);
-        mapWarning.textContent = 'Una parte de la capa GEM no respondió; la red geográfica continúa disponible.';
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning('Una parte de la capa GEM no respondió; la red geográfica continúa disponible.');
         return;
       }
 
@@ -4944,8 +5628,7 @@
       ) {
         showMapError();
       } else if (sourceErrorCount >= 3) {
-        mapWarning.textContent = 'Parte de los mosaicos no pudo cargarse. La vista puede estar incompleta.';
-        mapWarning.hidden = false;
+        showAuxiliaryMapWarning('Parte de los mosaicos no pudo cargarse. La vista puede estar incompleta.');
       }
     });
 

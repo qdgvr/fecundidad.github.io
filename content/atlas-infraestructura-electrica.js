@@ -84,7 +84,7 @@ window.COMUNICACION_POST = {
           <section class="grid-atlas-drawer grid-atlas-scope" id="grid-atlas-scope" data-scope-panel hidden aria-labelledby="grid-atlas-scope-title">
             <div class="grid-atlas-scope-callout">
               <strong id="grid-atlas-scope-title">Fusión trazable</strong>
-              <span data-source-summary>Infraestructura OSM, centrales verificadas y fuentes oficiales sobre un contexto cartográfico propio de OSM y Natural Earth.</span>
+              <span data-source-summary>Infraestructura eléctrica OSM propia, centrales verificadas y fuentes oficiales sobre la base cartográfica vectorial de OpenInfraMap.</span>
             </div>
             <section class="grid-atlas-evidence" data-region-evidence aria-label="Cobertura y hechos verificados de la región">
               <div class="grid-atlas-evidence-copy">
@@ -134,8 +134,8 @@ window.COMUNICACION_POST = {
             </section>
             <div class="grid-atlas-scope-grid">
               <div>
-                <strong>Base cartográfica propia · sin OpenInfraMap</strong>
-                <span><a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener noreferrer">Natural Earth · dominio público ↗</a> aporta tierra, agua, ríos, áreas urbanas y límites a escala regional. <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors · ODbL ↗</a> aporta autopistas, carreteras principales y nombres de lugares. El proyecto transforma ambos conjuntos en PMTiles propios; la infraestructura eléctrica OSM se construye y sirve en archivos separados.</span>
+                <strong>Base cartográfica · OpenInfraMap</strong>
+                <span><a href="https://openinframap.org/" target="_blank" rel="noopener noreferrer">OpenInfraMap ↗</a> sirve el contexto vectorial de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors · ODbL ↗</a>: tierra, usos del suelo, agua, edificios, carreteras, ferrocarril, límites y lugares. La red eléctrica no usa la tesela eléctrica de OpenInfraMap: el proyecto la construye y sirve por separado en PMTiles propios, junto con las capas oficiales disponibles.</span>
               </div>
               <div>
                 <strong>Centrales · seis regiones</strong>
@@ -186,7 +186,7 @@ window.COMUNICACION_POST = {
 
           <div class="grid-atlas-truth" aria-label="Contexto del mapa">
             <strong data-region-label>Europa</strong>
-            <span data-source-label>OSM + GEM · base OSM/Natural Earth</span>
+            <span data-source-label>OSM propio + GEM · base OpenInfraMap</span>
             <span data-visible-label>Líneas visibles · &gt;199 kV + HVDC etiquetado</span>
             <span data-data-status>Fuentes fechadas</span>
           </div>
@@ -213,9 +213,10 @@ window.COMUNICACION_POST = {
         </div>
 
         <div class="grid-atlas-credit">
-          <span>Infraestructura y contexto regional © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · ODbL</span>
-          <span>Contexto global: <a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Made with Natural Earth</a> · dominio público</span>
-          <span>PMTiles y estilo propios · instantánea OSM 25-07-2026</span>
+          <span>Infraestructura propia y base © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · ODbL</span>
+          <span>Base vectorial y diseño cartográfico: <a href="https://openinframap.org/copyright" target="_blank" rel="noopener noreferrer">OpenInfraMap</a> · CC BY 4.0</span>
+          <span>Geografía mínima de respaldo: <a href="https://www.naturalearthdata.com/about/terms-of-use/" target="_blank" rel="noopener noreferrer">Made with Natural Earth</a> · dominio público</span>
+          <span>Infraestructura PMTiles y estilo eléctrico propios · instantánea OSM 25-07-2026</span>
           <span>Centrales © <a href="https://globalenergymonitor.org/" target="_blank" rel="noopener noreferrer">Global Energy Monitor</a> · CC BY 4.0</span>
           <span data-official-credit hidden>Capas oficiales regionales · consulte Fuentes</span>
         </div>
